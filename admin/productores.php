@@ -139,7 +139,7 @@ require __DIR__ . '/layout/header.php';
 ?>
 
 <!-- KPIs superiores centrados e interactivos -->
-<div class="row g-3 mb-4">
+<div class="row g-3 mb-4" id="kpiProductoresWrap">
     <!-- Total -->
     <?php $isSelTotal = ($tipoF === '' && $estF === ''); ?>
     <div class="col-6 col-xl-3">
@@ -149,7 +149,10 @@ require __DIR__ . '/layout/header.php';
                     <i class="bi bi-inbox-fill"></i>
                 </div>
                 <div class="kpi-centered-number mb-1"><?= (int)($kpi['total'] ?? 0) ?></div>
-                <div class="kpi-status-title fw-bold">Comunicaciones totales</div>
+                <div class="kpi-status-title fw-bold d-flex align-items-center justify-content-center">
+                    <span>Comunicaciones totales</span>
+                    <button type="button" class="btn-tour-hint" onclick="event.preventDefault(); TourGuia.mostrarPaso('kpis_productores')" title="¿Cómo funcionan los KPIs?">?</button>
+                </div>
                 <div class="kpi-sub-bolsas small text-slate-500 mt-1">
                     Historial registrado
                 </div>
@@ -209,10 +212,13 @@ require __DIR__ . '/layout/header.php';
     </div>
 </div>
 
-<div class="card shadow-sm border" style="border-color: #e2e8f0; border-radius: 16px; overflow: hidden;">
+<div class="card shadow-sm border" id="tablaProductoresWrap" style="border-color: #e2e8f0; border-radius: 16px; overflow: hidden;">
     <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2 py-3 px-3 px-md-4 border-bottom">
         <div>
-            <h2 class="h6 fw-bold mb-0 text-slate-800">Comunicaciones e Intercambio con Productores</h2>
+            <h2 class="h6 fw-bold mb-0 text-slate-800 d-flex align-items-center">
+                <span>Comunicaciones e Intercambio con Productores</span>
+                <button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso('tabla_productores')" title="¿Cómo gestionar las comunicaciones?">?</button>
+            </h2>
             <small class="text-slate-500">Cumplimiento del <strong>Literal G del Objeto</strong> y los derechos estatutarios del productor comunal.</small>
         </div>
     </div>
@@ -229,7 +235,12 @@ require __DIR__ . '/layout/header.php';
                     <th>Asunto y Mensaje</th>
                     <th>WhatsApp</th>
                     <th style="min-width: 145px;">Estado</th>
-                    <?php if (puede_editar()): ?><th class="text-end pe-3 pe-md-4" style="min-width: 100px;">Acciones</th><?php endif; ?>
+                    <?php if (puede_editar()): ?>
+                    <th class="text-end pe-3 pe-md-4" style="min-width: 110px;">
+                        <span>Acciones</span>
+                        <button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso('detalle_seguimiento')" title="¿Cómo atender una solicitud?">?</button>
+                    </th>
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
@@ -306,7 +317,7 @@ require __DIR__ . '/layout/header.php';
                     </td>
                     <?php if (puede_editar()): ?>
                     <td class="text-end text-nowrap pe-3 pe-md-4">
-                        <button class="btn btn-sm btn-light border shadow-2xs me-1" title="Ver detalles y gestionar" data-bs-toggle="modal" data-bs-target="#modalDetalle<?= $r['id'] ?>">
+                        <button class="btn btn-sm btn-light border shadow-2xs me-1 btn-tour-detalle-first" title="Ver detalles y gestionar" data-bs-toggle="modal" data-bs-target="#modalDetalle<?= $r['id'] ?>">
                             <i class="bi bi-eye text-slate-700"></i>
                         </button>
                         <form method="post" class="d-inline" data-confirm="¿Eliminar esta comunicación de <?= e($r['nombre']) ?>?">

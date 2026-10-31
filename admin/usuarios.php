@@ -140,10 +140,16 @@ ob_start(); ?>
 
 require __DIR__ . '/layout/header.php';
 ?>
-<div class="card">
+<div class="card" id="tablaUsuariosWrap">
     <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
-        <div><h2 class="h6 fw-bold mb-0">Cuentas del panel</h2><small class="text-secondary">Solo el superadmin crea cuentas: no hay registro público.</small></div>
-        <button class="btn btn-primary btn-sm" data-modal-new="#modalUsuario" data-title="Nuevo usuario"><i class="bi bi-person-plus"></i> Nuevo usuario</button>
+        <div>
+            <h2 class="h6 fw-bold mb-0 d-flex align-items-center">
+                <span>Cuentas del panel</span>
+                <button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso('tabla_usuarios')" title="¿Cómo gestionar usuarios?">?</button>
+            </h2>
+            <small class="text-secondary">Solo el superadmin crea cuentas: no hay registro público.</small>
+        </div>
+        <button id="btnNuevoUsuario" class="btn btn-primary btn-sm" data-modal-new="#modalUsuario" data-title="Nuevo usuario"><i class="bi bi-person-plus"></i> Nuevo usuario</button>
     </div>
     <?= render_filtros($f, $extra) ?>
     <div class="table-responsive">

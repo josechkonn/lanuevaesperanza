@@ -241,7 +241,7 @@ function render_filtros(array $f, string $extra = ''): string
     return '<div class="filtros card-body border-bottom p-3 p-md-4">'
         . '<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 pb-2 border-bottom">'
         . '  <div class="d-flex flex-wrap align-items-center gap-2">'
-        . '    <span class="small fw-bold text-muted text-uppercase tracking-wider d-inline-flex align-items-center gap-1.5" style="font-size:0.68rem"><i class="bi bi-clock-history text-secondary"></i>Periodo:</span>'
+        . '    <span class="small fw-bold text-muted text-uppercase tracking-wider d-inline-flex align-items-center gap-1.5" style="font-size:0.68rem"><i class="bi bi-clock-history text-secondary"></i>Periodo:<button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso(\'filtros_periodo\')" title="¿Cómo filtrar periodos?">?</button></span>'
         . '    <div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Rango rápido">' . $btns . '</div>'
         .      $flechas
         . '  </div>'

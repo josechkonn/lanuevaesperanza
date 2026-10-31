@@ -52,6 +52,7 @@ if ($u && $u['rol'] === 'atencion') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="<?= e(url('assets/css/admin.css')) ?>?v=2" rel="stylesheet">
+    <link href="<?= e(url('assets/css/tour.css')) ?>?v=1" rel="stylesheet">
 </head>
 <body>
 <div class="layout">
@@ -89,16 +90,15 @@ if ($u && $u['rol'] === 'atencion') {
             <button class="btn btn-light d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-label="Menú"><i class="bi bi-list"></i></button>
             <h1 class="page-title"><?= e($titulo ?? '') ?></h1>
             <div class="d-flex align-items-center gap-2 ms-auto">
-                <button type="button" class="btn btn-sm btn-outline-success rounded-pill d-inline-flex align-items-center gap-1.5 px-3 py-1.5 fw-semibold shadow-2xs" data-bs-toggle="offcanvas" data-bs-target="#drawerGuiaPruebas" aria-controls="drawerGuiaPruebas" title="Guías interactivas de pruebas">
-                    <i class="bi bi-patch-check-fill text-success"></i>
-                    <span class="d-none d-sm-inline">Guía de Pruebas</span>
-                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill ms-1 font-monospace" id="guiaPillGlobal" style="font-size:0.7rem;">0%</span>
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill d-inline-flex align-items-center gap-1.5 px-3 py-1.5 fw-semibold shadow-2xs" onclick="TourGuia.iniciar()" title="Iniciar recorrido interactivo paso a paso por esta página">
+                    <i class="bi bi-play-circle-fill text-success"></i>
+                    <span class="d-none d-sm-inline">Guía de esta página</span>
                 </button>
                 <a href="<?= e(url('index.php')) ?>" target="_blank" class="topbar-portal-btn d-none d-sm-inline-flex align-items-center gap-1.5 text-decoration-none">
                     <i class="bi bi-box-arrow-up-right text-primary"></i>
                     <span>Portal público</span>
                 </a>
-                <div class="dropdown">
+                <div class="dropdown" id="topbarUserWrap">
                     <button class="btn topbar-user-btn dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown">
                         <span class="avatar"><?= e(mb_strtoupper(mb_substr($u['nombre'], 0, 1))) ?></span>
                         <span class="d-none d-sm-inline text-start lh-sm">

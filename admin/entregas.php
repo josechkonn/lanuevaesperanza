@@ -151,10 +151,16 @@ require __DIR__ . '/layout/header.php';
     <?php endforeach; ?>
 </div>
 
-<div class="card">
+<div class="card" id="tablaEntregasWrap">
     <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
-        <div><h2 class="h6 fw-bold mb-0">Cronograma de Distribución y Rutas</h2><small class="text-secondary">Usa las flechas para explorar semanas anteriores o siguientes.</small></div>
-        <?php if (puede_editar()): ?><button class="btn btn-primary btn-sm" data-modal-new="#modalEntrega" data-title="Programar entrega"><i class="bi bi-plus-lg"></i> Programar entrega</button><?php endif; ?>
+        <div>
+            <h2 class="h6 fw-bold mb-0 d-flex align-items-center">
+                <span>Cronograma de Distribución y Rutas</span>
+                <button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso('tabla_entregas')" title="¿Cómo funciona el cronograma?">?</button>
+            </h2>
+            <small class="text-secondary">Usa las flechas para explorar semanas anteriores o siguientes.</small>
+        </div>
+        <?php if (puede_editar()): ?><button id="btnNuevaEntrega" class="btn btn-primary btn-sm" data-modal-new="#modalEntrega" data-title="Programar entrega"><i class="bi bi-plus-lg"></i> Programar entrega</button><?php endif; ?>
     </div>
     <?= render_filtros($f, $extra) ?>
     <div class="table-responsive">

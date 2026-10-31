@@ -76,10 +76,16 @@ ob_start(); ?>
 <?php $extra = ob_get_clean();
 require __DIR__ . '/layout/header.php';
 ?>
-<div class="card">
+<div class="card" id="tablaRubrosWrap">
     <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
-        <div><h2 class="h6 fw-bold mb-0">Rubros</h2><small class="text-secondary">Categorías o tipos de bolsas y combos.</small></div>
-        <?php if (puede_editar()): ?><button class="btn btn-primary btn-sm" data-modal-new="#modalRubro" data-title="Nuevo rubro"><i class="bi bi-plus-lg"></i> Nuevo rubro</button><?php endif; ?>
+        <div>
+            <h2 class="h6 fw-bold mb-0 d-flex align-items-center">
+                <span>Rubros</span>
+                <button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso('tabla_rubros')" title="¿Qué es este catálogo?">?</button>
+            </h2>
+            <small class="text-secondary">Categorías o tipos de bolsas y combos.</small>
+        </div>
+        <?php if (puede_editar()): ?><button id="btnNuevoRubro" class="btn btn-primary btn-sm" data-modal-new="#modalRubro" data-title="Nuevo rubro"><i class="bi bi-plus-lg"></i> Nuevo rubro</button><?php endif; ?>
     </div>
     <?= render_filtros($f, $extra) ?>
     <div class="table-responsive">

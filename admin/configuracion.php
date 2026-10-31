@@ -69,15 +69,21 @@ $modActual = config_get('ai_model', 'deepseek/deepseek-r1:free');
         <?= csrf_field() ?>
 
         <!-- TARJETA 1: IDENTIDAD Y CONTACTO INSTITUCIONAL -->
-        <div class="card shadow-sm border mb-4" style="border-color: #e2e8f0; border-radius: 18px; overflow: hidden; background: #ffffff;">
-            <div class="card-header bg-white py-3 px-4 border-bottom d-flex align-items-center gap-2.5">
-                <div class="d-flex align-items-center justify-content-center rounded-circle" style="width: 36px; height: 36px; background: #ecfdf5; color: #059669;">
-                    <i class="bi bi-building-gear fs-5"></i>
+        <div class="card shadow-sm border mb-4" id="cardIdentidadWrap" style="border-color: #e2e8f0; border-radius: 18px; overflow: hidden; background: #ffffff;">
+            <div class="card-header bg-white py-3 px-4 border-bottom d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-2.5">
+                    <div class="d-flex align-items-center justify-content-center rounded-circle" style="width: 36px; height: 36px; background: #ecfdf5; color: #059669;">
+                        <i class="bi bi-building-gear fs-5"></i>
+                    </div>
+                    <div>
+                        <h2 class="h6 fw-bold mb-0 text-slate-800 d-flex align-items-center">
+                            <span>Identidad y Contacto Institucional</span>
+                            <button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso('identidad_epsdc')" title="¿Cómo configurar la identidad?">?</button>
+                        </h2>
+                        <small class="text-slate-500">Datos públicos de la EPSDC reflejados en el portal, pie de página y consultas ciudadanas.</small>
+                    </div>
                 </div>
-                <div>
-                    <h2 class="h6 fw-bold mb-0 text-slate-800">Identidad y Contacto Institucional</h2>
-                    <small class="text-slate-500">Datos públicos de la EPSDC reflejados en el portal, pie de página y consultas ciudadanas.</small>
-                </div>
+            </div>
             </div>
 
             <div class="card-body p-4">
@@ -129,14 +135,17 @@ $modActual = config_get('ai_model', 'deepseek/deepseek-r1:free');
         </div>
 
         <!-- TARJETA 2: ASISTENTE VIRTUAL IA & MOTOR DE CONECTIVIDAD -->
-        <div class="card shadow-sm border mb-4" style="border-color: #e2e8f0; border-radius: 18px; overflow: hidden; background: #ffffff;">
+        <div class="card shadow-sm border mb-4" id="cardMotorIAWrap" style="border-color: #e2e8f0; border-radius: 18px; overflow: hidden; background: #ffffff;">
             <div class="card-header bg-white py-3 px-4 border-bottom d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center gap-2.5">
                     <div class="d-flex align-items-center justify-content-center rounded-circle" style="width: 36px; height: 36px; background: #eff6ff; color: #2563eb;">
                         <i class="bi bi-robot fs-5"></i>
                     </div>
                     <div>
-                        <h2 class="h6 fw-bold mb-0 text-slate-800">Asistente Virtual Comunal con Inteligencia Artificial</h2>
+                        <h2 class="h6 fw-bold mb-0 text-slate-800 d-flex align-items-center">
+                            <span>Asistente Virtual Comunal con Inteligencia Artificial</span>
+                            <button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso('motor_virtual_ia')" title="¿Cómo funciona el motor IA?">?</button>
+                        </h2>
                         <small class="text-slate-500">Parámetros de conexión con OpenRouter, DeepSeek o motor local para el chat público.</small>
                     </div>
                 </div>

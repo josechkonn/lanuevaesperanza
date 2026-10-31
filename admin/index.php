@@ -57,7 +57,7 @@ require __DIR__ . '/layout/header.php';
     </div>
 <?php endif; ?>
 
-<div class="row g-3 mb-4">
+<div class="row g-3 mb-4" id="kpiGridDashboard">
     <?php foreach ([
         ['Bolsas activas', $k['bolsas'], 'bi-bag-heart', '#eff6ff', '#2563eb', 'Catálogo oficial de bolsas'],
         ['Combos activos', $k['combos'], 'bi-box-seam', '#f5f3ff', '#7c3aed', 'Combos nutricionales activos'],
@@ -71,7 +71,10 @@ require __DIR__ . '/layout/header.php';
                         <i class="bi <?= $ico ?>"></i>
                     </div>
                     <div class="kpi-centered-number mb-1"><?= e($val) ?></div>
-                    <div class="kpi-status-title fw-bold"><?= e($lbl) ?></div>
+                    <div class="kpi-status-title fw-bold d-flex align-items-center justify-content-center">
+                        <span><?= e($lbl) ?></span>
+                        <button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso('kpis_dashboard')" title="¿Cómo funcionan las métricas?">?</button>
+                    </div>
                     <div class="kpi-sub-bolsas small text-muted mt-1"><?= e($sub) ?></div>
                 </div>
             </div>
@@ -79,13 +82,14 @@ require __DIR__ . '/layout/header.php';
     <?php endforeach; ?>
 </div>
 
-<div class="row g-3">
+<div class="row g-3" id="bloqueAccesosRapidos">
     <div class="col-xl-8">
         <div class="card h-100">
             <div class="card-header d-flex align-items-center justify-content-between py-3">
-                <div>
+                <div class="d-flex align-items-center gap-1.5">
                     <h2 class="h6 fw-bold mb-0">Entregas de la semana</h2>
-                    <small class="text-secondary"><?= fecha_corta($lunes) ?> – <?= fecha_corta($domingo) ?></small>
+                    <button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso('bloque_operaciones')" title="¿Qué es este apartado?">?</button>
+                    <small class="text-secondary ms-2"><?= fecha_corta($lunes) ?> – <?= fecha_corta($domingo) ?></small>
                 </div>
                 <a href="<?= e(url('admin/entregas.php?rango=semana')) ?>" class="btn btn-sm btn-outline-primary">Ver todas</a>
             </div>

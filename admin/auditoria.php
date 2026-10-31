@@ -36,8 +36,14 @@ ob_start(); ?>
 <?php $extra = ob_get_clean();
 require __DIR__ . '/layout/header.php';
 ?>
-<div class="card">
-    <div class="card-header py-3"><h2 class="h6 fw-bold mb-0">Registro de actividad</h2><small class="text-secondary">Quién hizo qué y cuándo.</small></div>
+<div class="card" id="tablaAuditoriaWrap">
+    <div class="card-header py-3">
+        <h2 class="h6 fw-bold mb-0 d-flex align-items-center">
+            <span>Registro de actividad</span>
+            <button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso('tabla_auditoria')" title="¿Cómo funciona la auditoría?">?</button>
+        </h2>
+        <small class="text-secondary">Quién hizo qué y cuándo.</small>
+    </div>
     <?= render_filtros($f, $extra) ?>
     <div class="table-responsive">
         <table class="table table-hover table-sm">

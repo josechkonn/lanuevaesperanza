@@ -119,12 +119,18 @@ ob_start(); ?>
 <?php $extra = ob_get_clean();
 require __DIR__ . '/layout/header.php';
 ?>
-<div class="card">
+<div class="card" id="tablaProductosWrap">
     <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
-        <div><h2 class="h6 fw-bold mb-0">Bolsas y combos</h2><small class="text-secondary">Cada cambio de precio queda guardado en el historial.</small></div>
+        <div>
+            <h2 class="h6 fw-bold mb-0 d-flex align-items-center">
+                <span>Bolsas y combos</span>
+                <button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso('tabla_productos')" title="¿Qué es este catálogo?">?</button>
+            </h2>
+            <small class="text-secondary">Cada cambio de precio queda guardado en el historial.</small>
+        </div>
         <?php if (puede_editar()): ?>
             <div class="d-flex gap-2">
-                <button class="btn btn-outline-primary btn-sm" data-modal-new="#modalProducto" data-title="Nuevo combo" onclick="setTimeout(()=>document.querySelector('#modalProducto [name=tipo]').value='combo',10)"><i class="bi bi-box-seam"></i> Nuevo combo</button>
+                <button id="btnNuevoCombo" class="btn btn-outline-primary btn-sm" data-modal-new="#modalProducto" data-title="Nuevo combo" onclick="setTimeout(()=>document.querySelector('#modalProducto [name=tipo]').value='combo',10)"><i class="bi bi-box-seam"></i> Nuevo combo</button>
                 <button class="btn btn-primary btn-sm" data-modal-new="#modalProducto" data-title="Nueva bolsa"><i class="bi bi-bag-plus"></i> Nueva bolsa</button>
             </div>
         <?php endif; ?>

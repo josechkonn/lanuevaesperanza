@@ -13,13 +13,15 @@ require __DIR__ . '/layout/header.php';
     <div class="row g-0 h-100 flex-nowrap">
         
         <!-- PANEL IZQUIERDO: LISTA DE CONVERSACIONES -->
-        <div class="col-12 col-md-5 col-lg-4 border-end d-flex flex-column h-100 bg-white" style="min-width: 320px; max-width: 400px; flex-shrink: 0;">
+        <div class="col-12 col-md-5 col-lg-4 border-end d-flex flex-column h-100 bg-white" id="panelConversacionesWrap" style="min-width: 320px; max-width: 400px; flex-shrink: 0;">
             
             <!-- Barra superior del panel izquierdo -->
             <div class="pt-4 pb-3.5 px-4 border-bottom bg-white flex-shrink-0">
                 <div class="d-flex align-items-center justify-content-between mb-3 mt-1">
                     <h2 class="h6 fw-bold mb-0 text-slate-800 d-flex align-items-center gap-2" style="font-size: 1.05rem; letter-spacing: -0.01em;">
-                        <i class="bi bi-chat-left-dots-fill text-emerald-600"></i> Conversaciones
+                        <i class="bi bi-chat-left-dots-fill text-emerald-600"></i>
+                        <span>Conversaciones</span>
+                        <button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso('lista_conversaciones')" title="¿Cómo funciona el panel de conversaciones?">?</button>
                     </h2>
                     <span id="badgeEsperandoHumano" class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill d-none animate__animated animate__pulse animate__infinite" style="font-size: 0.72rem; padding: 0.35rem 0.65rem;">
                         0 esperando
@@ -83,7 +85,7 @@ require __DIR__ . '/layout/header.php';
             <div id="activeChatView" class="d-none h-100 d-flex flex-column overflow-hidden" style="min-height: 0;">
                 
                 <!-- Header del chat activo -->
-                <div class="chat-header px-4 py-2.5 bg-white border-bottom d-flex align-items-center justify-content-between flex-shrink-0" style="min-height: 68px;">
+                <div class="chat-header px-4 py-2.5 bg-white border-bottom d-flex align-items-center justify-content-between flex-shrink-0" id="chatHeaderBar" style="min-height: 68px;">
                     <div class="d-flex align-items-center">
                         <div class="position-relative me-3">
                             <div id="activeChatAvatar" class="avatar-circle-header fw-bold">V</div>
@@ -93,6 +95,7 @@ require __DIR__ . '/layout/header.php';
                             <div class="d-flex align-items-center gap-2">
                                 <h3 id="activeChatName" class="h6 fw-bold mb-0 text-slate-800">Visitante #0000</h3>
                                 <span id="activeChatStateBadge" class="badge bg-secondary-subtle text-secondary rounded-pill small" style="font-size: 0.68rem;">IA</span>
+                                <button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso('modo_atencion')" title="¿Cómo funciona el modo de atención?">?</button>
                             </div>
                             <div id="activeChatSubtitle" class="text-slate-400" style="font-size: 0.72rem;">IP: ... · Conectado</div>
                         </div>
@@ -120,6 +123,7 @@ require __DIR__ . '/layout/header.php';
                 <div class="chat-quick-replies px-3 py-2 bg-white border-top border-bottom d-flex align-items-center gap-2 overflow-x-auto flex-shrink-0" style="scrollbar-width: thin;">
                     <span class="text-slate-400 small fw-semibold text-nowrap d-flex align-items-center gap-1" style="font-size: 0.72rem;">
                         <i class="bi bi-lightning-charge-fill text-amber-500"></i> Respuestas rápidas:
+                        <button type="button" class="btn-tour-hint" onclick="TourGuia.mostrarPaso('redaccion_chat')" title="¿Cómo responder?">?</button>
                     </span>
                     <button type="button" onclick="insertarPlantilla('¡Hola! Un saludo cordial. ¿En qué podemos colaborarle hoy desde la EPSDC?')" class="quick-reply-chip">👋 Saludo</button>
                     <button type="button" onclick="insertarPlantilla('¿Perteneces a alguna UPF o Consejo Comunal en específico? Indícanos tu aldea o municipio.')" class="quick-reply-chip">🌱 Aldea / UPF</button>

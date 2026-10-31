@@ -1,0 +1,96 @@
+/**
+ * Estilos para la Guía Interactiva On-Page y Botones "?" de Ayuda.
+ * EPSDC La Nueva Esperanza · Estilo Alpine Emerald
+ */
+
+/* Botón de Ayuda "?" compacto y moderno */
+.btn-tour-hint {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    vertical-align: middle;
+    padding: 0;
+    margin-left: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    outline: none;
+    text-decoration: none;
+}
+
+.btn-tour-hint:hover,
+.btn-tour-hint:focus {
+    background-color: #059669;
+    color: #ffffff;
+    border-color: #059669;
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.35);
+}
+
+/* Efecto de Foco / Spotlight sobre el elemento activo */
+.tour-spotlight-active {
+    position: relative !important;
+    z-index: 1075 !important;
+    box-shadow: 0 0 0 4px #059669, 0 0 0 9999px rgba(15, 23, 42, 0.65) !important;
+    border-radius: 14px;
+    transition: box-shadow 0.25s ease-in-out !important;
+}
+
+/* Overlay seguro para evitar clicks accidentales fuera mientras está el tour */
+#tourBackdropOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1070;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* Popover Flotante de la Guía */
+.tour-guia-popover {
+    position: fixed;
+    z-index: 1080;
+    width: 400px;
+    max-width: calc(100vw - 2rem);
+    background: #ffffff;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    padding: 1.25rem 1.35rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    transition: top 0.25s ease, left 0.25s ease, opacity 0.2s ease;
+    animation: tourCardFadeIn 0.25s ease-out;
+}
+
+@keyframes tourCardFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.tour-dot-pill {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #e2e8f0;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.tour-dot-pill.active {
+    width: 20px;
+    border-radius: 10px;
+    background-color: #059669;
+}
