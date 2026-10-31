@@ -55,15 +55,21 @@ require __DIR__ . '/layout/header.php';
 
 <div class="row g-3 mb-4">
     <?php foreach ([
-        ['Bolsas activas', $k['bolsas'], 'bi-bag-heart', '#e0f2fe', '#0369a1'],
-        ['Combos activos', $k['combos'], 'bi-box-seam', '#ede9fe', '#6d28d9'],
-        ['Entregas esta semana', $k['entregas_semana'], 'bi-truck', '#fef3c7', '#b45309'],
-        ['Bolsas a repartir (semana)', number_format((float)$k['bolsas_semana'], 0, ',', '.'), 'bi-basket', '#dcfce7', '#15803d'],
-    ] as [$lbl, $val, $ico, $bg, $fg]): ?>
+        ['Bolsas activas', $k['bolsas'], 'bi-bag-heart', '#eff6ff', '#2563eb', 'Catálogo oficial de bolsas'],
+        ['Combos activos', $k['combos'], 'bi-box-seam', '#f5f3ff', '#7c3aed', 'Combos nutricionales activos'],
+        ['Entregas esta semana', $k['entregas_semana'], 'bi-truck', '#fffbeb', '#d97706', 'Rutas de distribución'],
+        ['Bolsas a repartir', number_format((float)$k['bolsas_semana'], 0, ',', '.'), 'bi-basket', '#ecfdf5', '#059669', 'Meta semanal programada'],
+    ] as [$lbl, $val, $ico, $bg, $fg, $sub]): ?>
         <div class="col-6 col-xl-3">
-            <div class="card kpi h-100">
-                <span class="kpi-icon" style="background:<?= $bg ?>;color:<?= $fg ?>"><i class="bi <?= $ico ?>"></i></span>
-                <div><div class="kpi-value"><?= e($val) ?></div><div class="kpi-label"><?= e($lbl) ?></div></div>
+            <div class="card kpi-card-centered h-100">
+                <div class="card-body p-3 p-xl-4 text-center d-flex flex-column align-items-center justify-content-center">
+                    <div class="kpi-icon-pill mb-2.5" style="background:<?= $bg ?>;color:<?= $fg ?>">
+                        <i class="bi <?= $ico ?>"></i>
+                    </div>
+                    <div class="kpi-centered-number mb-1"><?= e($val) ?></div>
+                    <div class="kpi-status-title fw-bold"><?= e($lbl) ?></div>
+                    <div class="kpi-sub-bolsas small text-muted mt-1"><?= e($sub) ?></div>
+                </div>
             </div>
         </div>
     <?php endforeach; ?>

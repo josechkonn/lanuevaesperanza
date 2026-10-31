@@ -83,8 +83,15 @@ if ($q !== '') {
     $where[] = '(e.sector LIKE :q1 OR e.direccion LIKE :q2 OR e.responsable LIKE :q3)';
     $params['q1'] = $params['q2'] = $params['q3'] = "%$q%";
 }
+// Guardar condiciones base para el resumen de KPIs antes de aplicar el filtro específico por estado
+$whereKpi = $where;
+$paramsKpi = $params;
+
 $estF = $_GET['estado'] ?? '';
-if (isset(ESTADOS_ENTREGA[$estF])) { $where[] = 'e.estado = :est'; $params['est'] = $estF; }
+if (isset(ESTADOS_ENTREGA[$estF])) { 
+    $where[] = 'e.estado = :est'; 
+    $params['est'] = $estF; 
+}
 
 $res = paginar_cursor([
     'select' => 'SELECT e.*, p.nombre AS producto, p.tipo AS producto_tipo FROM entregas e LEFT JOIN productos p ON p.id = e.producto_id',
@@ -93,11 +100,11 @@ $res = paginar_cursor([
     'orden' => 'ASC',
 ]);
 
-// Resumen del periodo filtrado (sin cursor)
+// Resumen del periodo filtrado (sin limitar por estado para que los 4 KPIs reflejen siempre los datos reales del backend)
 $sqlRes = 'SELECT e.estado, COUNT(*) n, COALESCE(SUM(e.cantidad_bolsas),0) bolsas FROM entregas e'
-    . ($where ? ' WHERE ' . implode(' AND ', $where) : '') . ' GROUP BY e.estado';
+    . ($whereKpi ? ' WHERE ' . implode(' AND ', $whereKpi) : '') . ' GROUP BY e.estado';
 $st = $pdo->prepare($sqlRes);
-$st->execute($params);
+$st->execute($paramsKpi);
 $resumen = array_fill_keys(array_keys(ESTADOS_ENTREGA), ['n' => 0, 'bolsas' => 0]);
 foreach ($st->fetchAll() as $r) $resumen[$r['estado']] = $r;
 
@@ -105,18 +112,40 @@ $titulo = 'Entregas de bolsas';
 $seccion = 'entregas';
 $qsActual = qs();
 ob_start(); ?>
-<div class="col-12 col-md-3"><label class="form-label small mb-0">Buscar</label><input type="search" name="q" value="<?= e($q) ?>" class="form-control form-control-sm" placeholder="Sector, dirección o responsable"></div>
-<div class="col-6 col-md-auto"><label class="form-label small mb-0">Estado</label>
-    <select name="estado" class="form-select form-select-sm"><option value="">Todos</option><?php foreach (ESTADOS_ENTREGA as $k => $v): ?><option value="<?= $k ?>"<?= $estF === $k ? ' selected' : '' ?>><?= $v ?></option><?php endforeach; ?></select></div>
+<div class="col-12 col-md-4"><label class="form-label small mb-0 fw-semibold text-slate-700">Buscar</label><input type="search" name="q" value="<?= e($q) ?>" class="form-control form-control-sm" placeholder="Sector, dirección o responsable..."></div>
+<div class="col-6 col-md-auto"><label class="form-label small mb-0 fw-semibold text-slate-700">Estado</label>
+    <select name="estado" class="form-select form-select-sm"><option value="">Todos los estados</option><?php foreach (ESTADOS_ENTREGA as $k => $v): ?><option value="<?= $k ?>"<?= $estF === $k ? ' selected' : '' ?>><?= $v ?></option><?php endforeach; ?></select></div>
 <?php $extra = ob_get_clean();
 require __DIR__ . '/layout/header.php';
 ?>
-<div class="row g-3 mb-3">
-    <?php foreach (ESTADOS_ENTREGA as $k => $v): ?>
+<div class="row g-3 mb-4">
+    <?php foreach (ESTADOS_ENTREGA as $k => $v): 
+        $isSelected = ($estF === $k);
+        $toggleUrl = $isSelected ? qs(['estado' => null, 'cursor' => null, 'dir' => null]) : qs(['estado' => $k, 'cursor' => null, 'dir' => null]);
+        $icons = [
+            'programada' => 'bi-calendar-event',
+            'en_camino'   => 'bi-truck',
+            'entregada'   => 'bi-check2-circle',
+            'cancelada'   => 'bi-x-circle'
+        ];
+    ?>
         <div class="col-6 col-lg-3">
-            <a class="card kpi text-decoration-none h-100" href="<?= e(qs(['estado' => $k, 'cursor' => null, 'dir' => null])) ?>">
-                <span class="kpi-icon estado-<?= $k ?>"><i class="bi <?= ['programada' => 'bi-calendar-event', 'en_camino' => 'bi-truck', 'entregada' => 'bi-check2-circle', 'cancelada' => 'bi-x-circle'][$k] ?>"></i></span>
-                <div><div class="kpi-value"><?= (int)$resumen[$k]['n'] ?></div><div class="kpi-label"><?= $v ?> · <?= number_format((float)$resumen[$k]['bolsas'], 0, ',', '.') ?> bolsas</div></div>
+            <a class="card kpi-card-centered text-decoration-none h-100 <?= $isSelected ? 'kpi-selected' : '' ?> estado-card-<?= $k ?>" href="<?= e($toggleUrl) ?>">
+                <div class="card-body p-3 p-xl-4 text-center d-flex flex-column align-items-center justify-content-center">
+                    <div class="kpi-icon-pill mb-2.5 estado-icon-<?= $k ?>">
+                        <i class="bi <?= $icons[$k] ?>"></i>
+                    </div>
+                    <div class="kpi-centered-number mb-1"><?= (int)$resumen[$k]['n'] ?></div>
+                    <div class="kpi-status-title fw-bold"><?= $v ?></div>
+                    <div class="kpi-sub-bolsas small text-muted mt-1">
+                        <i class="bi bi-box-seam me-1 text-secondary"></i><?= number_format((float)$resumen[$k]['bolsas'], 0, ',', '.') ?> bolsas
+                    </div>
+                    <?php if ($isSelected): ?>
+                        <span class="badge bg-dark text-white border mt-2 text-[10px] py-1 px-2 rounded-pill">
+                            <i class="bi bi-check2 me-1 text-success"></i>Filtro activo (quitar)
+                        </span>
+                    <?php endif; ?>
+                </div>
             </a>
         </div>
     <?php endforeach; ?>
@@ -124,23 +153,36 @@ require __DIR__ . '/layout/header.php';
 
 <div class="card">
     <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
-        <div><h2 class="h6 fw-bold mb-0">¿A dónde llevamos bolsas?</h2><small class="text-secondary">Usa las flechas para ver la semana anterior o la próxima.</small></div>
+        <div><h2 class="h6 fw-bold mb-0">Cronograma de Distribución y Rutas</h2><small class="text-secondary">Usa las flechas para explorar semanas anteriores o siguientes.</small></div>
         <?php if (puede_editar()): ?><button class="btn btn-primary btn-sm" data-modal-new="#modalEntrega" data-title="Programar entrega"><i class="bi bi-plus-lg"></i> Programar entrega</button><?php endif; ?>
     </div>
     <?= render_filtros($f, $extra) ?>
     <div class="table-responsive">
         <table class="table table-hover">
-            <thead><tr><th>Fecha</th><th>Sector / dirección</th><th>Bolsas</th><th>Responsable</th><th>Estado</th><?php if (puede_editar()): ?><th class="text-end">Acciones</th><?php endif; ?></tr></thead>
+            <thead><tr><th>Fecha / Hora</th><th>Sector y Dirección</th><th>Bolsas Asignadas</th><th>Responsable Comunal</th><th>Estado</th><?php if (puede_editar()): ?><th class="text-end">Acciones</th><?php endif; ?></tr></thead>
             <tbody>
-            <?php if (!$res['filas']): ?><tr><td colspan="6"><div class="empty"><i class="bi bi-truck"></i>No hay entregas en este periodo.</div></td></tr><?php endif; ?>
+            <?php if (!$res['filas']): ?><tr><td colspan="6"><div class="empty"><i class="bi bi-truck"></i>No hay entregas registradas en este periodo.</div></td></tr><?php endif; ?>
             <?php
             $dias = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
             foreach ($res['filas'] as $r): $ts = strtotime($r['fecha_entrega']); ?>
                 <tr<?= $r['fecha_entrega'] === date('Y-m-d') ? ' class="table-info"' : '' ?>>
-                    <td class="text-nowrap"><strong><?= $dias[(int)date('w', $ts)] ?> <?= date('d/m', $ts) ?></strong><div class="small text-secondary"><?= date('Y', $ts) ?><?= $r['hora'] ? ' · ' . e(substr($r['hora'], 0, 5)) : '' ?></div></td>
-                    <td><strong><?= e($r['sector']) ?></strong><div class="small text-secondary"><?= e($r['direccion']) ?></div><?= $r['notas'] ? '<div class="small fst-italic text-secondary"><i class="bi bi-sticky"></i> ' . e(mb_strimwidth($r['notas'], 0, 80, '…')) . '</div>' : '' ?></td>
-                    <td class="text-nowrap"><strong><?= (int)$r['cantidad_bolsas'] ?></strong><div class="small text-secondary"><?= e($r['producto'] ?? 'Sin especificar') ?></div></td>
-                    <td><?= e($r['responsable']) ?><?= $r['telefono'] ? '<div class="small"><a href="tel:' . e($r['telefono']) . '" class="text-decoration-none">' . e($r['telefono']) . '</a></div>' : '' ?></td>
+                    <td class="text-nowrap">
+                        <div class="fw-bold text-slate-800"><?= $dias[(int)date('w', $ts)] ?> <?= date('d/m', $ts) ?></div>
+                        <div class="small text-muted"><?= date('Y', $ts) ?><?= $r['hora'] ? ' · <i class="bi bi-clock me-0.5"></i>' . e(substr($r['hora'], 0, 5)) : '' ?></div>
+                    </td>
+                    <td>
+                        <div class="fw-bold text-slate-900"><?= e($r['sector']) ?></div>
+                        <div class="small text-muted"><?= e($r['direccion']) ?></div>
+                        <?= $r['notas'] ? '<div class="small fst-italic text-secondary mt-0.5"><i class="bi bi-sticky me-1"></i>' . e(mb_strimwidth($r['notas'], 0, 80, '…')) . '</div>' : '' ?>
+                    </td>
+                    <td class="text-nowrap">
+                        <span class="fs-6 fw-bold text-slate-900"><?= (int)$r['cantidad_bolsas'] ?></span>
+                        <div class="small text-muted"><?= e($r['producto'] ?? 'Sin especificar') ?></div>
+                    </td>
+                    <td>
+                        <div class="fw-semibold text-slate-800"><?= e($r['responsable']) ?></div>
+                        <?= $r['telefono'] ? '<div class="small"><a href="tel:' . e($r['telefono']) . '" class="text-decoration-none text-muted hover:text-primary"><i class="bi bi-telephone me-1"></i>' . e($r['telefono']) . '</a></div>' : '' ?>
+                    </td>
                     <td>
                         <?php if (puede_editar()): ?>
                             <form method="post" class="d-inline"><?= csrf_field() ?><input type="hidden" name="accion" value="estado"><input type="hidden" name="id" value="<?= (int)$r['id'] ?>"><input type="hidden" name="_qs" value="<?= e($qsActual) ?>">
@@ -153,11 +195,13 @@ require __DIR__ . '/layout/header.php';
                     </td>
                     <?php if (puede_editar()): ?>
                     <td class="text-end text-nowrap">
-                        <button class="btn btn-sm btn-light border" title="Editar" data-modal-edit="#modalEntrega" data-title="Editar entrega" data-row='<?= e(json_encode($r)) ?>'><i class="bi bi-pencil"></i></button>
-                        <form method="post" class="d-inline" data-confirm="¿Copiar esta entrega a la semana siguiente?"><?= csrf_field() ?><input type="hidden" name="accion" value="duplicar"><input type="hidden" name="id" value="<?= (int)$r['id'] ?>"><input type="hidden" name="_qs" value="<?= e($qsActual) ?>">
-                            <button class="btn btn-sm btn-light border" title="Copiar a la próxima semana"><i class="bi bi-copy"></i></button></form>
-                        <form method="post" class="d-inline" data-confirm="¿Eliminar la entrega a <?= e($r['sector']) ?>?"><?= csrf_field() ?><input type="hidden" name="accion" value="eliminar"><input type="hidden" name="id" value="<?= (int)$r['id'] ?>"><input type="hidden" name="_qs" value="<?= e($qsActual) ?>">
-                            <button class="btn btn-sm btn-light border text-danger" title="Eliminar"><i class="bi bi-trash"></i></button></form>
+                        <div class="d-flex justify-content-end gap-1.5">
+                            <button class="btn-action" title="Editar" data-modal-edit="#modalEntrega" data-title="Editar entrega" data-row='<?= e(json_encode($r)) ?>'><i class="bi bi-pencil"></i></button>
+                            <form method="post" class="d-inline" data-confirm="¿Copiar esta entrega a la semana siguiente?"><?= csrf_field() ?><input type="hidden" name="accion" value="duplicar"><input type="hidden" name="id" value="<?= (int)$r['id'] ?>"><input type="hidden" name="_qs" value="<?= e($qsActual) ?>">
+                                <button class="btn-action" title="Copiar a la próxima semana"><i class="bi bi-copy"></i></button></form>
+                            <form method="post" class="d-inline" data-confirm="¿Eliminar la entrega a <?= e($r['sector']) ?>?"><?= csrf_field() ?><input type="hidden" name="accion" value="eliminar"><input type="hidden" name="id" value="<?= (int)$r['id'] ?>"><input type="hidden" name="_qs" value="<?= e($qsActual) ?>">
+                                <button class="btn-action btn-action-danger" title="Eliminar"><i class="bi bi-trash"></i></button></form>
+                        </div>
                     </td>
                     <?php endif; ?>
                 </tr>

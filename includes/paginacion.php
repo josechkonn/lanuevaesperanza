@@ -210,14 +210,14 @@ function render_filtros(array $f, string $extra = ''): string
     $btns = '';
     foreach (RANGOS as $k => $txt) {
         $activo = $f['rango'] === $k ? ' active' : '';
-        $btns .= '<a class="btn btn-sm btn-outline-primary' . $activo . '" href="'
+        $btns .= '<a class="btn btn-sm btn-outline-secondary' . $activo . '" href="'
             . e(qs(['rango' => $k, 'p' => null, 'desde' => null, 'hasta' => null, 'cursor' => null, 'dir' => null]))
             . '">' . $txt . '</a>';
     }
 
     $flechas = '';
     if (in_array($f['rango'], ['hoy', 'semana', 'mes', 'anio'], true)) {
-        $flechas = '<div class="btn-group btn-group-sm" role="group">'
+        $flechas = '<div class="btn-group btn-group-sm ms-1" role="group">'
             . '<a class="btn btn-outline-secondary" title="Periodo anterior" href="' . e(qs(['p' => $f['p'] - 1, 'cursor' => null, 'dir' => null])) . '"><i class="bi bi-chevron-left"></i></a>'
             . ($f['p'] !== 0 ? '<a class="btn btn-outline-secondary" title="Volver al actual" href="' . e(qs(['p' => null, 'cursor' => null, 'dir' => null])) . '"><i class="bi bi-record-circle"></i></a>' : '')
             . '<a class="btn btn-outline-secondary" title="Periodo siguiente" href="' . e(qs(['p' => $f['p'] + 1, 'cursor' => null, 'dir' => null])) . '"><i class="bi bi-chevron-right"></i></a>'
@@ -234,17 +234,22 @@ function render_filtros(array $f, string $extra = ''): string
     $desdeVal = $f['rango'] === 'custom' ? $f['desde'] : '';
     $hastaVal = $f['rango'] === 'custom' ? $f['hasta'] : '';
 
-    return '<div class="filtros card-body border-bottom">'
-        . '<div class="d-flex flex-wrap align-items-center gap-2 mb-2">'
-        . '<div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Rango rápido">' . $btns . '</div>'
-        . $flechas
-        . '<span class="badge text-bg-light border ms-1"><i class="bi bi-calendar3 me-1"></i>' . e($f['etiqueta']) . '</span>'
+    return '<div class="filtros card-body border-bottom p-3 p-md-4">'
+        . '<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 pb-2 border-bottom">'
+        . '  <div class="d-flex flex-wrap align-items-center gap-1.5">'
+        . '    <span class="small fw-bold text-muted text-uppercase tracking-wider me-1" style="font-size:0.68rem"><i class="bi bi-clock-history me-1"></i>Periodo:</span>'
+        . '    <div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Rango rápido">' . $btns . '</div>'
+        .      $flechas
+        . '  </div>'
+        . '  <span class="badge bg-white text-dark border px-3 py-1.5 rounded-pill shadow-2xs font-monospace small"><i class="bi bi-calendar-check me-1.5 text-success"></i>' . e($f['etiqueta']) . '</span>'
         . '</div>'
         . '<form method="get" class="row g-2 align-items-end">' . $ocultos
-        . '<div class="col-6 col-md-auto"><label class="form-label small mb-0">Desde</label><input type="date" name="desde" value="' . e($desdeVal) . '" class="form-control form-control-sm"></div>'
-        . '<div class="col-6 col-md-auto"><label class="form-label small mb-0">Hasta</label><input type="date" name="hasta" value="' . e($hastaVal) . '" class="form-control form-control-sm"></div>'
+        . '<div class="col-6 col-md-auto"><label class="form-label small mb-1 fw-semibold text-muted" style="font-size:0.72rem">Desde</label><input type="date" name="desde" value="' . e($desdeVal) . '" class="form-control form-control-sm"></div>'
+        . '<div class="col-6 col-md-auto"><label class="form-label small mb-1 fw-semibold text-muted" style="font-size:0.72rem">Hasta</label><input type="date" name="hasta" value="' . e($hastaVal) . '" class="form-control form-control-sm"></div>'
         . $extra
-        . '<div class="col-12 col-md-auto d-flex gap-2"><button class="btn btn-sm btn-primary"><i class="bi bi-funnel"></i> Filtrar</button>'
-        . '<a class="btn btn-sm btn-light border" href="?">Limpiar</a></div>'
+        . '<div class="col-12 col-md-auto d-flex gap-2 ms-md-auto pt-2 pt-md-0">'
+        . '  <button class="btn btn-sm btn-primary px-3 shadow-2xs"><i class="bi bi-funnel-fill me-1"></i> Filtrar</button>'
+        . '  <a class="btn btn-sm btn-light border px-3" href="?">Limpiar</a>'
+        . '</div>'
         . '</form></div>';
 }
