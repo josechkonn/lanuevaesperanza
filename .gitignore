@@ -1,0 +1,23 @@
+# Sistema operativo y archivos temporales
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editores de código
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de registro / logs
+*.log
+
+# Subidas temporales (mantener estructura de carpetas)
+uploads/imagenes/*
+!uploads/imagenes/.gitkeep
+uploads/documentos/*
+!uploads/documentos/.gitkeep
