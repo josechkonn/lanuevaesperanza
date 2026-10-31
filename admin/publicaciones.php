@@ -103,7 +103,7 @@ require __DIR__ . '/layout/header.php';
                 <tr>
                     <td style="width:56px"><?= $r['imagen'] ? '<img src="' . e(url($r['imagen'])) . '" class="thumb" alt="">' : '' ?></td>
                     <td><strong><?= e($r['titulo']) ?></strong><div class="small text-secondary"><?= e(mb_strimwidth((string)($r['resumen'] ?: $r['contenido']), 0, 90, '…')) ?></div></td>
-                    <td class="small text-nowrap"><?= e(fecha_corta($r['fecha_publicacion'], true)) ?></td>
+                    <td class="small text-nowrap"><span class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-calendar3 text-emerald-600"></i><?= e(fecha_corta($r['fecha_publicacion'], true)) ?></span></td>
                     <td><?= $r['publicado'] ? '<span class="badge text-bg-success">Publicada</span>' : '<span class="badge text-bg-warning">Borrador</span>' ?></td>
                     <td class="small"><?= e($r['autor'] ?? '—') ?></td>
                     <?php if (puede_editar()): ?>

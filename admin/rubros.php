@@ -93,7 +93,7 @@ require __DIR__ . '/layout/header.php';
                     <td><a href="<?= e(url('admin/productos.php?rubro=' . $r['id'])) ?>" class="text-decoration-none"><?= (int)$r['total_productos'] ?></a></td>
                     <td><?= (int)$r['orden'] ?></td>
                     <td><?= $r['activo'] ? '<span class="badge text-bg-success">Activo</span>' : '<span class="badge text-bg-secondary">Inactivo</span>' ?></td>
-                    <td class="small"><?= e(fecha_corta($r['creado_en'])) ?></td>
+                    <td class="small text-nowrap"><span class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-calendar3 text-emerald-600"></i><?= e(fecha_corta($r['creado_en'])) ?></span></td>
                     <?php if (puede_editar()): ?>
                     <td class="text-end text-nowrap">
                         <button class="btn btn-sm btn-light border" data-modal-edit="#modalRubro" data-title="Editar rubro" data-row='<?= e(json_encode($r)) ?>'><i class="bi bi-pencil"></i></button>

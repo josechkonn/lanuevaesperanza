@@ -872,9 +872,9 @@ require __DIR__ . '/includes/header.php';
                             <img src="<?= e(url($pub['imagen'])) ?>" alt="" class="w-full h-48 object-cover rounded-2xl mb-4 border border-stone-100 shadow-2xs group-hover:scale-[1.01] transition-transform duration-300">
                         <?php endif; ?>
                         <div class="text-[11px] text-slate-400 mb-2 flex items-center gap-2">
-                            <span><i class="fa-regular fa-calendar"></i> <?= fecha_corta($pub['fecha_publicacion']) ?></span>
+                            <span><i class="fa-regular fa-calendar mr-1.5 text-emerald-700"></i><?= fecha_corta($pub['fecha_publicacion']) ?></span>
                             <?php if ($pub['autor']): ?>
-                                <span>• <i class="fa-regular fa-user"></i> <?= e($pub['autor']) ?></span>
+                                <span>• <i class="fa-regular fa-user mr-1.5"></i><?= e($pub['autor']) ?></span>
                             <?php endif; ?>
                         </div>
                         <h3 class="font-serif text-xl font-extrabold text-slate-900 mb-2 leading-snug group-hover:text-emerald-900 transition-colors"><?= e($pub['titulo']) ?></h3>
@@ -901,9 +901,9 @@ require __DIR__ . '/includes/header.php';
                         <div class="text-[11px] font-bold text-emerald-800 uppercase tracking-wider mb-2 flex flex-wrap items-center gap-2">
                             <span class="inline-block w-2 h-2 rounded-full bg-emerald-600"></span>
                             <span>Comunicado Oficial</span>
-                            <span class="text-slate-400">• <i class="fa-regular fa-calendar mr-1"></i><?= fecha_corta($pub['fecha_publicacion']) ?></span>
+                            <span class="text-slate-400">• <i class="fa-regular fa-calendar mr-1.5 text-emerald-700"></i><?= fecha_corta($pub['fecha_publicacion']) ?></span>
                             <?php if ($pub['autor']): ?>
-                                <span class="text-slate-400">• <i class="fa-regular fa-user mr-1"></i><?= e($pub['autor']) ?></span>
+                                <span class="text-slate-400">• <i class="fa-regular fa-user mr-1.5"></i><?= e($pub['autor']) ?></span>
                             <?php endif; ?>
                         </div>
                         <h3 class="font-serif text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4 leading-tight"><?= e($pub['titulo']) ?></h3>

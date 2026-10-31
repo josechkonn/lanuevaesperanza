@@ -43,7 +43,7 @@ require __DIR__ . '/layout/header.php';
                 $ant = (float)$r['precio_anterior']; $nue = (float)$r['precio_nuevo'];
                 $var = $ant > 0 ? ($nue - $ant) * 100 / $ant : null; ?>
                 <tr>
-                    <td class="small text-nowrap"><?= e(fecha_corta($r['creado_en'], true)) ?></td>
+                    <td class="small text-nowrap"><span class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-calendar3 text-emerald-600"></i><?= e(fecha_corta($r['creado_en'], true)) ?></span></td>
                     <td><strong><?= e($r['producto']) ?></strong> <span class="badge text-bg-light border"><?= e($r['tipo']) ?></span></td>
                     <td class="text-end text-secondary"><?= $ant > 0 ? e(dinero($ant, $r['moneda'])) : '<small>Precio inicial</small>' ?></td>
                     <td class="text-end fw-bold"><?= e(dinero($nue, $r['moneda'])) ?></td>

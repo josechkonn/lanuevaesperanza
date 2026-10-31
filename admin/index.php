@@ -98,7 +98,10 @@ require __DIR__ . '/layout/header.php';
                     <?php endif; ?>
                     <?php foreach ($entregasSemana as $en): ?>
                         <tr<?= $en['fecha_entrega'] === $hoy ? ' class="table-info"' : '' ?>>
-                            <td class="text-nowrap"><?= e(fecha_corta($en['fecha_entrega'])) ?><?= $en['hora'] ? ' <small class="text-secondary">' . e(substr($en['hora'], 0, 5)) . '</small>' : '' ?></td>
+                            <td class="text-nowrap">
+                                <span class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-calendar3 text-emerald-600"></i><?= e(fecha_corta($en['fecha_entrega'])) ?></span>
+                                <?= $en['hora'] ? ' <small class="text-secondary ps-1.5"><i class="bi bi-clock me-1"></i>' . e(substr($en['hora'], 0, 5)) . '</small>' : '' ?>
+                            </td>
                             <td><strong><?= e($en['sector']) ?></strong><div class="small text-secondary text-truncate" style="max-width:240px"><?= e($en['direccion']) ?></div></td>
                             <td><?= (int)$en['cantidad_bolsas'] ?> <small class="text-secondary"><?= e($en['producto'] ?? '') ?></small></td>
                             <td><?= e($en['responsable']) ?></td>

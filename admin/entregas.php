@@ -167,8 +167,8 @@ require __DIR__ . '/layout/header.php';
             foreach ($res['filas'] as $r): $ts = strtotime($r['fecha_entrega']); ?>
                 <tr<?= $r['fecha_entrega'] === date('Y-m-d') ? ' class="table-info"' : '' ?>>
                     <td class="text-nowrap">
-                        <div class="fw-bold text-slate-800"><?= $dias[(int)date('w', $ts)] ?> <?= date('d/m', $ts) ?></div>
-                        <div class="small text-muted"><?= date('Y', $ts) ?><?= $r['hora'] ? ' · <i class="bi bi-clock me-0.5"></i>' . e(substr($r['hora'], 0, 5)) : '' ?></div>
+                        <div class="fw-bold text-slate-800 d-inline-flex align-items-center gap-1.5"><i class="bi bi-calendar-event text-emerald-600"></i><?= $dias[(int)date('w', $ts)] ?> <?= date('d/m', $ts) ?></div>
+                        <div class="small text-muted ps-4"><?= date('Y', $ts) ?><?= $r['hora'] ? ' · <span class="d-inline-flex align-items-center gap-1"><i class="bi bi-clock text-secondary"></i>' . e(substr($r['hora'], 0, 5)) . '</span>' : '' ?></div>
                     </td>
                     <td>
                         <div class="fw-bold text-slate-900"><?= e($r['sector']) ?></div>

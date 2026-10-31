@@ -46,7 +46,7 @@ require __DIR__ . '/layout/header.php';
             <?php if (!$res['filas']): ?><tr><td colspan="6"><div class="empty"><i class="bi bi-shield-check"></i>Sin actividad en este periodo.</div></td></tr><?php endif; ?>
             <?php foreach ($res['filas'] as $r): ?>
                 <tr>
-                    <td class="ps-3 small text-nowrap"><?= e(fecha_corta($r['creado_en'], true)) ?></td>
+                    <td class="ps-3 small text-nowrap"><span class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-calendar3 text-emerald-600"></i><?= e(fecha_corta($r['creado_en'], true)) ?></span></td>
                     <td class="small"><?= e($r['usuario'] ?? 'Sistema') ?></td>
                     <td><span class="badge text-bg-<?= $colores[$r['accion']] ?? 'light border' ?>"><?= e($r['accion']) ?></span></td>
                     <td class="small"><?= e($r['entidad']) ?><?= $r['entidad_id'] ? ' #' . (int)$r['entidad_id'] : '' ?></td>

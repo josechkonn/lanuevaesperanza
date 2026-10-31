@@ -158,8 +158,8 @@ require __DIR__ . '/layout/header.php';
                     <td><div class="fw-semibold"><?= e($r['nombre']) ?><?= $yo ? ' <span class="badge text-bg-primary">Tú</span>' : '' ?></div><div class="small text-secondary"><?= e($r['email']) ?></div></td>
                     <td><span class="badge text-bg-light border"><?= e(ROLES[$r['rol']]) ?></span></td>
                     <td><?= $r['activo'] ? '<span class="badge text-bg-success">Activo</span>' : '<span class="badge text-bg-secondary">Inactivo</span>' ?></td>
-                    <td class="small"><?= e(fecha_corta($r['ultimo_login'], true)) ?></td>
-                    <td class="small"><?= e(fecha_corta($r['creado_en'])) ?></td>
+                    <td class="small text-nowrap"><?= $r['ultimo_login'] ? '<span class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-calendar3 text-emerald-600"></i>' . e(fecha_corta($r['ultimo_login'], true)) . '</span>' : '—' ?></td>
+                    <td class="small text-nowrap"><span class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-calendar3 text-slate-400"></i><?= e(fecha_corta($r['creado_en'])) ?></span></td>
                     <td class="text-end text-nowrap">
                         <button class="btn btn-sm btn-light border" title="Editar" data-modal-edit="#modalUsuario" data-title="Editar usuario"
                                 data-row='<?= e(json_encode(['id' => $r['id'], 'nombre' => $r['nombre'], 'email' => $r['email'], 'rol' => $r['rol'], 'activo' => $r['activo']])) ?>'><i class="bi bi-pencil"></i></button>

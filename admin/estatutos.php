@@ -99,7 +99,7 @@ require __DIR__ . '/layout/header.php';
                     <td><strong><?= e($r['titulo']) ?></strong><div class="small text-secondary"><?= e(mb_strimwidth((string)$r['contenido'], 0, 100, '…')) ?></div></td>
                     <td><?= $r['archivo_pdf'] ? '<a href="' . e(url($r['archivo_pdf'])) . '" target="_blank" class="btn btn-sm btn-outline-danger"><i class="bi bi-file-earmark-pdf"></i> Ver</a>' : '<span class="text-secondary">—</span>' ?></td>
                     <td><?= $r['publicado'] ? '<span class="badge text-bg-success">Publicado</span>' : '<span class="badge text-bg-warning">Oculto</span>' ?></td>
-                    <td class="small"><?= e(fecha_corta($r['actualizado_en'] ?: $r['creado_en'], true)) ?></td>
+                    <td class="small text-nowrap"><span class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-calendar3 text-emerald-600"></i><?= e(fecha_corta($r['actualizado_en'] ?: $r['creado_en'], true)) ?></span></td>
                     <?php if (puede_editar()): ?>
                     <td class="text-end text-nowrap">
                         <button class="btn btn-sm btn-light border" data-modal-edit="#modalEst" data-title="Editar estatuto" data-row='<?= e(json_encode($r)) ?>'><i class="bi bi-pencil"></i></button>

@@ -236,12 +236,12 @@ function render_filtros(array $f, string $extra = ''): string
 
     return '<div class="filtros card-body border-bottom p-3 p-md-4">'
         . '<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 pb-2 border-bottom">'
-        . '  <div class="d-flex flex-wrap align-items-center gap-1.5">'
-        . '    <span class="small fw-bold text-muted text-uppercase tracking-wider me-1" style="font-size:0.68rem"><i class="bi bi-clock-history me-1"></i>Periodo:</span>'
+        . '  <div class="d-flex flex-wrap align-items-center gap-2">'
+        . '    <span class="small fw-bold text-muted text-uppercase tracking-wider d-inline-flex align-items-center gap-1.5" style="font-size:0.68rem"><i class="bi bi-clock-history text-secondary"></i>Periodo:</span>'
         . '    <div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Rango rápido">' . $btns . '</div>'
         .      $flechas
         . '  </div>'
-        . '  <span class="badge bg-white text-dark border px-3 py-1.5 rounded-pill shadow-2xs font-monospace small"><i class="bi bi-calendar-check me-1.5 text-success"></i>' . e($f['etiqueta']) . '</span>'
+        . '  <span class="badge bg-white text-dark border px-3 py-1.5 rounded-pill shadow-2xs small d-inline-flex align-items-center gap-2"><i class="bi bi-calendar3 text-success"></i>' . e($f['etiqueta']) . '</span>'
         . '</div>'
         . '<form method="get" class="row g-2 align-items-end">' . $ocultos
         . '<div class="col-6 col-md-auto"><label class="form-label small mb-1 fw-semibold text-muted" style="font-size:0.72rem">Desde</label><input type="date" name="desde" value="' . e($desdeVal) . '" class="form-control form-control-sm"></div>'

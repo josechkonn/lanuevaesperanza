@@ -476,3 +476,11 @@ body { background: var(--lne-bg); font-family: var(--bs-body-font-family); }
 /* ---------- Login ---------- */
 .auth-wrap { min-height: 100vh; display: grid; place-items: center; padding: 1rem; background: radial-gradient(circle at 20% 20%, #0ea5e9 0, transparent 40%), radial-gradient(circle at 80% 80%, #22c55e 0, transparent 40%), #0f172a; }
 .auth-card { width: 100%; max-width: 410px; border-radius: 18px; border: 0; box-shadow: 0 25px 60px rgba(0, 0, 0, .35); }
+
+/* Utilidades de espaciado fino para iconos y fechas */
+.gap-1\.5 { gap: 0.375rem !important; }
+.me-1\.5 { margin-right: 0.375rem !important; }
+.ms-1\.5 { margin-left: 0.375rem !important; }
+.pe-1\.5 { padding-right: 0.375rem !important; }
+.ps-1\.5 { padding-left: 0.375rem !important; }
+

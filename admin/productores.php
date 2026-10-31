@@ -4,17 +4,17 @@ requiere_login();
 $pdo = db();
 
 const TIPOS_COM = [
-    'oferta_rubro'           => ['Oferta de rubros / cosecha', 'bi-basket2-fill', '#10b981', 'text-bg-success'],
-    'requerimiento_tecnico'  => ['Requerimiento técnico / logístico', 'bi-tools', '#f59e0b', 'text-bg-warning'],
-    'sugerencia_observacion' => ['Sugerencia u observación', 'bi-chat-dots-fill', '#0ea5e9', 'text-bg-info'],
-    'otro'                   => ['Otra consulta', 'bi-envelope-paper-fill', '#64748b', 'text-bg-secondary'],
+    'oferta_rubro'           => ['Oferta de rubros / cosecha', 'bi-basket2-fill', '#198754', 'bg-success-subtle text-success-emphasis border border-success-subtle'],
+    'requerimiento_tecnico'  => ['Requerimiento técnico / logístico', 'bi-tools', '#d97706', 'bg-warning-subtle text-warning-emphasis border border-warning-subtle'],
+    'sugerencia_observacion' => ['Sugerencia u observación', 'bi-chat-dots-fill', '#0dcaf0', 'bg-info-subtle text-info-emphasis border border-info-subtle'],
+    'otro'                   => ['Otra consulta', 'bi-envelope-paper-fill', '#6c757d', 'bg-secondary-subtle text-secondary-emphasis border border-secondary-subtle'],
 ];
 
 const ESTADOS_COM = [
-    'pendiente'   => ['Pendiente', 'warning'],
-    'en_revision' => ['En revisión', 'info'],
-    'atendido'    => ['Atendido', 'success'],
-    'archivado'   => ['Archivado', 'secondary'],
+    'pendiente'   => ['Pendiente', 'warning', 'bg-warning-subtle text-warning-emphasis border border-warning-subtle'],
+    'en_revision' => ['En revisión', 'info', 'bg-info-subtle text-info-emphasis border border-info-subtle'],
+    'atendido'    => ['Atendido', 'success', 'bg-success-subtle text-success-emphasis border border-success-subtle'],
+    'archivado'   => ['Archivado', 'secondary', 'bg-secondary-subtle text-secondary-emphasis border border-secondary-subtle'],
 ];
 
 // Procesamiento de acciones POST
@@ -97,7 +97,7 @@ $res = paginar_cursor([
     'orden'  => 'DESC',
 ]);
 
-// Resumen de KPIs
+// Resumen de KPIs (totales globales para métricas)
 $kpiSql = "SELECT
     COUNT(*) AS total,
     SUM(estado = 'pendiente') AS pendientes,
@@ -112,11 +112,11 @@ $qsActual = qs();
 
 ob_start(); ?>
 <div class="col-12 col-md-3">
-    <label class="form-label small mb-0">Buscar</label>
+    <label class="form-label small mb-1 fw-semibold text-muted" style="font-size:0.72rem">Buscar</label>
     <input type="search" name="q" value="<?= e($q) ?>" class="form-control form-control-sm" placeholder="Nombre, sector, teléfono...">
 </div>
 <div class="col-6 col-md-auto">
-    <label class="form-label small mb-0">Tipo de Gestión</label>
+    <label class="form-label small mb-1 fw-semibold text-muted" style="font-size:0.72rem">Tipo de Gestión</label>
     <select name="tipo" class="form-select form-select-sm">
         <option value="">Todos los tipos</option>
         <?php foreach (TIPOS_COM as $k => [$nom]): ?>
@@ -125,7 +125,7 @@ ob_start(); ?>
     </select>
 </div>
 <div class="col-6 col-md-auto">
-    <label class="form-label small mb-0">Estado</label>
+    <label class="form-label small mb-1 fw-semibold text-muted" style="font-size:0.72rem">Estado</label>
     <select name="estado" class="form-select form-select-sm">
         <option value="">Todos los estados</option>
         <?php foreach (ESTADOS_COM as $k => [$nom]): ?>
@@ -138,95 +138,153 @@ ob_start(); ?>
 require __DIR__ . '/layout/header.php';
 ?>
 
-<!-- KPIs superiores -->
+<!-- KPIs superiores centrados e interactivos -->
 <div class="row g-3 mb-4">
+    <!-- Total -->
+    <?php $isSelTotal = ($tipoF === '' && $estF === ''); ?>
     <div class="col-6 col-xl-3">
-        <div class="card kpi h-100">
-            <span class="kpi-icon" style="background:#e0f2fe;color:#0369a1"><i class="bi bi-inbox-fill"></i></span>
-            <div><div class="kpi-value"><?= (int)($kpi['total'] ?? 0) ?></div><div class="kpi-label">Comunicaciones totales</div></div>
-        </div>
+        <a class="card kpi-card-centered text-decoration-none h-100 <?= $isSelTotal ? 'kpi-selected' : '' ?>" href="<?= e(qs(['tipo' => null, 'estado' => null, 'cursor' => null, 'p' => null])) ?>">
+            <div class="card-body p-3 p-xl-4 text-center d-flex flex-column align-items-center justify-content-center">
+                <div class="kpi-icon-pill mb-2.5" style="background: #e0f2fe; color: #0284c7;">
+                    <i class="bi bi-inbox-fill"></i>
+                </div>
+                <div class="kpi-centered-number mb-1"><?= (int)($kpi['total'] ?? 0) ?></div>
+                <div class="kpi-status-title fw-bold">Comunicaciones totales</div>
+                <div class="kpi-sub-bolsas small text-slate-500 mt-1">
+                    Historial registrado
+                </div>
+            </div>
+        </a>
     </div>
+
+    <!-- Pendientes -->
+    <?php $isSelPend = ($estF === 'pendiente'); ?>
     <div class="col-6 col-xl-3">
-        <div class="card kpi h-100">
-            <span class="kpi-icon" style="background:#fef3c7;color:#b45309"><i class="bi bi-clock-history"></i></span>
-            <div><div class="kpi-value"><?= (int)($kpi['pendientes'] ?? 0) ?></div><div class="kpi-label">Pendientes por responder</div></div>
-        </div>
+        <a class="card kpi-card-centered text-decoration-none h-100 <?= $isSelPend ? 'kpi-selected' : '' ?>" href="<?= e(qs(['estado' => $isSelPend ? null : 'pendiente', 'cursor' => null, 'p' => null])) ?>">
+            <div class="card-body p-3 p-xl-4 text-center d-flex flex-column align-items-center justify-content-center">
+                <div class="kpi-icon-pill mb-2.5" style="background: #fef3c7; color: #d97706;">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+                <div class="kpi-centered-number mb-1"><?= (int)($kpi['pendientes'] ?? 0) ?></div>
+                <div class="kpi-status-title fw-bold">Pendientes por responder</div>
+                <div class="kpi-sub-bolsas small text-slate-500 mt-1">
+                    <?= $isSelPend ? '<span class="text-amber-700 fw-bold"><i class="bi bi-funnel-fill me-1"></i>Filtro activo</span>' : 'Requieren atención' ?>
+                </div>
+            </div>
+        </a>
     </div>
+
+    <!-- Ofertas de cosecha -->
+    <?php $isSelOferta = ($tipoF === 'oferta_rubro'); ?>
     <div class="col-6 col-xl-3">
-        <div class="card kpi h-100">
-            <span class="kpi-icon" style="background:#dcfce7;color:#15803d"><i class="bi bi-basket2-fill"></i></span>
-            <div><div class="kpi-value"><?= (int)($kpi['ofertas'] ?? 0) ?></div><div class="kpi-label">Ofertas de rubros / cosecha</div></div>
-        </div>
+        <a class="card kpi-card-centered text-decoration-none h-100 <?= $isSelOferta ? 'kpi-selected' : '' ?>" href="<?= e(qs(['tipo' => $isSelOferta ? null : 'oferta_rubro', 'cursor' => null, 'p' => null])) ?>">
+            <div class="card-body p-3 p-xl-4 text-center d-flex flex-column align-items-center justify-content-center">
+                <div class="kpi-icon-pill mb-2.5" style="background: #ecfdf5; color: #059669;">
+                    <i class="bi bi-basket2-fill"></i>
+                </div>
+                <div class="kpi-centered-number mb-1"><?= (int)($kpi['ofertas'] ?? 0) ?></div>
+                <div class="kpi-status-title fw-bold">Ofertas de rubros</div>
+                <div class="kpi-sub-bolsas small text-slate-500 mt-1">
+                    <?= $isSelOferta ? '<span class="text-success fw-bold"><i class="bi bi-funnel-fill me-1"></i>Filtro activo</span>' : 'Arrime y cosechas' ?>
+                </div>
+            </div>
+        </a>
     </div>
+
+    <!-- Requerimientos técnicos -->
+    <?php $isSelTec = ($tipoF === 'requerimiento_tecnico'); ?>
     <div class="col-6 col-xl-3">
-        <div class="card kpi h-100">
-            <span class="kpi-icon" style="background:#ede9fe;color:#6d28d9"><i class="bi bi-tools"></i></span>
-            <div><div class="kpi-value"><?= (int)($kpi['tecnicos'] ?? 0) ?></div><div class="kpi-label">Requerimientos técnicos</div></div>
-        </div>
+        <a class="card kpi-card-centered text-decoration-none h-100 <?= $isSelTec ? 'kpi-selected' : '' ?>" href="<?= e(qs(['tipo' => $isSelTec ? null : 'requerimiento_tecnico', 'cursor' => null, 'p' => null])) ?>">
+            <div class="card-body p-3 p-xl-4 text-center d-flex flex-column align-items-center justify-content-center">
+                <div class="kpi-icon-pill mb-2.5" style="background: #ede9fe; color: #7c3aed;">
+                    <i class="bi bi-tools"></i>
+                </div>
+                <div class="kpi-centered-number mb-1"><?= (int)($kpi['tecnicos'] ?? 0) ?></div>
+                <div class="kpi-status-title fw-bold">Requerimientos técnicos</div>
+                <div class="kpi-sub-bolsas small text-slate-500 mt-1">
+                    <?= $isSelTec ? '<span class="text-purple-700 fw-bold"><i class="bi bi-funnel-fill me-1"></i>Filtro activo</span>' : 'Soporte y logística' ?>
+                </div>
+            </div>
+        </a>
     </div>
 </div>
 
-<div class="card">
-    <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 py-3">
+<div class="card shadow-sm border" style="border-color: #e2e8f0; border-radius: 16px; overflow: hidden;">
+    <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2 py-3 px-3 px-md-4 border-bottom">
         <div>
-            <h2 class="h6 fw-bold mb-0">Comunicaciones e Intercambio con Productores</h2>
-            <small class="text-secondary">Cumplimiento del <strong>Literal G del Objeto</strong> y los derechos estatutarios del productor comunal.</small>
+            <h2 class="h6 fw-bold mb-0 text-slate-800">Comunicaciones e Intercambio con Productores</h2>
+            <small class="text-slate-500">Cumplimiento del <strong>Literal G del Objeto</strong> y los derechos estatutarios del productor comunal.</small>
         </div>
     </div>
 
     <?= render_filtros($f, $extra) ?>
 
     <div class="table-responsive">
-        <table class="table table-hover">
+        <table class="table table-hover align-middle mb-0">
             <thead>
                 <tr>
-                    <th>Fecha</th>
+                    <th class="ps-3 ps-md-4">Fecha</th>
                     <th>Productor / Sector</th>
                     <th>Tipo</th>
                     <th>Asunto y Mensaje</th>
                     <th>WhatsApp</th>
-                    <th>Estado</th>
-                    <?php if (puede_editar()): ?><th class="text-end">Acciones</th><?php endif; ?>
+                    <th style="min-width: 145px;">Estado</th>
+                    <?php if (puede_editar()): ?><th class="text-end pe-3 pe-md-4" style="min-width: 100px;">Acciones</th><?php endif; ?>
                 </tr>
             </thead>
             <tbody>
             <?php if (!$res['filas']): ?>
                 <tr>
-                    <td colspan="7"><div class="empty"><i class="bi bi-chat-square-text"></i>No hay comunicaciones registradas con estos filtros.</div></td>
+                    <td colspan="7" class="py-5">
+                        <div class="empty text-center py-4">
+                            <i class="bi bi-chat-square-text fs-2 text-slate-400 d-block mb-2"></i>
+                            <div class="fw-semibold text-slate-700">No hay comunicaciones registradas con estos filtros.</div>
+                        </div>
+                    </td>
                 </tr>
             <?php endif; ?>
 
             <?php foreach ($res['filas'] as $r):
-                $tipoInfo = TIPOS_COM[$r['tipo']] ?? ['Desconocido', 'bi-question', '#64748b', 'text-bg-secondary'];
-                $estInfo = ESTADOS_COM[$r['estado']] ?? ['Desconocido', 'secondary'];
+                $tipoInfo = TIPOS_COM[$r['tipo']] ?? ['Desconocido', 'bi-question', '#64748b', 'bg-slate-100 text-slate-700 border border-slate-200'];
+                $estInfo = ESTADOS_COM[$r['estado']] ?? ['Desconocido', 'secondary', 'bg-secondary-subtle text-secondary-emphasis border border-secondary-subtle'];
                 $telLimpio = preg_replace('/[^0-9]/', '', $r['telefono']);
+                $ts = strtotime($r['creado_en']);
                 // Mensaje sugerido para responder por WhatsApp
                 $msgWa = "Hola " . $r['nombre'] . ", le saludamos de La Nueva Esperanza (EPSDC). Con respecto a su comunicación sobre '" . $r['asunto'] . "': ";
                 $linkWa = "https://wa.me/" . $telLimpio . "?text=" . urlencode($msgWa);
             ?>
                 <tr>
-                    <td class="small text-nowrap"><?= e(fecha_corta($r['creado_en'], true)) ?></td>
-                    <td>
-                        <div class="fw-bold"><?= e($r['nombre']) ?></div>
-                        <div class="small text-secondary"><i class="bi bi-geo-alt"></i> <?= e($r['sector_comunidad']) ?></div>
+                    <td class="text-nowrap ps-3 ps-md-4">
+                        <div class="fw-semibold text-slate-800 d-inline-flex align-items-center" style="font-size: 0.82rem;">
+                            <i class="bi bi-calendar3 text-success me-2"></i><?= date('d/m/Y', $ts) ?>
+                        </div>
+                        <div class="small text-muted d-inline-flex align-items-center ps-4" style="font-size: 0.72rem;">
+                            <i class="bi bi-clock text-secondary me-1.5"></i><?= date('H:i', $ts) ?>
+                        </div>
                     </td>
                     <td>
-                        <span class="badge <?= $tipoInfo[3] ?> d-inline-flex align-items-center gap-1">
-                            <i class="bi <?= $tipoInfo[1] ?>"></i> <?= e($tipoInfo[0]) ?>
+                        <div class="fw-bold text-slate-900"><?= e($r['nombre']) ?></div>
+                        <div class="small text-muted d-inline-flex align-items-center mt-0.5">
+                            <i class="bi bi-geo-alt text-danger me-1.5"></i><?= e($r['sector_comunidad']) ?>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge <?= $tipoInfo[3] ?> rounded-pill px-2.5 py-1 d-inline-flex align-items-center fw-medium" style="font-size: 0.74rem;">
+                            <i class="bi <?= $tipoInfo[1] ?> me-1.5"></i><?= e($tipoInfo[0]) ?>
                         </span>
                     </td>
-                    <td style="max-width: 300px;">
-                        <div class="fw-semibold text-truncate"><?= e($r['asunto']) ?></div>
-                        <div class="small text-secondary text-truncate"><?= e($r['mensaje']) ?></div>
+                    <td style="max-width: 320px;">
+                        <div class="fw-semibold text-slate-800 text-truncate"><?= e($r['asunto']) ?></div>
+                        <div class="small text-muted text-truncate"><?= e($r['mensaje']) ?></div>
                         <?php if ($r['adjunto']): ?>
-                            <a href="<?= e(url($r['adjunto'])) ?>" target="_blank" class="badge text-bg-light border text-decoration-none mt-1">
-                                <i class="bi bi-paperclip"></i> Ver archivo adjunto
+                            <a href="<?= e(url($r['adjunto'])) ?>" target="_blank" class="badge bg-light text-dark border text-decoration-none mt-1 d-inline-flex align-items-center py-1 px-2.5 rounded-pill shadow-2xs">
+                                <i class="bi bi-paperclip text-secondary me-1.5"></i>Ver adjunto
                             </a>
                         <?php endif; ?>
                     </td>
                     <td class="text-nowrap">
-                        <a href="<?= e($linkWa) ?>" target="_blank" class="btn btn-sm btn-outline-success">
-                            <i class="bi bi-whatsapp"></i> <?= e($r['telefono']) ?>
+                        <a href="<?= e($linkWa) ?>" target="_blank" class="btn btn-sm btn-outline-success rounded-pill d-inline-flex align-items-center px-2.5 py-1 fw-semibold shadow-2xs" style="font-size: 0.75rem;">
+                            <i class="bi bi-whatsapp me-1.5"></i><?= e($r['telefono']) ?>
                         </a>
                     </td>
                     <td>
@@ -236,27 +294,27 @@ require __DIR__ . '/layout/header.php';
                                 <input type="hidden" name="accion" value="estado_rapido">
                                 <input type="hidden" name="id" value="<?= (int)$r['id'] ?>">
                                 <input type="hidden" name="_qs" value="<?= e($qsActual) ?>">
-                                <select name="estado" class="form-select form-select-sm border-0 bg-<?= $estInfo[1] ?>-subtle text-<?= $estInfo[1] ?>-emphasis fw-semibold" onchange="this.form.submit()">
+                                <select name="estado" class="form-select form-select-sm rounded-pill fw-semibold <?= $estInfo[2] ?>" style="font-size: 0.75rem; min-width: 135px; width: 135px; padding-top: 0.25rem; padding-bottom: 0.25rem;" onchange="this.form.submit()">
                                     <?php foreach (ESTADOS_COM as $k => [$nom]): ?>
                                         <option value="<?= $k ?>"<?= $r['estado'] === $k ? ' selected' : '' ?>><?= e($nom) ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </form>
                         <?php else: ?>
-                            <span class="badge text-bg-<?= $estInfo[1] ?>"><?= e($estInfo[0]) ?></span>
+                            <span class="badge rounded-pill <?= $estInfo[2] ?>"><?= e($estInfo[0]) ?></span>
                         <?php endif; ?>
                     </td>
                     <?php if (puede_editar()): ?>
-                    <td class="text-end text-nowrap">
-                        <button class="btn btn-sm btn-light border" title="Ver detalles y gestionar" data-bs-toggle="modal" data-bs-target="#modalDetalle<?= $r['id'] ?>">
-                            <i class="bi bi-eye"></i>
+                    <td class="text-end text-nowrap pe-3 pe-md-4">
+                        <button class="btn btn-sm btn-light border shadow-2xs me-1" title="Ver detalles y gestionar" data-bs-toggle="modal" data-bs-target="#modalDetalle<?= $r['id'] ?>">
+                            <i class="bi bi-eye text-slate-700"></i>
                         </button>
                         <form method="post" class="d-inline" data-confirm="¿Eliminar esta comunicación de <?= e($r['nombre']) ?>?">
                             <?= csrf_field() ?>
                             <input type="hidden" name="accion" value="eliminar">
                             <input type="hidden" name="id" value="<?= (int)$r['id'] ?>">
                             <input type="hidden" name="_qs" value="<?= e($qsActual) ?>">
-                            <button class="btn btn-sm btn-light border text-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-sm btn-light border shadow-2xs text-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
                         </form>
                     </td>
                     <?php endif; ?>
@@ -264,14 +322,14 @@ require __DIR__ . '/layout/header.php';
 
                 <!-- Modal de Detalle y Seguimiento -->
                 <div class="modal fade" id="modalDetalle<?= $r['id'] ?>" tabindex="-1">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title fw-bold">
-                                    <i class="bi <?= $tipoInfo[1] ?> me-1" style="color:<?= $tipoInfo[2] ?>"></i>
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content border-0 shadow-lg" style="border-radius: 18px; overflow: hidden;">
+                            <div class="modal-header bg-slate-50 border-bottom py-3 px-4">
+                                <h5 class="modal-title fw-bold text-slate-800 d-inline-flex align-items-center gap-2">
+                                    <i class="bi <?= $tipoInfo[1] ?>" style="color:<?= $tipoInfo[2] ?>"></i>
                                     Gestión de Comunicación #<?= $r['id'] ?>
                                 </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
                             </div>
                             <form method="post">
                                 <?= csrf_field() ?>
@@ -279,40 +337,46 @@ require __DIR__ . '/layout/header.php';
                                 <input type="hidden" name="id" value="<?= (int)$r['id'] ?>">
                                 <input type="hidden" name="_qs" value="<?= e($qsActual) ?>">
 
-                                <div class="modal-body">
+                                <div class="modal-body p-4">
                                     <div class="row g-3 mb-3">
                                         <div class="col-md-6">
-                                            <label class="form-label small text-secondary mb-0">Productor / Responsable</label>
-                                            <div class="fw-bold"><?= e($r['nombre']) ?></div>
+                                            <label class="form-label small text-slate-500 mb-0">Productor / Responsable</label>
+                                            <div class="fw-bold text-slate-900 fs-6"><?= e($r['nombre']) ?></div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="form-label small text-secondary mb-0">Sector / Ubicación de Finca</label>
-                                            <div class="fw-bold"><?= e($r['sector_comunidad']) ?></div>
+                                            <label class="form-label small text-slate-500 mb-0">Sector / Ubicación de Finca</label>
+                                            <div class="fw-bold text-slate-900 d-inline-flex align-items-center gap-1.5">
+                                                <i class="bi bi-geo-alt text-rose-500"></i> <?= e($r['sector_comunidad']) ?>
+                                            </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="form-label small text-secondary mb-0">Teléfono WhatsApp</label>
+                                            <label class="form-label small text-slate-500 mb-0">Teléfono WhatsApp</label>
                                             <div>
-                                                <a href="<?= e($linkWa) ?>" target="_blank" class="text-success fw-bold text-decoration-none">
-                                                    <i class="bi bi-whatsapp me-1"></i> <?= e($r['telefono']) ?> (Clic para responder en WhatsApp)
+                                                <a href="<?= e($linkWa) ?>" target="_blank" class="text-success fw-bold text-decoration-none d-inline-flex align-items-center gap-1.5">
+                                                    <i class="bi bi-whatsapp"></i> <?= e($r['telefono']) ?> <small class="text-muted fw-normal">(abrir chat)</small>
                                                 </a>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="form-label small text-secondary mb-0">Correo Electrónico</label>
-                                            <div><?= e($r['correo'] ?: 'No suministrado') ?></div>
+                                            <label class="form-label small text-slate-500 mb-0">Correo Electrónico</label>
+                                            <div class="text-slate-800"><?= e($r['correo'] ?: 'No suministrado') ?></div>
                                         </div>
                                     </div>
 
-                                    <div class="bg-light p-3 rounded mb-3">
-                                        <div class="small fw-bold text-dark mb-1">Asunto: <?= e($r['asunto']) ?></div>
-                                        <div class="small text-secondary mb-2">Enviado el: <?= fecha_corta($r['creado_en'], true) ?></div>
-                                        <hr class="my-2">
-                                        <div style="white-space: pre-line;" class="text-dark"><?= e($r['mensaje']) ?></div>
+                                    <div class="bg-slate-50 border p-3.5 rounded-3 mb-3" style="border-color: #e2e8f0 !important;">
+                                        <div class="small fw-bold text-slate-900 mb-1 d-flex align-items-center gap-1.5">
+                                            <i class="bi bi-chat-left-quote-fill text-emerald-600"></i> Asunto: <?= e($r['asunto']) ?>
+                                        </div>
+                                        <div class="small text-slate-400 mb-2.5 d-inline-flex align-items-center gap-1.5">
+                                            <i class="bi bi-calendar3 text-slate-400"></i> Enviado el: <?= fecha_corta($r['creado_en'], true) ?>
+                                        </div>
+                                        <hr class="my-2 border-slate-200">
+                                        <div style="white-space: pre-line;" class="text-slate-800 leading-relaxed"><?= e($r['mensaje']) ?></div>
                                         <?php if ($r['adjunto']): ?>
                                             <div class="mt-3 pt-2 border-top">
-                                                <div class="small fw-bold mb-1">Archivo / Evidencia adjunta:</div>
-                                                <a href="<?= e(url($r['adjunto'])) ?>" target="_blank" class="btn btn-sm btn-outline-primary">
-                                                    <i class="bi bi-box-arrow-up-right me-1"></i> Abrir archivo / imagen adjunta
+                                                <div class="small fw-bold text-slate-700 mb-1.5">Archivo / Evidencia adjunta:</div>
+                                                <a href="<?= e(url($r['adjunto'])) ?>" target="_blank" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1.5 shadow-2xs">
+                                                    <i class="bi bi-box-arrow-up-right"></i> Abrir archivo / imagen adjunta
                                                 </a>
                                             </div>
                                         <?php endif; ?>
@@ -320,26 +384,28 @@ require __DIR__ . '/layout/header.php';
 
                                     <div class="row g-3">
                                         <div class="col-md-6">
-                                            <label class="form-label fw-bold">Estado del Seguimiento *</label>
-                                            <select name="estado" class="form-select">
+                                            <label class="form-label fw-bold text-slate-800">Estado del Seguimiento *</label>
+                                            <select name="estado" class="form-select shadow-none">
                                                 <?php foreach (ESTADOS_COM as $k => [$nom]): ?>
                                                     <option value="<?= $k ?>"<?= $r['estado'] === $k ? ' selected' : '' ?>><?= e($nom) ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
                                         <div class="col-12">
-                                            <label class="form-label fw-bold">Respuesta interna / Notas de resolución (EPSDC)</label>
-                                            <textarea name="respuesta_interna" rows="3" class="form-control" placeholder="Escriba aquí los acuerdos técnicos tomados, fechas de acopio pactadas o respuesta dada al productor..."><?= e($r['respuesta_interna']) ?></textarea>
-                                            <div class="form-text small">Estas notas son de control interno de la directiva de la EPSDC.</div>
+                                            <label class="form-label fw-bold text-slate-800">Respuesta interna / Notas de resolución (EPSDC)</label>
+                                            <textarea name="respuesta_interna" rows="3" class="form-control shadow-none" placeholder="Escriba aquí los acuerdos técnicos tomados, fechas de acopio pactadas o respuesta dada al productor..."><?= e($r['respuesta_interna']) ?></textarea>
+                                            <div class="form-text small text-slate-500">Estas notas son de control interno de la directiva de la EPSDC.</div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    <a href="<?= e($linkWa) ?>" target="_blank" class="btn btn-success me-auto">
-                                        <i class="bi bi-whatsapp me-1"></i> Abrir Chat en WhatsApp
+                                <div class="modal-footer bg-slate-50 border-top py-2.5 px-4">
+                                    <a href="<?= e($linkWa) ?>" target="_blank" class="btn btn-success me-auto d-inline-flex align-items-center gap-1.5">
+                                        <i class="bi bi-whatsapp"></i> Abrir Chat en WhatsApp
                                     </a>
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary">Guardar Seguimiento</button>
+                                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary d-inline-flex align-items-center gap-1.5">
+                                        <i class="bi bi-check2"></i> Guardar Seguimiento
+                                    </button>
                                 </div>
                             </form>
                         </div>
