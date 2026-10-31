@@ -120,7 +120,7 @@ $currentPath = basename($_SERVER['PHP_SELF']);
                 <div class="flex items-center justify-between h-20 gap-4">
                     
                     <!-- Logo & Brand -->
-                    <a href="<?= e(url('index.php')) ?>" class="group flex items-center gap-3 shrink-0 transition-opacity hover:opacity-90">
+                    <a href="<?= e(url('')) ?>" class="group flex items-center gap-3 shrink-0 transition-opacity hover:opacity-90">
                         <?php if ($logo): ?>
                             <img src="<?= e(url($logo)) ?>" alt="<?= e($org) ?>" class="w-11 h-11 rounded-xl object-contain bg-white shadow-xs p-1 border border-slate-200 shrink-0">
                         <?php else: ?>
@@ -142,10 +142,10 @@ $currentPath = basename($_SERVER['PHP_SELF']);
 
                     <!-- Desktop Navigation Links (Navegación organizada en categorías esenciales) -->
                     <nav class="hidden lg:flex items-center gap-1 xl:gap-2 text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                        <a href="<?= e(url('index.php#combos')) ?>" class="px-3.5 py-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all whitespace-nowrap flex items-center gap-1.5">
+                        <a href="<?= e(url('#combos')) ?>" class="px-3.5 py-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all whitespace-nowrap flex items-center gap-1.5">
                             <i class="fa-solid fa-bag-shopping text-emerald-600"></i> Combos
                         </a>
-                        <a href="<?= e(url('index.php#entregas')) ?>" class="px-3.5 py-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all font-semibold flex items-center gap-1.5 whitespace-nowrap">
+                        <a href="<?= e(url('#entregas')) ?>" class="px-3.5 py-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-50 transition-all font-semibold flex items-center gap-1.5 whitespace-nowrap">
                             <i class="fa-solid fa-truck-fast text-amber-600"></i> Entregas
                         </a>
                         <a href="<?= e(url('rubros.php')) ?>" class="px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 whitespace-nowrap <?= $currentPath === 'rubros.php' ? 'text-slate-900 bg-slate-100 font-bold' : 'hover:text-slate-900 hover:bg-slate-50' ?>">
@@ -163,7 +163,7 @@ $currentPath = basename($_SERVER['PHP_SELF']);
 
                     <!-- Desktop Actions -->
                     <div class="hidden sm:flex items-center gap-2.5 shrink-0">
-                        <a href="<?= e(url('index.php#productores')) ?>" class="bg-emerald-800 hover:bg-emerald-900 text-white font-bold px-4 py-2 rounded-xl shadow-xs transition-all flex items-center gap-1.5 text-xs uppercase tracking-wider active:scale-95 whitespace-nowrap">
+                        <a href="<?= e(url('#productores')) ?>" class="bg-emerald-800 hover:bg-emerald-900 text-white font-bold px-4 py-2 rounded-xl shadow-xs transition-all flex items-center gap-1.5 text-xs uppercase tracking-wider active:scale-95 whitespace-nowrap">
                             <i class="fa-solid fa-handshake-angle text-emerald-300"></i> Portal UPF
                         </a>
                     </div>
@@ -179,13 +179,13 @@ $currentPath = basename($_SERVER['PHP_SELF']);
 
             <!-- Mobile Navigation Menu -->
             <div id="mobileMenu" class="hidden lg:hidden bg-white/95 backdrop-blur-md border-b border-slate-200 px-5 pt-3 pb-6 space-y-2.5 shadow-lg">
-                <a href="<?= e(url('index.php')) ?>" onclick="toggleMobileMenu()" class="flex items-center gap-3 font-bold text-slate-700 hover:text-agro-600 p-2.5 rounded-xl hover:bg-slate-50 <?= $currentPath === 'index.php' ? 'bg-agro-50 text-agro-800' : '' ?>">
+                <a href="<?= e(url('')) ?>" onclick="toggleMobileMenu()" class="flex items-center gap-3 font-bold text-slate-700 hover:text-agro-600 p-2.5 rounded-xl hover:bg-slate-50 <?= ($currentPath === '' || $currentPath === 'index.php') ? 'bg-agro-50 text-agro-800' : '' ?>">
                     <i class="fa-solid fa-house w-5 text-agro-600"></i> Inicio
                 </a>
-                <a href="<?= e(url('index.php#combos')) ?>" onclick="toggleMobileMenu()" class="flex items-center gap-3 font-bold text-slate-700 hover:text-agro-600 p-2.5 rounded-xl hover:bg-slate-50">
+                <a href="<?= e(url('#combos')) ?>" onclick="toggleMobileMenu()" class="flex items-center gap-3 font-bold text-slate-700 hover:text-agro-600 p-2.5 rounded-xl hover:bg-slate-50">
                     <i class="fa-solid fa-bag-shopping w-5 text-agro-600"></i> Bolsas y Combos Agrícolas
                 </a>
-                <a href="<?= e(url('index.php#entregas')) ?>" onclick="toggleMobileMenu()" class="flex items-center gap-3 font-extrabold text-amber-700 hover:text-amber-800 p-2.5 rounded-xl bg-amber-50/50 hover:bg-amber-50">
+                <a href="<?= e(url('#entregas')) ?>" onclick="toggleMobileMenu()" class="flex items-center gap-3 font-extrabold text-amber-700 hover:text-amber-800 p-2.5 rounded-xl bg-amber-50/50 hover:bg-amber-50">
                     <i class="fa-solid fa-truck-fast w-5 text-amber-600"></i> Entregas de la Semana
                 </a>
                 <a href="<?= e(url('rubros.php')) ?>" onclick="toggleMobileMenu()" class="flex items-center gap-3 font-bold text-slate-700 hover:text-agro-600 p-2.5 rounded-xl hover:bg-slate-50 <?= $currentPath === 'rubros.php' ? 'bg-agro-50 text-agro-800' : '' ?>">
@@ -197,11 +197,11 @@ $currentPath = basename($_SERVER['PHP_SELF']);
                 <a href="<?= e(url('estatutos.php')) ?>" onclick="toggleMobileMenu()" class="flex items-center gap-3 font-bold text-slate-700 hover:text-agro-600 p-2.5 rounded-xl hover:bg-slate-50 <?= $currentPath === 'estatutos.php' ? 'bg-agro-50 text-agro-800' : '' ?>">
                     <i class="fa-solid fa-landmark w-5 text-amber-600"></i> Marco Comunal & Fondos 70/20/10
                 </a>
-                <a href="<?= e(url('index.php#productores')) ?>" onclick="toggleMobileMenu()" class="flex items-center gap-3 font-extrabold text-emerald-700 hover:text-emerald-800 p-2.5 rounded-xl bg-emerald-50/50 hover:bg-emerald-50">
+                <a href="<?= e(url('#productores')) ?>" onclick="toggleMobileMenu()" class="flex items-center gap-3 font-extrabold text-emerald-700 hover:text-emerald-800 p-2.5 rounded-xl bg-emerald-50/50 hover:bg-emerald-50">
                     <i class="fa-solid fa-handshake-angle w-5 text-emerald-600"></i> Portal de Productores y UPF
                 </a>
                 <div class="pt-3 flex flex-col sm:flex-row gap-2 border-t border-slate-100">
-                    <a href="<?= e(url('index.php#combos')) ?>" onclick="toggleMobileMenu()" class="flex-1 text-center bg-agro-600 hover:bg-agro-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-sm">Ver Combos y Precios</a>
+                    <a href="<?= e(url('#combos')) ?>" onclick="toggleMobileMenu()" class="flex-1 text-center bg-agro-600 hover:bg-agro-700 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-sm">Ver Combos y Precios</a>
                     <a href="<?= e(url('admin/login.php')) ?>" class="flex-1 text-center border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-bold py-2.5 rounded-xl text-xs">Panel Admin</a>
                 </div>
             </div>

@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enviar_comunicacion_p
         $idNuevo = (int)$pdo->lastInsertId();
         auditar('comunicacion_productor', 'comunicaciones_productores', $idNuevo, "$nombre ($tipo) - $asunto");
         flash('success', "¡Excelente, $nombre! Tu comunicación #$idNuevo ha sido registrada exitosamente. El equipo de la EPSDC se pondrá en contacto contigo.");
-        redirect(url('index.php#productores'));
+        redirect(url('#productores'));
     } catch (Throwable $ex) {
         $errorProductor = $ex->getMessage();
     }
@@ -882,27 +882,44 @@ require __DIR__ . '/includes/header.php';
                     </div>
 
                     <?php if ($pub['contenido'] && mb_strlen($pub['contenido']) > mb_strlen((string)$pub['resumen'])): ?>
-                        <button onclick="openPubModal('pub_<?= $pub['id'] ?>')" class="text-emerald-800 hover:text-emerald-950 font-bold text-xs flex items-center gap-1.5 pt-3 border-t border-stone-100">
+                        <button type="button" onclick="openPubModal('pub_<?= $pub['id'] ?>')" class="text-emerald-800 hover:text-emerald-950 font-bold text-xs flex items-center gap-1.5 pt-3 border-t border-stone-100 transition-colors">
                             <span>Leer comunicado completo</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </button>
-                        <!-- Modal Noticia -->
-                        <div id="pub_<?= $pub['id'] ?>" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-                            <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[85vh] overflow-y-auto">
-                                <button onclick="closePubModal('pub_<?= $pub['id'] ?>')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
-                                    <i class="fa-solid fa-xmark text-xl"></i>
-                                </button>
-                                <div class="text-[11px] text-slate-400 mb-2"><i class="fa-regular fa-calendar mr-1"></i><?= fecha_corta($pub['fecha_publicacion']) ?></div>
-                                <h3 class="font-serif text-2xl font-extrabold text-slate-900 mb-4"><?= e($pub['titulo']) ?></h3>
-                                <?php if ($pub['imagen']): ?>
-                                    <img src="<?= e(url($pub['imagen'])) ?>" alt="" class="w-full max-h-64 object-cover rounded-2xl mb-4 border border-stone-100">
-                                <?php endif; ?>
-                                <div class="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line"><?= e($pub['contenido']) ?></div>
-                            </div>
-                        </div>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
         </div>
+
+        <!-- Modales de Noticias Oficiales (Ubicados fuera del grid para garantizar cobertura total de viewport sin conflicto con transform) -->
+        <?php foreach ($publicacionesDB as $pub): ?>
+            <?php if ($pub['contenido'] && mb_strlen($pub['contenido']) > mb_strlen((string)$pub['resumen'])): ?>
+                <div id="pub_<?= $pub['id'] ?>" class="pub-modal fixed inset-0 z-[100] hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6" onclick="if(event.target === this) closePubModal('pub_<?= $pub['id'] ?>')">
+                    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl relative max-h-[88vh] overflow-y-auto border border-stone-200">
+                        <button type="button" onclick="closePubModal('pub_<?= $pub['id'] ?>')" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-stone-100 hover:bg-stone-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition-colors shadow-2xs" aria-label="Cerrar comunicado">
+                            <i class="fa-solid fa-xmark text-lg"></i>
+                        </button>
+                        <div class="text-[11px] font-bold text-emerald-800 uppercase tracking-wider mb-2 flex flex-wrap items-center gap-2">
+                            <span class="inline-block w-2 h-2 rounded-full bg-emerald-600"></span>
+                            <span>Comunicado Oficial</span>
+                            <span class="text-slate-400">• <i class="fa-regular fa-calendar mr-1"></i><?= fecha_corta($pub['fecha_publicacion']) ?></span>
+                            <?php if ($pub['autor']): ?>
+                                <span class="text-slate-400">• <i class="fa-regular fa-user mr-1"></i><?= e($pub['autor']) ?></span>
+                            <?php endif; ?>
+                        </div>
+                        <h3 class="font-serif text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4 leading-tight"><?= e($pub['titulo']) ?></h3>
+                        <?php if ($pub['imagen']): ?>
+                            <img src="<?= e(url($pub['imagen'])) ?>" alt="" class="w-full max-h-72 object-cover rounded-2xl mb-5 border border-stone-100 shadow-sm">
+                        <?php endif; ?>
+                        <div class="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line border-t border-stone-100 pt-4"><?= e($pub['contenido']) ?></div>
+                        <div class="mt-6 pt-4 border-t border-stone-100 flex justify-end">
+                            <button type="button" onclick="closePubModal('pub_<?= $pub['id'] ?>')" class="px-5 py-2.5 bg-stone-100 hover:bg-stone-200 text-slate-700 font-bold rounded-xl text-xs transition">
+                                Cerrar comunicado
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
 
     </div>
 </section>
@@ -990,13 +1007,29 @@ require __DIR__ . '/includes/header.php';
 
     function openPubModal(id) {
         const modal = document.getElementById(id);
-        if (modal) modal.classList.remove('hidden');
+        if (modal) {
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
     }
 
     function closePubModal(id) {
         const modal = document.getElementById(id);
-        if (modal) modal.classList.add('hidden');
+        if (modal) {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
     }
+
+    // Cerrar modal de noticias al presionar Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            document.querySelectorAll('.pub-modal:not(.hidden)').forEach(modal => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            });
+        }
+    });
 </script>
 
 <?php require __DIR__ . '/includes/footer.php'; ?>

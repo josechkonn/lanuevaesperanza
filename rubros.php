@@ -29,10 +29,10 @@ require __DIR__ . '/includes/header.php';
                 </p>
             </div>
             <div class="flex flex-col sm:flex-row md:flex-col gap-2 shrink-0">
-                <a href="<?= e(url('index.php#combos')) ?>" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-wider transition text-center shadow-xs active:scale-95">
+                <a href="<?= e(url('#combos')) ?>" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-5 py-3 rounded-xl text-xs uppercase tracking-wider transition text-center shadow-xs active:scale-95">
                     <i class="fa-solid fa-bag-shopping mr-1.5"></i> Ver Combos Disponibles
                 </a>
-                <a href="<?= e(url('index.php#productores')) ?>" class="bg-white/5 hover:bg-white/10 text-white font-medium px-5 py-3 rounded-xl text-xs uppercase tracking-wider transition text-center border border-white/15 active:scale-95">
+                <a href="<?= e(url('#productores')) ?>" class="bg-white/5 hover:bg-white/10 text-white font-medium px-5 py-3 rounded-xl text-xs uppercase tracking-wider transition text-center border border-white/15 active:scale-95">
                     <i class="fa-solid fa-handshake-angle mr-1.5"></i> Registrar Cosecha / UPF
                 </a>
             </div>

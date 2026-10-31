@@ -375,7 +375,7 @@ require __DIR__ . '/includes/header.php';
             </div>
 
             <div class="flex items-center gap-3 shrink-0 relative z-10 w-full sm:w-auto">
-                <a href="<?= e(url('index.php#productores')) ?>" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amberGold to-amber-500 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 transform active:scale-95">
+                <a href="<?= e(url('#productores')) ?>" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amberGold to-amber-500 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs uppercase tracking-wider transition-all duration-200 shadow-md hover:shadow-lg flex items-center justify-center gap-2 transform active:scale-95">
                     <i class="fa-solid fa-file-signature text-sm"></i>
                     <span>Registrar UPF Andina</span>
                 </a>
@@ -932,7 +932,7 @@ require __DIR__ . '/includes/header.php';
                     </div>
 
                     <div class="pt-4 border-t border-slate-100 mt-3">
-                        <a href="<?= e(url('index.php#productores')) ?>" class="w-full bg-slate-50 hover:bg-agro-700 hover:text-white hover:border-agro-700 border border-slate-200/80 text-slate-700 font-bold py-2.5 rounded-xl transition text-center text-xs flex items-center justify-center gap-2 shadow-2xs">
+                        <a href="<?= e(url('#productores')) ?>" class="w-full bg-slate-50 hover:bg-agro-700 hover:text-white hover:border-agro-700 border border-slate-200/80 text-slate-700 font-bold py-2.5 rounded-xl transition text-center text-xs flex items-center justify-center gap-2 shadow-2xs">
                             <i class="fa-solid fa-handshake-angle text-sm"></i> Contactar Productores
                         </a>
                     </div>

@@ -27,9 +27,9 @@
                 <div class="md:col-span-3 space-y-2.5">
                     <h4 class="text-white font-black uppercase tracking-wider text-[11px]">Páginas & Catálogos</h4>
                     <ul class="space-y-2">
-                        <li><a href="<?= e(url('index.php')) ?>" class="hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-house text-slate-500 text-[10px]"></i> Inicio</a></li>
-                        <li><a href="<?= e(url('index.php#combos')) ?>" class="hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-bag-shopping text-slate-500 text-[10px]"></i> Bolsas y Combos</a></li>
-                        <li><a href="<?= e(url('index.php#entregas')) ?>" class="hover:text-amber-300 transition text-amber-400 flex items-center gap-1.5"><i class="fa-solid fa-truck-fast text-[10px]"></i> Rutas de Entrega</a></li>
+                        <li><a href="<?= e(url('')) ?>" class="hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-house text-slate-500 text-[10px]"></i> Inicio</a></li>
+                        <li><a href="<?= e(url('#combos')) ?>" class="hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-bag-shopping text-slate-500 text-[10px]"></i> Bolsas y Combos</a></li>
+                        <li><a href="<?= e(url('#entregas')) ?>" class="hover:text-amber-300 transition text-amber-400 flex items-center gap-1.5"><i class="fa-solid fa-truck-fast text-[10px]"></i> Rutas de Entrega</a></li>
                         <li><a href="<?= e(url('rubros.php')) ?>" class="hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-carrot text-orange-400 text-[10px]"></i> Catálogo de Rubros & Especialidades</a></li>
                         <li><a href="<?= e(url('territorio.php')) ?>" class="hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-map-location-dot text-cyan-400 text-[10px]"></i> Territorio, Cuencas & Mapa</a></li>
                         <li><a href="<?= e(url('estatutos.php')) ?>" class="hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-landmark text-amber-400 text-[10px]"></i> Marco Comunal & Fondos</a></li>

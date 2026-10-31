@@ -143,7 +143,7 @@ require __DIR__ . '/includes/header.php';
                     </ul>
 
                     <div class="pt-6 mt-6 border-t border-emerald-800/60">
-                        <a href="<?= e(url('index.php#productores')) ?>" class="w-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold py-3.5 rounded-xl transition text-center text-xs flex items-center justify-center gap-2 uppercase tracking-wider shadow-sm active:scale-95">
+                        <a href="<?= e(url('#productores')) ?>" class="w-full bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold py-3.5 rounded-xl transition text-center text-xs flex items-center justify-center gap-2 uppercase tracking-wider shadow-sm active:scale-95">
                             <i class="fa-solid fa-file-signature"></i> Formulario de Registro UPF
                         </a>
                     </div>
