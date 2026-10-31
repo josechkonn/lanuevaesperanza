@@ -321,93 +321,159 @@ require __DIR__ . '/layout/header.php';
                 </tr>
 
                 <!-- Modal de Detalle y Seguimiento -->
-                <div class="modal fade" id="modalDetalle<?= $r['id'] ?>" tabindex="-1">
+                <div class="modal fade" id="modalDetalle<?= $r['id'] ?>" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content border-0 shadow-lg" style="border-radius: 18px; overflow: hidden;">
-                            <div class="modal-header bg-slate-50 border-bottom py-3 px-4">
-                                <h5 class="modal-title fw-bold text-slate-800 d-inline-flex align-items-center gap-2">
-                                    <i class="bi <?= $tipoInfo[1] ?>" style="color:<?= $tipoInfo[2] ?>"></i>
-                                    Gestión de Comunicación #<?= $r['id'] ?>
-                                </h5>
-                                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"></button>
+                        <div class="modal-content border-0 shadow-xl" style="border-radius: 20px; overflow: hidden; background: #ffffff;">
+                            
+                            <!-- Modal Header con estilo editorial y badge -->
+                            <div class="modal-header bg-white py-3.5 px-4 border-bottom d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="d-flex align-items-center justify-content-center rounded-circle flex-shrink-0" style="width: 44px; height: 44px; background: <?= $tipoInfo[2] ?>15; color: <?= $tipoInfo[2] ?>;">
+                                        <i class="bi <?= $tipoInfo[1] ?> fs-5"></i>
+                                    </div>
+                                    <div>
+                                        <div class="d-flex align-items-center gap-2 mb-0.5">
+                                            <h5 class="modal-title fw-bold text-slate-900 mb-0 fs-5">Gestión de Comunicación #<?= $r['id'] ?></h5>
+                                            <span class="badge <?= $tipoInfo[3] ?> rounded-pill px-2.5 py-1 text-xs fw-semibold">
+                                                <i class="bi <?= $tipoInfo[1] ?> me-1"></i><?= e($tipoInfo[0]) ?>
+                                            </span>
+                                        </div>
+                                        <div class="small text-slate-400 d-inline-flex align-items-center gap-2" style="font-size: 0.75rem;">
+                                            <span><i class="bi bi-calendar3 me-1 text-slate-400"></i><?= fecha_corta($r['creado_en'], true) ?></span>
+                                            <span>•</span>
+                                            <span class="text-slate-600 fw-medium">Soporte y Articulación Productiva (Literal G)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                             </div>
+
                             <form method="post">
                                 <?= csrf_field() ?>
                                 <input type="hidden" name="accion" value="actualizar">
                                 <input type="hidden" name="id" value="<?= (int)$r['id'] ?>">
                                 <input type="hidden" name="_qs" value="<?= e($qsActual) ?>">
 
-                                <div class="modal-body p-4">
-                                    <div class="row g-3 mb-3">
-                                        <div class="col-md-6">
-                                            <label class="form-label small text-slate-500 mb-0">Productor / Responsable</label>
-                                            <div class="fw-bold text-slate-900 fs-6"><?= e($r['nombre']) ?></div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label small text-slate-500 mb-0">Sector / Ubicación de Finca</label>
-                                            <div class="fw-bold text-slate-900 d-inline-flex align-items-center gap-1.5">
-                                                <i class="bi bi-geo-alt text-rose-500"></i> <?= e($r['sector_comunidad']) ?>
+                                <div class="modal-body p-4 bg-slate-50/50">
+                                    
+                                    <!-- Ficha de Contacto en Cuadrícula Moderna -->
+                                    <div class="row g-3 mb-4">
+                                        <div class="col-sm-6 col-md-3">
+                                            <div class="p-3 bg-white border rounded-3 shadow-2xs h-100" style="border-color: #e2e8f0;">
+                                                <div class="text-slate-400 small mb-1 d-flex align-items-center gap-1.5" style="font-size: 0.72rem;">
+                                                    <i class="bi bi-person-fill text-emerald-600"></i> Productor / Responsable
+                                                </div>
+                                                <div class="fw-bold text-slate-900 text-truncate" title="<?= e($r['nombre']) ?>"><?= e($r['nombre']) ?></div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label small text-slate-500 mb-0">Teléfono WhatsApp</label>
-                                            <div>
-                                                <a href="<?= e($linkWa) ?>" target="_blank" class="text-success fw-bold text-decoration-none d-inline-flex align-items-center gap-1.5">
-                                                    <i class="bi bi-whatsapp"></i> <?= e($r['telefono']) ?> <small class="text-muted fw-normal">(abrir chat)</small>
-                                                </a>
+
+                                        <div class="col-sm-6 col-md-3">
+                                            <div class="p-3 bg-white border rounded-3 shadow-2xs h-100" style="border-color: #e2e8f0;">
+                                                <div class="text-slate-400 small mb-1 d-flex align-items-center gap-1.5" style="font-size: 0.72rem;">
+                                                    <i class="bi bi-geo-alt-fill text-rose-500"></i> Sector / Finca
+                                                </div>
+                                                <div class="fw-bold text-slate-900 text-truncate" title="<?= e($r['sector_comunidad']) ?>"><?= e($r['sector_comunidad']) ?></div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label small text-slate-500 mb-0">Correo Electrónico</label>
-                                            <div class="text-slate-800"><?= e($r['correo'] ?: 'No suministrado') ?></div>
+
+                                        <div class="col-sm-6 col-md-3">
+                                            <div class="p-3 bg-white border rounded-3 shadow-2xs h-100" style="border-color: #e2e8f0;">
+                                                <div class="text-slate-400 small mb-1 d-flex align-items-center gap-1.5" style="font-size: 0.72rem;">
+                                                    <i class="bi bi-whatsapp text-success"></i> WhatsApp Oficial
+                                                </div>
+                                                <div>
+                                                    <a href="<?= e($linkWa) ?>" target="_blank" class="fw-bold text-success text-decoration-none d-inline-flex align-items-center gap-1 text-truncate" title="Abrir chat en WhatsApp">
+                                                        <?= e($r['telefono']) ?> <i class="bi bi-box-arrow-up-right" style="font-size: 0.65rem;"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6 col-md-3">
+                                            <div class="p-3 bg-white border rounded-3 shadow-2xs h-100" style="border-color: #e2e8f0;">
+                                                <div class="text-slate-400 small mb-1 d-flex align-items-center gap-1.5" style="font-size: 0.72rem;">
+                                                    <i class="bi bi-envelope-at text-primary"></i> Correo Electrónico
+                                                </div>
+                                                <div class="fw-bold text-slate-800 text-truncate" title="<?= e($r['correo'] ?: 'No suministrado') ?>"><?= e($r['correo'] ?: 'No suministrado') ?></div>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="bg-slate-50 border p-3.5 rounded-3 mb-3" style="border-color: #e2e8f0 !important;">
-                                        <div class="small fw-bold text-slate-900 mb-1 d-flex align-items-center gap-1.5">
-                                            <i class="bi bi-chat-left-quote-fill text-emerald-600"></i> Asunto: <?= e($r['asunto']) ?>
+                                    <!-- Mensaje del Productor -->
+                                    <div class="bg-white border rounded-3 p-4 mb-4 shadow-2xs" style="border-color: #e2e8f0;">
+                                        <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom" style="border-color: #f1f5f9;">
+                                            <div class="fw-bold text-slate-900 d-flex align-items-center gap-2">
+                                                <i class="bi bi-chat-quote-fill text-emerald-600 fs-5"></i>
+                                                <span><?= e($r['asunto']) ?></span>
+                                            </div>
+                                            <span class="text-slate-400 small" style="font-size: 0.72rem;">
+                                                <i class="bi bi-clock me-1"></i><?= fecha_corta($r['creado_en'], true) ?>
+                                            </span>
                                         </div>
-                                        <div class="small text-slate-400 mb-2.5 d-inline-flex align-items-center gap-1.5">
-                                            <i class="bi bi-calendar3 text-slate-400"></i> Enviado el: <?= fecha_corta($r['creado_en'], true) ?>
-                                        </div>
-                                        <hr class="my-2 border-slate-200">
-                                        <div style="white-space: pre-line;" class="text-slate-800 leading-relaxed"><?= e($r['mensaje']) ?></div>
+                                        <div class="text-slate-700 leading-relaxed" style="white-space: pre-line; font-size: 0.88rem;"><?= e($r['mensaje']) ?></div>
+                                        
                                         <?php if ($r['adjunto']): ?>
-                                            <div class="mt-3 pt-2 border-top">
-                                                <div class="small fw-bold text-slate-700 mb-1.5">Archivo / Evidencia adjunta:</div>
-                                                <a href="<?= e(url($r['adjunto'])) ?>" target="_blank" class="btn btn-sm btn-outline-primary d-inline-flex align-items-center gap-1.5 shadow-2xs">
-                                                    <i class="bi bi-box-arrow-up-right"></i> Abrir archivo / imagen adjunta
+                                            <div class="mt-3 pt-3 border-top d-flex align-items-center justify-content-between" style="border-color: #f1f5f9;">
+                                                <div class="small fw-semibold text-slate-700 d-flex align-items-center gap-1.5">
+                                                    <i class="bi bi-paperclip text-secondary fs-6"></i> Documento o fotografía adjunta
+                                                </div>
+                                                <a href="<?= e(url($r['adjunto'])) ?>" target="_blank" class="btn btn-xs btn-outline-primary rounded-pill px-3 py-1 fw-semibold">
+                                                    <i class="bi bi-box-arrow-up-right me-1"></i> Abrir archivo adjunto
                                                 </a>
                                             </div>
                                         <?php endif; ?>
                                     </div>
 
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
-                                            <label class="form-label fw-bold text-slate-800">Estado del Seguimiento *</label>
-                                            <select name="estado" class="form-select shadow-none">
-                                                <?php foreach (ESTADOS_COM as $k => [$nom]): ?>
-                                                    <option value="<?= $k ?>"<?= $r['estado'] === $k ? ' selected' : '' ?>><?= e($nom) ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                        <div class="col-12">
-                                            <label class="form-label fw-bold text-slate-800">Respuesta interna / Notas de resolución (EPSDC)</label>
-                                            <textarea name="respuesta_interna" rows="3" class="form-control shadow-none" placeholder="Escriba aquí los acuerdos técnicos tomados, fechas de acopio pactadas o respuesta dada al productor..."><?= e($r['respuesta_interna']) ?></textarea>
-                                            <div class="form-text small text-slate-500">Estas notas son de control interno de la directiva de la EPSDC.</div>
+                                    <!-- Formulario de Seguimiento y Notas Internas -->
+                                    <div class="bg-white border rounded-3 p-4 shadow-2xs" style="border-color: #e2e8f0;">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-bold text-slate-800 mb-1.5 d-flex align-items-center gap-1.5" style="font-size: 0.84rem;">
+                                                    <i class="bi bi-flag-fill text-primary"></i> Estado de la Solicitud / Atención *
+                                                </label>
+                                                <select name="estado" class="form-select shadow-none" style="border-color: #e2e8f0; border-radius: 10px;">
+                                                    <?php foreach (ESTADOS_COM as $k => [$nom]): ?>
+                                                        <option value="<?= $k ?>"<?= $r['estado'] === $k ? ' selected' : '' ?>><?= e($nom) ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label class="form-label fw-bold text-slate-800 mb-1.5 d-flex align-items-center gap-1.5" style="font-size: 0.84rem;">
+                                                    <i class="bi bi-person-check-fill text-success"></i> Responsable de Atención
+                                                </label>
+                                                <input type="text" class="form-control bg-slate-50 shadow-none text-slate-600" value="<?= e($r['atendido_nombre'] ?? $u['nombre']) ?>" readonly style="border-color: #e2e8f0; border-radius: 10px;">
+                                            </div>
+
+                                            <div class="col-12 mt-3">
+                                                <label class="form-label fw-bold text-slate-800 mb-1.5 d-flex align-items-center gap-1.5" style="font-size: 0.84rem;">
+                                                    <i class="bi bi-pencil-square text-secondary"></i> Respuesta interna y acuerdos pactados (EPSDC)
+                                                </label>
+                                                <textarea name="respuesta_interna" rows="3" class="form-control shadow-none" style="border-color: #e2e8f0; border-radius: 10px; font-size: 0.875rem;" placeholder="Escriba aquí los acuerdos técnicos tomados, fechas de acopio pactadas en finca o respuesta telefónica dada al productor..."><?= e($r['respuesta_interna']) ?></textarea>
+                                                <div class="form-text small text-slate-400 mt-1" style="font-size: 0.74rem;">Estas notas quedan registradas en la auditoría interna de la junta directiva.</div>
+                                            </div>
                                         </div>
                                     </div>
+
                                 </div>
-                                <div class="modal-footer bg-slate-50 border-top py-2.5 px-4">
-                                    <a href="<?= e($linkWa) ?>" target="_blank" class="btn btn-success me-auto d-inline-flex align-items-center gap-1.5">
-                                        <i class="bi bi-whatsapp"></i> Abrir Chat en WhatsApp
+
+                                <!-- Footer del Modal -->
+                                <div class="modal-footer bg-white border-top py-3 px-4 d-flex align-items-center justify-content-between">
+                                    <a href="<?= e($linkWa) ?>" target="_blank" class="btn btn-outline-success rounded-pill px-3 py-2 fw-semibold text-sm d-inline-flex align-items-center gap-2">
+                                        <i class="bi bi-whatsapp fs-6"></i> Abrir Chat en WhatsApp
                                     </a>
-                                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary d-inline-flex align-items-center gap-1.5">
-                                        <i class="bi bi-check2"></i> Guardar Seguimiento
-                                    </button>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <button type="button" class="btn btn-light border rounded-pill px-4 py-2 text-sm fw-semibold" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-success rounded-pill px-4 py-2 text-sm fw-semibold d-inline-flex align-items-center gap-1.5 shadow-xs">
+                                            <i class="bi bi-check2-circle fs-6"></i> Guardar Seguimiento
+                                        </button>
+                                    </div>
                                 </div>
+
                             </form>
+                        </div>
+                    </div>
+                </div>
                         </div>
                     </div>
                 </div>

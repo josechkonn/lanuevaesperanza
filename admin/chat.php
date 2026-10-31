@@ -16,8 +16,8 @@ require __DIR__ . '/layout/header.php';
         <div class="col-12 col-md-5 col-lg-4 border-end d-flex flex-column h-100 bg-white" style="min-width: 320px; max-width: 400px; flex-shrink: 0;">
             
             <!-- Barra superior del panel izquierdo -->
-            <div class="p-3 border-bottom bg-white flex-shrink-0">
-                <div class="d-flex align-items-center justify-content-between mb-2.5">
+            <div class="p-3.5 px-4 border-bottom bg-white flex-shrink-0">
+                <div class="d-flex align-items-center justify-content-between mb-3">
                     <h2 class="h6 fw-bold mb-0 text-slate-800 d-flex align-items-center gap-2">
                         <i class="bi bi-chat-left-dots-fill text-emerald-600"></i> Conversaciones
                     </h2>
@@ -27,9 +27,9 @@ require __DIR__ . '/layout/header.php';
                 </div>
 
                 <!-- Buscador de sesiones -->
-                <div class="input-group input-group-sm mb-2.5 rounded-pill overflow-hidden border" style="border-color: #e2e8f0;">
-                    <span class="input-group-text bg-slate-50 border-0 text-slate-400 ps-3"><i class="bi bi-search"></i></span>
-                    <input type="text" id="sessionSearchInput" oninput="filtrarSesionesLista()" class="form-control bg-slate-50 border-0 shadow-none ps-1 text-sm" placeholder="Buscar visitante o mensaje...">
+                <div class="input-group input-group-sm mb-3 rounded-pill overflow-hidden border" style="border-color: #e2e8f0;">
+                    <span class="input-group-text bg-slate-50 border-0 text-slate-400 ps-3 pe-2"><i class="bi bi-search"></i></span>
+                    <input type="text" id="sessionSearchInput" oninput="filtrarSesionesLista()" class="form-control bg-slate-50 border-0 shadow-none ps-1 py-2 text-sm" placeholder="Buscar visitante o mensaje...">
                 </div>
 
                 <!-- Filtros rápidos segmentados -->
@@ -84,8 +84,8 @@ require __DIR__ . '/layout/header.php';
                 
                 <!-- Header del chat activo -->
                 <div class="chat-header px-4 py-2.5 bg-white border-bottom d-flex align-items-center justify-content-between flex-shrink-0" style="min-height: 68px;">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="position-relative">
+                    <div class="d-flex align-items-center">
+                        <div class="position-relative me-3">
                             <div id="activeChatAvatar" class="avatar-circle-header fw-bold">V</div>
                             <span id="activeChatOnlineDot" class="position-absolute bottom-0 end-0 p-1 bg-success border border-2 border-white rounded-circle"></span>
                         </div>
@@ -273,10 +273,10 @@ require __DIR__ . '/layout/header.php';
 }
 
 .msg-bubble-ia {
-    background-color: #ffffff;
+    background-color: #f8fafc;
     color: #1e293b;
-    border: 1px solid #e2e8f0;
-    border-radius: 16px 16px 16px 4px;
+    border: 1px solid #cbd5e1;
+    border-radius: 16px 16px 4px 16px;
     box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
     max-width: 82%;
     padding: 0.75rem 1rem;
@@ -511,8 +511,8 @@ function renderListaSesiones() {
         const hora = s.actualizado_en ? s.actualizado_en.substring(11, 16) : '';
 
         html += `
-            <div onclick="seleccionarChat(${s.id})" class="session-item d-flex align-items-center gap-2.5 ${isActive}" data-id="${s.id}">
-                <div class="avatar-session-list flex-shrink-0" style="background: ${avatarBg};">
+            <div onclick="seleccionarChat(${s.id})" class="session-item d-flex align-items-center ${isActive}" data-id="${s.id}">
+                <div class="avatar-session-list flex-shrink-0 me-3" style="background: ${avatarBg};">
                     ${initial}
                 </div>
                 <div class="flex-grow-1 overflow-hidden">
@@ -639,11 +639,11 @@ function renderMensajesFeed(mensajes, forceScroll = false) {
             `;
         } else if (m.remitente === 'ia') {
             html += `
-                <div class="d-flex justify-content-start mb-3">
+                <div class="d-flex justify-content-end mb-3">
                     <div class="msg-bubble-ia">
-                        <div class="d-flex align-items-center justify-content-between gap-3 mb-1.5 pb-1 border-bottom" style="border-color: #f1f5f9 !important;">
-                            <span class="badge bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-pill d-inline-flex align-items-center gap-1 py-0.5 px-2" style="font-size: 0.65rem;">
-                                <i class="bi bi-robot"></i> Asistente Virtual IA
+                        <div class="d-flex align-items-center justify-content-between gap-3 mb-1.5 pb-1 border-bottom" style="border-color: #e2e8f0 !important;">
+                            <span class="badge bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-pill d-inline-flex align-items-center gap-1.5 py-0.5 px-2" style="font-size: 0.65rem;">
+                                <i class="bi bi-robot text-emerald-700"></i> Asistente Virtual IA
                             </span>
                             <span class="text-slate-400" style="font-size: 0.65rem;">${hora}</span>
                         </div>
@@ -729,13 +729,28 @@ async function enviarMensajeAdmin(e) {
             cargarSesiones(false);
         }
     } catch (err) {
-        alert('Error al enviar mensaje');
+        if (window.AdminDialog) {
+            AdminDialog.toast('No se pudo enviar el mensaje.', 'danger');
+        }
     }
 }
 
 async function finalizarAtencionIA() {
     if (!activeSessionId) return;
-    if (!confirm('¿Deseas finalizar la atención humana y devolver esta conversación al Asistente Virtual IA?')) return;
+    
+    let confirmado = false;
+    if (window.AdminDialog) {
+        confirmado = await AdminDialog.confirm({
+            title: 'Devolver conversación a la IA',
+            message: '¿Deseas finalizar la atención humana y permitir que el Asistente Virtual IA retome la atención automática con este visitante?',
+            type: 'info',
+            confirmText: 'Sí, devolver a la IA',
+            cancelText: 'Seguir atendiendo'
+        });
+    } else {
+        confirmado = confirm('¿Deseas finalizar la atención humana y devolver esta conversación al Asistente Virtual IA?');
+    }
+    if (!confirmado) return;
 
     try {
         const formData = new FormData();
@@ -748,11 +763,16 @@ async function finalizarAtencionIA() {
         });
         const data = await res.json();
         if (data.ok) {
+            if (window.AdminDialog) {
+                AdminDialog.toast('Atención devuelta a la IA con éxito.', 'success');
+            }
             await cargarMensajesActivo(activeSessionId, true);
             cargarSesiones(false);
         }
     } catch (err) {
-        alert('Error al finalizar sesión');
+        if (window.AdminDialog) {
+            AdminDialog.toast('Error al finalizar la sesión.', 'danger');
+        }
     }
 }
 
