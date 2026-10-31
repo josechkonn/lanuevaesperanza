@@ -322,8 +322,8 @@ function call_openrouter_api(string $prompt, array $history, string $apiKey, str
             'X-Title: EPSDC La Nueva Esperanza',
         ],
         CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_UNICODE),
-        CURLOPT_TIMEOUT => 16,
-        CURLOPT_CONNECTTIMEOUT => 4,
+        CURLOPT_TIMEOUT => 28,
+        CURLOPT_CONNECTTIMEOUT => 6,
     ]);
 
     $response = curl_exec($ch);
@@ -480,11 +480,18 @@ function ai_local_agronomic_response(string $text): string {
         return "Las rutas de entrega de combos y bolsas se programan semanalmente en el cronograma oficial de nuestra página principal.";
     }
 
-    // 9. Estatutos / Fondos / 70% / 20% / 10%
+    // 6. Ubicación / Sede / Dirección / Dónde quedan
+    if (preg_match('/(ubicad|donde queda|d[oó]nde est[aá]|direcci[oó]n|sede|c[oó]mo llegar|donde se encuentran|en d[oó]nde est[aá]n|en donde quedan)/i', $t)) {
+        $dir = config_get('direccion', 'Calle Principal, Edificio Comunitario, Piso 1');
+        $tel = config_get('telefono', '+58 412 1234567');
+        return "📍 **Ubicación y Sede Principal:**\n\nNuestra sede central y centro de acopio comunal se encuentran ubicados en la **Ciudad de La Grita, Municipio Jáuregui (Aldea Quebrada de San José)**, Estado Táchira (Dirección física: $dir).\n\nEn la página principal dispone de la sección interactiva de georreferenciación con el mapa oficial de Google Maps. Para coordinaciones de visitas institucionales, despacho o arrime de cosechas, puede comunicarse con nosotros al teléfono institucional: **$tel**.";
+    }
+
+    // 7. Estatutos / Fondos / 70% / 20% / 10%
     if (str_contains($t, 'fondo') || str_contains($t, 'estatuto') || str_contains($t, 'excedente') || str_contains($t, 'ley')) {
         return "Conforme a la Ley Orgánica del Sistema Económico Comunal, nuestros excedentes se reinvierten en: 70% Fondo de Mantenimiento Productivo, 20% Fondo de Atención a Productores y Familias Campesinas, y 10% Fondo Comunitario para el Poder Popular.";
     }
 
     // Respuesta genérica informativa con sugerencia de operador humano
-    return "Gracias por tu consulta. Como asistente de la EPSDC La Nueva Esperanza, puedo darte información sobre nuestros 39 rubros andinos, combos y precios, cronograma de entregas o georreferenciación en La Grita. Si tu consulta requiere atención personalizada, escribe 'hablar con un operador' o pulsa el botón en la parte superior del chat.";
+    return "Estimado usuario: Como asistente institucional de la EPSDC La Nueva Esperanza, me complace orientarle sobre nuestros 39 rubros andinos, combos y precios oficiales, cronograma de entregas o ubicación territorial en La Grita. Si su consulta requiere atención directa de nuestro equipo, puede pulsar el botón «Hablar con un operador» en la parte superior del chat o solicitar el enlace con un coordinador de guardia.";
 }
