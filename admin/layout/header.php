@@ -89,6 +89,11 @@ if ($u && $u['rol'] === 'atencion') {
             <button class="btn btn-light d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-label="Menú"><i class="bi bi-list"></i></button>
             <h1 class="page-title"><?= e($titulo ?? '') ?></h1>
             <div class="d-flex align-items-center gap-2 ms-auto">
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill d-inline-flex align-items-center gap-1.5 px-3 py-1.5 fw-semibold shadow-2xs" data-bs-toggle="offcanvas" data-bs-target="#drawerGuiaPruebas" aria-controls="drawerGuiaPruebas" title="Guías interactivas de pruebas">
+                    <i class="bi bi-patch-check-fill text-success"></i>
+                    <span class="d-none d-sm-inline">Guía de Pruebas</span>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill ms-1 font-monospace" id="guiaPillGlobal" style="font-size:0.7rem;">0%</span>
+                </button>
                 <a href="<?= e(url('index.php')) ?>" target="_blank" class="topbar-portal-btn d-none d-sm-inline-flex align-items-center gap-1.5 text-decoration-none">
                     <i class="bi bi-box-arrow-up-right text-primary"></i>
                     <span>Portal público</span>
@@ -117,9 +122,9 @@ if ($u && $u['rol'] === 'atencion') {
         </header>
 
         <main class="content">
-            <?php foreach (flashes() as $f): ?>
-                <div class="alert alert-<?= e($f['tipo']) ?> alert-dismissible fade show" role="alert">
-                    <?= e($f['msg']) ?>
+            <?php foreach (flashes() as $flItem): ?>
+                <div class="alert alert-<?= e($flItem['tipo']) ?> alert-dismissible fade show" role="alert">
+                    <?= e($flItem['msg']) ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endforeach; ?>

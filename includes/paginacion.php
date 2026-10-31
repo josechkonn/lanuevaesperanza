@@ -207,20 +207,24 @@ function aplicar_fechas(array $f, string $col, array &$where, array &$params, bo
  */
 function render_filtros(array $f, string $extra = ''): string
 {
+    $rango = $f['rango'] ?? 'todo';
+    $p = (int)($f['p'] ?? 0);
+    $etiqueta = $f['etiqueta'] ?? 'Todas las fechas';
+
     $btns = '';
     foreach (RANGOS as $k => $txt) {
-        $activo = $f['rango'] === $k ? ' active' : '';
+        $activo = $rango === $k ? ' active' : '';
         $btns .= '<a class="btn btn-sm btn-outline-secondary' . $activo . '" href="'
             . e(qs(['rango' => $k, 'p' => null, 'desde' => null, 'hasta' => null, 'cursor' => null, 'dir' => null]))
             . '">' . $txt . '</a>';
     }
 
     $flechas = '';
-    if (in_array($f['rango'], ['hoy', 'semana', 'mes', 'anio'], true)) {
+    if (in_array($rango, ['hoy', 'semana', 'mes', 'anio'], true)) {
         $flechas = '<div class="btn-group btn-group-sm ms-1" role="group">'
-            . '<a class="btn btn-outline-secondary" title="Periodo anterior" href="' . e(qs(['p' => $f['p'] - 1, 'cursor' => null, 'dir' => null])) . '"><i class="bi bi-chevron-left"></i></a>'
-            . ($f['p'] !== 0 ? '<a class="btn btn-outline-secondary" title="Volver al actual" href="' . e(qs(['p' => null, 'cursor' => null, 'dir' => null])) . '"><i class="bi bi-record-circle"></i></a>' : '')
-            . '<a class="btn btn-outline-secondary" title="Periodo siguiente" href="' . e(qs(['p' => $f['p'] + 1, 'cursor' => null, 'dir' => null])) . '"><i class="bi bi-chevron-right"></i></a>'
+            . '<a class="btn btn-outline-secondary" title="Periodo anterior" href="' . e(qs(['p' => $p - 1, 'cursor' => null, 'dir' => null])) . '"><i class="bi bi-chevron-left"></i></a>'
+            . ($p !== 0 ? '<a class="btn btn-outline-secondary" title="Volver al actual" href="' . e(qs(['p' => null, 'cursor' => null, 'dir' => null])) . '"><i class="bi bi-record-circle"></i></a>' : '')
+            . '<a class="btn btn-outline-secondary" title="Periodo siguiente" href="' . e(qs(['p' => $p + 1, 'cursor' => null, 'dir' => null])) . '"><i class="bi bi-chevron-right"></i></a>'
             . '</div>';
     }
 
@@ -231,8 +235,8 @@ function render_filtros(array $f, string $extra = ''): string
         $ocultos .= '<input type="hidden" name="' . e($k) . '" value="' . e($v) . '">';
     }
 
-    $desdeVal = $f['rango'] === 'custom' ? $f['desde'] : '';
-    $hastaVal = $f['rango'] === 'custom' ? $f['hasta'] : '';
+    $desdeVal = ($rango === 'custom' && !empty($f['desde'])) ? $f['desde'] : '';
+    $hastaVal = ($rango === 'custom' && !empty($f['hasta'])) ? $f['hasta'] : '';
 
     return '<div class="filtros card-body border-bottom p-3 p-md-4">'
         . '<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3 pb-2 border-bottom">'
@@ -241,7 +245,7 @@ function render_filtros(array $f, string $extra = ''): string
         . '    <div class="btn-group btn-group-sm flex-wrap" role="group" aria-label="Rango rápido">' . $btns . '</div>'
         .      $flechas
         . '  </div>'
-        . '  <span class="badge bg-white text-dark border px-3 py-1.5 rounded-pill shadow-2xs small d-inline-flex align-items-center gap-2"><i class="bi bi-calendar3 text-success"></i>' . e($f['etiqueta']) . '</span>'
+        . '  <span class="badge bg-white text-dark border px-3 py-1.5 rounded-pill shadow-2xs small d-inline-flex align-items-center gap-2"><i class="bi bi-calendar3 text-success"></i>' . e($etiqueta) . '</span>'
         . '</div>'
         . '<form method="get" class="row g-2 align-items-end">' . $ocultos
         . '<div class="col-6 col-md-auto"><label class="form-label small mb-1 fw-semibold text-muted" style="font-size:0.72rem">Desde</label><input type="date" name="desde" value="' . e($desdeVal) . '" class="form-control form-control-sm"></div>'

@@ -1,3 +1,4 @@
+        <?php require __DIR__ . '/guias_pruebas.php'; ?>
         </main>
     </div>
 </div>

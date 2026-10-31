@@ -16,9 +16,9 @@ require __DIR__ . '/layout/header.php';
         <div class="col-12 col-md-5 col-lg-4 border-end d-flex flex-column h-100 bg-white" style="min-width: 320px; max-width: 400px; flex-shrink: 0;">
             
             <!-- Barra superior del panel izquierdo -->
-            <div class="p-3.5 px-4 border-bottom bg-white flex-shrink-0">
-                <div class="d-flex align-items-center justify-content-between mb-3">
-                    <h2 class="h6 fw-bold mb-0 text-slate-800 d-flex align-items-center gap-2">
+            <div class="pt-4 pb-3.5 px-4 border-bottom bg-white flex-shrink-0">
+                <div class="d-flex align-items-center justify-content-between mb-3 mt-1">
+                    <h2 class="h6 fw-bold mb-0 text-slate-800 d-flex align-items-center gap-2" style="font-size: 1.05rem; letter-spacing: -0.01em;">
                         <i class="bi bi-chat-left-dots-fill text-emerald-600"></i> Conversaciones
                     </h2>
                     <span id="badgeEsperandoHumano" class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill d-none animate__animated animate__pulse animate__infinite" style="font-size: 0.72rem; padding: 0.35rem 0.65rem;">
@@ -683,6 +683,8 @@ function formatChatMessage(text) {
     escaped = escaped.replace(/\*\*(.+?)\*\*/g, '<strong class="fw-semibold">$1</strong>');
     // Italic: *text* -> <em>text</em>
     escaped = escaped.replace(/(^|[^\*])\*([^\*]+)\*([^\*]|$)/g, '$1<em>$2</em>$3');
+    // Enlaces markdown [texto](url)
+    escaped = escaped.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" class="text-emerald-700 fw-semibold text-decoration-underline">$1</a>');
 
     // Split lines to handle bullets cleanly
     const lines = escaped.split('\n');

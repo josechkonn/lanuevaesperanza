@@ -48,8 +48,8 @@ $org = config_get('nombre_organizacion', $CONFIG['app_name']);
                 <h1 class="h4 fw-bold mb-1"><?= e($org) ?></h1>
                 <p class="text-secondary small mb-0">Panel de administración</p>
             </div>
-            <?php foreach (flashes() as $f): ?>
-                <div class="alert alert-<?= e($f['tipo']) ?> py-2 small"><?= e($f['msg']) ?></div>
+            <?php foreach (flashes() as $flItem): ?>
+                <div class="alert alert-<?= e($flItem['tipo']) ?> py-2 small"><?= e($flItem['msg']) ?></div>
             <?php endforeach; ?>
             <?php if ($error): ?>
                 <div class="alert alert-danger py-2 small" role="alert"><i class="bi bi-exclamation-circle me-1"></i><?= e($error) ?></div>

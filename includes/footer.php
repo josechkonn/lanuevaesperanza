@@ -283,11 +283,26 @@ $dir = config_get('direccion', 'Aldea Quebrada de San José, Ciudad de La Grita,
             form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
         }
 
+        function handleChatNavLink(e, targetHref) {
+            if (targetHref && targetHref.startsWith('#')) {
+                e.preventDefault();
+                const el = document.querySelector(targetHref);
+                if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if (isChatExpanded) toggleExpandChat();
+                } else {
+                    window.location.href = (window.LNE_BASE || '') + '/' + targetHref;
+                }
+            }
+        }
+
         function formatChatMarkdown(str) {
             if (!str) return '';
             let out = escapeHtml(str);
             // Negrita **texto**
             out = out.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Enlaces markdown [texto](url)
+            out = out.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-emerald-700 underline font-semibold hover:text-emerald-950 transition-colors" onclick="handleChatNavLink(event, \'$2\')">$1</a>');
             // Viñetas con punto o guión
             out = out.replace(/^• (.*)$/gm, '<div class="flex items-start gap-1.5 ml-1 my-0.5"><span class="text-emerald-600 font-bold">•</span><span>$1</span></div>');
             out = out.replace(/^- (.*)$/gm, '<div class="flex items-start gap-1.5 ml-1 my-0.5"><span class="text-emerald-600 font-bold">•</span><span>$1</span></div>');
