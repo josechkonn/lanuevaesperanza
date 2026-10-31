@@ -118,7 +118,7 @@ require __DIR__ . '/layout/header.php';
                 <!-- Respuestas Rápidas Predefinidas -->
                 <div class="px-3 py-1.5 bg-white border-top border-bottom d-flex gap-1.5 overflow-x-auto text-nowrap" style="scrollbar-width: none;">
                     <span class="badge text-secondary bg-light border align-self-center px-2 py-1">Respuestas rápidas:</span>
-                    <button type="button" onclick="insertarPlantilla('¡Saludos fraternales campesinos! Un gusto atenderte. ¿En qué podemos apoyarte hoy?')" class="btn btn-xs btn-outline-secondary rounded-pill">👋 Saludo</button>
+                    <button type="button" onclick="insertarPlantilla('¡Hola! Un gusto saludarle. ¿En qué podemos colaborarle hoy?')" class="btn btn-xs btn-outline-secondary rounded-pill">👋 Saludo</button>
                     <button type="button" onclick="insertarPlantilla('¿Perteneces a alguna UPF o Consejo Comunal en específico? Indícanos tu aldea o municipio.')" class="btn btn-xs btn-outline-secondary rounded-pill">🌱 Aldea / UPF</button>
                     <button type="button" onclick="insertarPlantilla('Las rutas de entrega de combos de esta semana están activas en el cronograma. ¿Deseas apartar cupo en algún punto de acopio?')" class="btn btn-xs btn-outline-secondary rounded-pill">📦 Entregas</button>
                     <button type="button" onclick="insertarPlantilla('Hemos registrado tu solicitud en el sistema de la EPSDC. El comité se comunicará contigo.')" class="btn btn-xs btn-outline-secondary rounded-pill">✅ Registro Exitoso</button>

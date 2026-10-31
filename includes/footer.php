@@ -85,6 +85,9 @@
 
                 <!-- Derecha: Acciones Compactas (Espaciadas, sin chocar) -->
                 <div class="flex items-center gap-1 shrink-0">
+                    <button id="btnResetChat" onclick="reiniciarChatComunal()" type="button" class="w-8 h-8 rounded-lg text-emerald-200 hover:text-white hover:bg-emerald-900/80 transition flex items-center justify-center cursor-pointer" title="Iniciar nueva conversación / Resetear chat">
+                        <i class="fa-solid fa-arrows-rotate text-xs"></i>
+                    </button>
                     <button id="btnRequestHuman" onclick="solicitarOperadorHumano()" type="button" class="px-2.5 py-1 rounded-lg text-emerald-100 hover:text-white bg-emerald-900/80 hover:bg-emerald-800 border border-emerald-700/60 transition flex items-center gap-1.5 text-xs font-semibold cursor-pointer shadow-xs" title="Hablar con un coordinador de la administración">
                         <i class="fa-solid fa-user-check text-amber-300 text-[11px]"></i>
                         <span class="text-[11px]">Coordinador</span>
@@ -133,6 +136,9 @@
 
             <!-- Barra de Píldoras Rápidas (Chips Limpios, Neutros y Profesionales) -->
             <div id="chatQuickChipsBar" class="px-3.5 py-2 bg-slate-50 border-t border-slate-200/80 flex items-center gap-1.5 overflow-x-auto text-nowrap no-scrollbar" style="scrollbar-width: none;">
+                <button type="button" onclick="reiniciarChatComunal()" class="px-3 py-1 bg-white hover:bg-slate-100 text-slate-700 rounded-full border border-slate-200 text-[11px] font-medium transition cursor-pointer shadow-2xs flex items-center gap-1.5" title="Iniciar un nuevo chat">
+                    <i class="fa-solid fa-arrows-rotate text-[10px] text-emerald-700"></i> Nuevo Chat
+                </button>
                 <button type="button" onclick="sendQuickPrompt('¿Cuáles combos tienen disponibles y qué precio tiene cada uno?')" class="px-3 py-1 bg-white hover:bg-slate-100 text-slate-700 rounded-full border border-slate-200 text-[11px] font-medium transition cursor-pointer shadow-2xs">
                     📦 Combos y Precios
                 </button>
@@ -430,6 +436,67 @@
                     message: 'No se pudo contactar al operador en este instante. El Asistente Virtual continúa disponible para ti.',
                     type: 'warning'
                 });
+            }
+        }
+
+        async function reiniciarChatComunal() {
+            const confirmado = await ComunalModal.confirm({
+                title: 'Iniciar Nueva Conversación',
+                message: '¿Desea reiniciar el chat y comenzar una nueva conversación? Se generará una sesión limpia e independiente.',
+                icon: 'fa-solid fa-arrows-rotate text-emerald-700',
+                type: 'info',
+                confirmText: 'Sí, reiniciar chat',
+                cancelText: 'Continuar actual'
+            });
+            if (!confirmado) return;
+
+            stopChatPolling();
+
+            try {
+                showTypingIndicator('Iniciando nueva conversación...');
+                const formData = new FormData();
+                formData.append('action', 'reset_session');
+                formData.append('session_uuid', chatSessionUuid || '');
+
+                const res = await fetch('<?= e(url("api/chat.php")) ?>', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                hideTypingIndicator();
+
+                if (data.ok && data.session) {
+                    chatSessionUuid = data.session.uuid;
+                    localStorage.setItem('epsdc_chat_uuid', chatSessionUuid);
+                    document.cookie = `epsdc_chat_uuid=${chatSessionUuid}; path=/; max-age=31536000; SameSite=Lax`;
+                    chatCurrentState = data.session.estado || 'ia';
+                    chatLastMessageId = 0;
+                    updateChatHeaderUI(chatCurrentState);
+
+                    const container = document.getElementById('chatMessages');
+                    if (container) {
+                        container.innerHTML = '';
+                        (data.mensajes || []).forEach(m => {
+                            appendMessageBubble(m.remitente, m.mensaje, m.autor_nombre, m.creado_en);
+                            if (m.id > chatLastMessageId) chatLastMessageId = m.id;
+                        });
+                        scrollChatToBottom();
+                    }
+
+                    ComunalModal.toast({
+                        title: 'Conversación Reiniciada',
+                        message: 'Se ha iniciado un nuevo chat con éxito.',
+                        type: 'success'
+                    });
+                }
+            } catch (err) {
+                hideTypingIndicator();
+                const newUuid = 'lne_' + Math.random().toString(36).substring(2, 12) + Date.now().toString(36);
+                localStorage.setItem('epsdc_chat_uuid', newUuid);
+                document.cookie = `epsdc_chat_uuid=${newUuid}; path=/; max-age=31536000; SameSite=Lax`;
+                chatSessionUuid = newUuid;
+                chatLastMessageId = 0;
+                initChatSession();
             }
         }
 

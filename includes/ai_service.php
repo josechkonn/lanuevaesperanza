@@ -18,7 +18,7 @@ Eres el equipo de Orientación y Atención Comunal de la Empresa de Propiedad So
 $dbData
 
 REGLAS DE ATENCIÓN Y GROUNDING ESTRICTO EN BASE DE DATOS:
-1. IDENTIDAD HUMANA Y COMUNITARIA: Habla siempre en primera persona del plural ("en nuestra empresa comunal", "nuestros productores de La Grita", "tenemos a su disposición"). NUNCA uses frases robóticas ni digas "soy una IA", "soy un modelo de lenguaje" ni hables de algoritmos ni prompts. Eres la voz fraterna de los campesinos y de la coordinación comunal.
+1. IDENTIDAD FORMAL Y PROFESIONAL: Utiliza siempre un lenguaje formal, educado, respetuoso y general en primera persona del plural ("en nuestra empresa comunal", "nuestro equipo", "tenemos a su disposición"). Evita modismos informales o expresiones coloquiales. NUNCA uses frases robóticas ni digas "soy una IA", "soy un modelo de lenguaje" ni hables de algoritmos ni prompts. Eres el canal oficial de atención y coordinación de la EPSDC.
 2. RESPONDER EXCLUSIVAMENTE CON DATOS REALES DE LA BASE DE DATOS: Basa todas tus respuestas ÚNICA Y EXCLUSIVAMENTE en los datos de la base de datos oficial que se te acaban de proporcionar arriba.
 3. PROHIBIDO INVENTAR PRODUCTOS O SERVICIOS: Si el usuario pregunta por un producto que NO está explícitamente en la lista de productos de la base de datos (por ejemplo, carnes rojas, pollo, lácteos importados, pescado de mar, electrodomésticos, etc.), responde con honestidad y cordialidad: "Actualmente ese rubro no forma parte del catálogo oficial de nuestra red comunal."
 4. PRECIOS EXACTOS: Si preguntan el precio de cualquier combo o bolsa, responde ÚNICAMENTE con la cifra exacta y la moneda registrada en la base de datos (ejemplo: Bolsa Nutricional Solidaria a $12.50 USD, Combo Familiar Completo a $24.00 USD, Combo Proteína y Granos a $18.50 USD, Mega Combo Despensa Mensual a $38.00 USD). PROHIBIDO alterar, inventar o redondear precios.
@@ -147,7 +147,7 @@ function ai_generate_response(string $userPrompt, array $conversationHistory = [
             'ok' => true,
             'requires_handoff' => true,
             'source' => 'system',
-            'response' => "🔔 He detectado tu solicitud de atención personalizada con un operador humano. En este momento estoy transfiriendo tu conversación al equipo de administradores de la EPSDC La Nueva Esperanza para que te atiendan en vivo por este mismo chat. Por favor espera unos momentos.",
+            'response' => "🔔 Hemos recibido su solicitud de comunicación directa con la administración. En este momento estamos transfiriendo su consulta al equipo de coordinación de la EPSDC La Nueva Esperanza para atenderle por este mismo medio. Por favor espere unos instantes.",
         ];
     }
 
@@ -158,7 +158,7 @@ function ai_generate_response(string $userPrompt, array $conversationHistory = [
             'ok' => true,
             'requires_handoff' => false,
             'source' => 'fast_kb',
-            'response' => "¡Saludos fraternales campesinos! 👋 Bienvenido al canal inteligente de la EPSDC La Nueva Esperanza en La Grita. ¿En qué podemos apoyarte hoy? Puedes consultarme sobre combos disponibles, precios en USD, fechas de entrega o solicitar un operador humano."
+            'response' => "¡Hola! Le damos una cordial bienvenida a la EPSDC La Nueva Esperanza en La Grita, Estado Táchira. ¿En qué podemos orientarle hoy? Puede consultarnos sobre combos disponibles, precios oficiales en USD, fechas de entrega o solicitar comunicación con un coordinador."
         ];
     }
     if (preg_match('/^(gracias|muchas gracias|vale gracias|ok gracias|perfecto gracias)[\.!\s]*$/i', $cleanPrompt)) {
@@ -166,7 +166,7 @@ function ai_generate_response(string $userPrompt, array $conversationHistory = [
             'ok' => true,
             'requires_handoff' => false,
             'source' => 'fast_kb',
-            'response' => "¡Con mucho gusto y vocación comunitaria! 🌾 Quedamos a tu completa disposición para lo que necesites."
+            'response' => "¡Con mucho gusto! Quedamos a su completa disposición para cualquier consulta adicional."
         ];
     }
 
@@ -218,6 +218,19 @@ function detect_human_request(string $text): bool {
 }
 
 /**
+ * Sanitiza la respuesta de la IA eliminando rastros de pensamiento interno (CoT / reasoning).
+ */
+function sanitize_ai_response_text(string $text): string {
+    // 1. Eliminar etiquetas <think>...</think>
+    $text = preg_replace('/<think\b[^>]*>[\s\S]*?<\/think>/i', '', $text);
+    // 2. Eliminar bloques de código de pensamiento ```thought...``` o ```reasoning...```
+    $text = preg_replace('/```(?:thought|reasoning)[\s\S]*?```/i', '', $text);
+    // 3. Eliminar si empieza con reflexiones en inglés tipo "The user is asking..."
+    $text = preg_replace('/^(?:The user is asking|According to the strict grounding rules)[\s\S]*?\n\n/i', '', $text);
+    return trim($text);
+}
+
+/**
  * Llamada a la API oficial de DeepSeek (formato compatible OpenAI).
  */
 function call_deepseek_api(string $prompt, array $history, string $apiKey, string $model): string {
@@ -236,7 +249,7 @@ function call_deepseek_api(string $prompt, array $history, string $apiKey, strin
     $payload = [
         'model' => $model,
         'messages' => $messages,
-        'temperature' => 0.6,
+        'temperature' => 0.5,
         'max_tokens' => 800,
         'stream' => false,
     ];
@@ -266,11 +279,15 @@ function call_deepseek_api(string $prompt, array $history, string $apiKey, strin
         throw new RuntimeException("Formato inválido devuelto por DeepSeek");
     }
 
-    return trim((string)$data['choices'][0]['message']['content']);
+    $clean = sanitize_ai_response_text((string)$data['choices'][0]['message']['content']);
+    if ($clean === '') {
+        throw new RuntimeException("Respuesta vacía tras sanitizar razonamiento interno.");
+    }
+    return $clean;
 }
 
 /**
- * Llamada a OpenRouter (soporta modelos gratuitos ilimitados como deepseek/deepseek-r1:free).
+ * Llamada a OpenRouter (soporta modelos como nvidia/nemotron-3-ultra-550b-a55b:free, meta-llama, etc.).
  */
 function call_openrouter_api(string $prompt, array $history, string $apiKey, string $model): string {
     $messages = [
@@ -287,8 +304,9 @@ function call_openrouter_api(string $prompt, array $history, string $apiKey, str
     $payload = [
         'model' => $model,
         'messages' => $messages,
-        'temperature' => 0.35,
-        'max_tokens' => 300,
+        'temperature' => 0.4,
+        'max_tokens' => 650,
+        'reasoning' => ['effort' => 'none'],
     ];
 
     $ch = curl_init('https://openrouter.ai/api/v1/chat/completions');
@@ -304,7 +322,7 @@ function call_openrouter_api(string $prompt, array $history, string $apiKey, str
             'X-Title: EPSDC La Nueva Esperanza',
         ],
         CURLOPT_POSTFIELDS => json_encode($payload, JSON_UNESCAPED_UNICODE),
-        CURLOPT_TIMEOUT => 14,
+        CURLOPT_TIMEOUT => 16,
         CURLOPT_CONNECTTIMEOUT => 4,
     ]);
 
@@ -317,15 +335,17 @@ function call_openrouter_api(string $prompt, array $history, string $apiKey, str
     if ($httpCode !== 200) throw new RuntimeException("OpenRouter HTTP $httpCode: $response");
 
     $data = json_decode((string)$response, true);
-    $content = $data['choices'][0]['message']['content'] ?? null;
-    if (empty($content) && !empty($data['choices'][0]['message']['reasoning'])) {
-        $content = $data['choices'][0]['message']['reasoning'];
-    }
-    if (empty($content)) {
-        throw new RuntimeException("Formato inválido devuelto por OpenRouter: " . substr((string)$response, 0, 200));
+    $rawContent = $data['choices'][0]['message']['content'] ?? null;
+    if (empty($rawContent)) {
+        throw new RuntimeException("Formato inválido o respuesta vacía devuelta por OpenRouter");
     }
 
-    return trim((string)$content);
+    $content = sanitize_ai_response_text((string)$rawContent);
+    if ($content === '') {
+        throw new RuntimeException("Respuesta vacía tras sanitizar razonamiento interno en OpenRouter");
+    }
+
+    return $content;
 }
 
 /**
@@ -377,11 +397,21 @@ function call_gemini_api(string $prompt, array $history, string $apiKey, string 
     if ($httpCode !== 200) throw new RuntimeException("Gemini HTTP $httpCode: $response");
 
     $data = json_decode((string)$response, true);
-    if (!isset($data['candidates'][0]['content']['parts'][0]['text'])) {
-        throw new RuntimeException("Formato inválido devuelto por Gemini");
+    $parts = $data['candidates'][0]['content']['parts'] ?? [];
+    $text = '';
+    foreach ($parts as $p) {
+        if (!empty($p['thought'])) continue;
+        if (isset($p['text'])) {
+            $text .= $p['text'];
+        }
     }
 
-    return trim((string)$data['candidates'][0]['content']['parts'][0]['text']);
+    $clean = sanitize_ai_response_text($text);
+    if ($clean === '') {
+        throw new RuntimeException("Formato inválido o respuesta vacía devuelta por Gemini");
+    }
+
+    return $clean;
 }
 
 /**
@@ -392,7 +422,7 @@ function ai_local_agronomic_response(string $text): string {
 
     // 1. Saludos
     if (preg_match('/^(hola|buenos|saludos|buenas|que tal|como estas)/i', $t)) {
-        return "¡Saludos fraternales campesinos! 👋 Bienvenido al canal de atención y orientación de la EPSDC La Nueva Esperanza en La Grita, Táchira. ¿En qué podemos orientarte hoy? Puedes consultarnos sobre nuestros 39 rubros cosechados, combos y bolsas agrícolas, cronograma de entregas, o si deseas hablar directamente con un coordinador.";
+        return "¡Hola! Le damos una cordial bienvenida a la EPSDC La Nueva Esperanza en La Grita, Estado Táchira. ¿En qué podemos orientarle hoy? Puede consultarnos sobre nuestros rubros agrícolas, combos y bolsas disponibles, cronograma de entregas, o si desea comunicarse con un coordinador de guardia.";
     }
 
     // 2. Rubros Emblema y Especialidades Territoriales (Truchas, Café, Panela)

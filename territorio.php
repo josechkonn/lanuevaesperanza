@@ -44,27 +44,35 @@ require __DIR__ . '/includes/header.php';
 </div>
 
 <!-- SECCIÓN 1: GOOGLE MAPS Y UBICACIÓN ESTRATÉGICA -->
-<section id="mapa-venezuela" class="py-16 bg-slate-950 text-white relative overflow-hidden border-b border-slate-800">
+<section id="mapa-venezuela" class="py-20 bg-[#0a1c14] text-white relative overflow-hidden border-b border-emerald-950">
+    <!-- Curvas topográficas andinas -->
+    <div class="absolute inset-0 opacity-[0.05] pointer-events-none overflow-hidden flex items-center justify-center">
+        <svg class="w-[140%] h-[140%]" viewBox="0 0 1200 800" fill="none" stroke="currentColor">
+            <path d="M-100,200 C200,100 400,350 700,200 C1000,50 1100,280 1300,180" stroke-width="1.5" />
+            <path d="M-100,400 C180,260 480,500 800,360 C1100,220 1200,450 1300,360" stroke-width="1.5" />
+        </svg>
+    </div>
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <div class="grid lg:grid-cols-12 gap-8 items-start mb-14">
             
             <!-- Columna Izquierda: Google Maps Iframe & Selectores -->
-            <div class="lg:col-span-7 bg-slate-900/90 border border-slate-800/80 rounded-3xl p-5 sm:p-7 shadow-2xl relative">
+            <div class="lg:col-span-7 bg-[#0e2a1f]/90 border border-emerald-800/60 rounded-3xl p-5 sm:p-7 shadow-2xl relative backdrop-blur-xs">
                 
-                <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-4 border-b border-slate-800">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-4 border-b border-emerald-800/60">
                     <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Cartografía Digital Interactiva</span>
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="text-xs font-bold text-emerald-200 uppercase tracking-wider">Cartografía Digital Interactiva</span>
                     </div>
-                    <div class="flex flex-wrap gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 text-[11px] font-bold">
-                        <button id="btnMapGoogle" onclick="switchMapView('google')" class="px-3 py-1.5 rounded-lg bg-agro-700 text-white transition flex items-center gap-1.5 shadow-sm">
-                            <i class="fa-solid fa-map-location-dot text-amberGold"></i> Google Maps
+                    <div class="flex flex-wrap gap-1.5 bg-[#0a1c14] p-1.5 rounded-xl border border-emerald-800/80 text-[11px] font-bold">
+                        <button id="btnMapGoogle" onclick="switchMapView('google')" class="px-3.5 py-1.5 rounded-lg bg-emerald-800 text-white transition flex items-center gap-1.5 shadow-sm border border-emerald-600/50">
+                            <i class="fa-solid fa-map-location-dot text-amber-300"></i> Google Maps
                         </button>
-                        <button id="btnMapNacional" onclick="switchMapView('nacional')" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-1.5">
+                        <button id="btnMapNacional" onclick="switchMapView('nacional')" class="px-3.5 py-1.5 rounded-lg text-emerald-200/80 hover:text-white transition flex items-center gap-1.5">
                             <i class="fa-solid fa-earth-americas"></i> Eje Geopolítico
                         </button>
-                        <button id="btnMapZoom" onclick="switchMapView('zoom')" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-1.5">
+                        <button id="btnMapZoom" onclick="switchMapView('zoom')" class="px-3.5 py-1.5 rounded-lg text-emerald-200/80 hover:text-white transition flex items-center gap-1.5">
                             <i class="fa-solid fa-mountain"></i> Aldeas Jáuregui
                         </button>
                     </div>
@@ -72,7 +80,7 @@ require __DIR__ . '/includes/header.php';
 
                 <!-- Contenedor 0: Google Maps Iframe -->
                 <div id="containerMapGoogle" class="relative">
-                    <div class="relative w-full h-[460px] sm:h-[500px] rounded-2xl overflow-hidden border border-slate-700/80 shadow-2xl bg-slate-950">
+                    <div class="relative w-full h-[460px] sm:h-[500px] rounded-2xl overflow-hidden border border-emerald-800/80 shadow-2xl bg-slate-950">
                         <iframe 
                             id="gmapIframe"
                             src="https://maps.google.com/maps?q=Aldea+Quebrada+de+San+Jos%C3%A9,+La+Grita,+Municipio+J%C3%A1uregui,+T%C3%A1chira,+Venezuela&t=&z=14&ie=UTF8&iwloc=&output=embed" 
@@ -83,26 +91,26 @@ require __DIR__ . '/includes/header.php';
                             title="Ubicación Google Maps - EPSDC La Nueva Esperanza">
                         </iframe>
 
-                        <div class="absolute top-3 left-3 z-10 bg-slate-950/90 border border-slate-800 px-3.5 py-2 rounded-xl text-xs text-white backdrop-blur-md shadow-lg flex items-center gap-2.5">
+                        <div class="absolute top-3 left-3 z-10 bg-[#0a1c14]/95 border border-emerald-700/60 px-3.5 py-2 rounded-xl text-xs text-white backdrop-blur-md shadow-lg flex items-center gap-2.5">
                             <span class="w-2.5 h-2.5 rounded-full bg-rose-500 shrink-0"></span>
                             <div>
                                 <div class="font-bold text-white flex items-center gap-1.5 leading-tight">
                                     <i class="fa-solid fa-location-dot text-rose-500 text-xs"></i> Aldea Quebrada de San José
                                 </div>
-                                <div class="text-[10px] text-slate-400 font-medium">La Grita, Municipio Jáuregui • Estado Táchira</div>
+                                <div class="text-[10px] text-emerald-200/70 font-medium">La Grita, Municipio Jáuregui • Estado Táchira</div>
                             </div>
                         </div>
 
                         <div class="absolute bottom-3 left-3 right-3 z-10 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
-                            <div class="bg-slate-950/85 border border-slate-800 px-3 py-1.5 rounded-xl text-[10px] text-slate-300 font-mono backdrop-blur-md pointer-events-auto hidden sm:flex items-center gap-2">
-                                <i class="fa-solid fa-compass text-amberGold"></i>
+                            <div class="bg-[#0a1c14]/90 border border-emerald-700/60 px-3 py-1.5 rounded-xl text-[10px] text-emerald-200/80 font-mono backdrop-blur-md pointer-events-auto hidden sm:flex items-center gap-2">
+                                <i class="fa-solid fa-compass text-amber-300"></i>
                                 <span>8°08′00″ N, 71°59′00″ O • Altitud: 1.440 msnm</span>
                             </div>
                             <div class="flex items-center gap-2 pointer-events-auto ml-auto">
                                 <a href="https://www.google.com/maps/search/?api=1&query=Aldea+Quebrada+de+San+Jose+La+Grita+Jauregui+Tachira+Venezuela" 
                                    target="_blank" 
                                    rel="noopener noreferrer" 
-                                   class="bg-amberGold hover:bg-amber-500 text-slate-950 text-xs font-black px-3.5 py-2 rounded-xl shadow-lg flex items-center gap-2 transition transform active:scale-95">
+                                   class="bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold px-3.5 py-2 rounded-xl shadow-lg flex items-center gap-2 transition transform active:scale-95">
                                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                     <span>Abrir en Google Maps</span>
                                 </a>
@@ -245,21 +253,20 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <!-- SECCIÓN 2: EJE ANDINO (TÁCHIRA, MÉRIDA, TRUJILLO) -->
-<section id="eje-andino" class="py-20 bg-slate-900 text-white relative overflow-hidden">
+<section id="eje-andino" class="py-20 bg-[#0e2a1f] text-white relative overflow-hidden border-b border-emerald-950">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <div class="text-center max-w-4xl mx-auto mb-14">
-            <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 mb-3">
-                <i class="fa-solid fa-mountain-sun text-amberGold"></i> Articulación Comunal Tri-Estadal
+            <span class="bg-amber-400/10 text-amber-300 border border-amber-400/30 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-mountain-sun text-amber-300"></i> Articulación Comunal Tri-Estadal
             </span>
-            <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            <h2 class="text-3xl sm:text-5xl font-serif font-extrabold text-white tracking-tight">
                 Eje Andino de Producción e Intercambio
             </h2>
-            <h3 class="text-lg sm:text-2xl font-bold text-amberGold mt-2">
+            <h3 class="text-lg sm:text-2xl font-serif font-bold text-amber-300 mt-2">
                 Táchira • Mérida • Trujillo
             </h3>
-            <div class="w-24 h-1.5 bg-agro-500 mx-auto mt-4 rounded-full"></div>
-            <p class="text-slate-300 mt-4 text-xs sm:text-sm md:text-base leading-relaxed font-light">
+            <p class="text-emerald-100/80 mt-4 text-xs sm:text-sm md:text-base leading-relaxed font-normal">
                 La EPSDC La Nueva Esperanza articula la producción soberana con los tres estados que conforman el <strong>Eje Andino de Venezuela</strong>. Una cordillera interconectada por cuencas hídricas, pisos térmicos complementarios y redes campesinas comunales.
             </p>
         </div>
@@ -379,20 +386,24 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <!-- SECCIÓN DESTACADA: RUBROS EMBLEMA Y TRADICIONES PRODUCTIVAS TERRITORIALES -->
-<section id="rubros-emblema" class="py-16 bg-white border-b border-slate-200">
+<section id="rubros-emblema" class="py-20 bg-[#faf8f5] border-b border-stone-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div class="text-center max-w-3xl mx-auto mb-12">
-            <span class="bg-amberGold/20 text-amberGold border border-amberGold/40 text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 mb-3">
-                <i class="fa-solid fa-award text-amberGold"></i> Denominación y Tradición Andina
+        <div class="text-center max-w-3xl mx-auto mb-14">
+            <span class="bg-amber-100 text-amber-950 border border-amber-300 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-award text-amber-700"></i> Denominación y Tradición Andina
             </span>
-            <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+            <h2 class="text-3xl sm:text-5xl font-serif font-extrabold text-slate-900 tracking-tight">
                 Rubros Emblema de Nuestra Red Comunal
             </h2>
-            <div class="w-20 h-1.5 bg-agro-500 mx-auto mt-3 rounded-full"></div>
-            <p class="text-slate-600 text-xs sm:text-sm mt-3 leading-relaxed">
-                Cada rincón del macizo montañoso posee una vocación única: aguas cristalinas de páramo para la trucha, laderas empinadas para el café de estricta altura y valles cálidos con trapiches campesinos de panela pura.
-            </p>
+            <div class="flex items-center justify-center gap-2 mt-2">
+                <p class="text-slate-600 text-xs sm:text-sm mt-3 leading-relaxed max-w-2xl">
+                    Cada rincón del macizo montañoso posee una vocación única: aguas cristalinas de páramo para la trucha, laderas empinadas para el café de estricta altura y valles cálidos con trapiches campesinos de panela pura.
+                </p>
+                <span class="font-hand text-lg text-emerald-700 font-bold hidden sm:inline -rotate-1">
+                    • Identidad territorial
+                </span>
+            </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -481,28 +492,28 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <!-- SECCIÓN 3: DIRECTORIO DE MUNICIPIOS Y ALDEAS PRODUCTORAS -->
-<section id="municipios" class="py-20 bg-slate-100 bg-pattern">
+<section id="municipios" class="py-20 bg-white border-t border-b border-stone-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-10 gap-6">
             <div>
-                <span class="text-agro-700 font-extrabold uppercase text-xs tracking-wider inline-flex items-center gap-1.5">
-                    <i class="fa-solid fa-map-location-dot text-agro-600"></i> Desglose Territorial y Georreferenciación
+                <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-900 bg-emerald-100/80 px-3.5 py-1 rounded-full border border-emerald-300/80 mb-3">
+                    <i class="fa-solid fa-map-location-dot text-emerald-700"></i> Desglose Territorial y Georreferenciación
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 mt-1">
+                <h2 class="text-3xl sm:text-5xl font-serif font-extrabold text-slate-900 tracking-tight">
                     Municipios y Aldeas Productoras
                 </h2>
                 <p class="text-slate-600 text-xs sm:text-sm mt-2 max-w-2xl leading-relaxed">
-                    Conoce las comunidades campesinas, parroquias y aldeas específicas donde nuestras Unidades de Producción Familiar (UPF) cosechan activamente bajo prácticas agroecológicas.
+                    Conozca las comunidades campesinas, parroquias y aldeas específicas donde nuestras Unidades de Producción Familiar (UPF) cosechan activamente bajo prácticas agroecológicas.
                 </p>
             </div>
 
             <!-- Filtros por Zona -->
             <div class="flex flex-wrap items-center gap-2">
-                <button onclick="filterMunicipiosByZone('todos')" class="mun-filter-btn active bg-agro-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-xs transition">Todos (12)</button>
-                <button onclick="filterMunicipiosByZone('andino')" class="mun-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 px-3.5 py-2 rounded-xl text-xs font-bold transition">Eje Andino</button>
-                <button onclick="filterMunicipiosByZone('montana')" class="mun-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 px-3.5 py-2 rounded-xl text-xs font-bold transition">Montaña Alta</button>
-                <button onclick="filterMunicipiosByZone('piedemonte')" class="mun-filter-btn bg-slate-100 text-slate-700 hover:bg-slate-200 px-3.5 py-2 rounded-xl text-xs font-bold transition">Piedemonte</button>
+                <button onclick="filterMunicipiosByZone('todos')" class="mun-filter-btn active bg-[#133527] text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-xs transition">Todos (12)</button>
+                <button onclick="filterMunicipiosByZone('andino')" class="mun-filter-btn bg-stone-100 text-stone-700 hover:bg-stone-200 px-3.5 py-2 rounded-xl text-xs font-bold transition">Eje Andino</button>
+                <button onclick="filterMunicipiosByZone('montana')" class="mun-filter-btn bg-stone-100 text-stone-700 hover:bg-stone-200 px-3.5 py-2 rounded-xl text-xs font-bold transition">Montaña Alta</button>
+                <button onclick="filterMunicipiosByZone('piedemonte')" class="mun-filter-btn bg-stone-100 text-stone-700 hover:bg-stone-200 px-3.5 py-2 rounded-xl text-xs font-bold transition">Piedemonte</button>
             </div>
         </div>
 
@@ -510,7 +521,7 @@ require __DIR__ . '/includes/header.php';
         <div class="mb-8">
             <div class="relative max-w-2xl">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400 text-sm"></i>
-                <input type="text" id="municipioSearchInput" onkeyup="filterMunicipiosData()" placeholder="Buscar municipio, parroquia, aldea (Pattueca, Quebrada de San José, etc.) o rubro..." class="w-full pl-11 pr-4 py-3 bg-white rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-agro-500 text-xs font-medium shadow-xs">
+                <input type="text" id="municipioSearchInput" onkeyup="filterMunicipiosData()" placeholder="Buscar municipio, parroquia, aldea (Pattueca, Quebrada de San José, etc.) o rubro..." class="w-full pl-11 pr-4 py-3 bg-white rounded-2xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-xs font-medium shadow-xs">
             </div>
         </div>
 
@@ -523,20 +534,19 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <!-- SECCIÓN 4: RESERVAS HÍDRICAS Y GEOGRAFÍA ANDINA -->
-<section id="territorio-cuencas" class="py-20 bg-white">
+<section id="territorio-cuencas" class="py-20 bg-[#faf8f5] border-b border-stone-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="text-center max-w-4xl mx-auto mb-16">
-            <span class="bg-agro-50 text-agro-700 border border-agro-200 text-xs font-black px-3.5 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1.5 mb-3">
-                <i class="fa-solid fa-mountain-sun text-amberGold"></i> Macizo Montañoso del Norte del Táchira
+            <span class="bg-emerald-100 text-emerald-900 border border-emerald-300 text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1.5 mb-3">
+                <i class="fa-solid fa-mountain-sun text-emerald-700"></i> Macizo Montañoso del Norte del Táchira
             </span>
-            <h2 class="text-3xl sm:text-5xl font-black text-slate-900 mt-2 tracking-tight">
+            <h2 class="text-3xl sm:text-5xl font-serif font-extrabold text-slate-900 mt-2 tracking-tight">
                 El Final de la Columna Vertebral del Planeta
             </h2>
-            <h3 class="text-xl sm:text-2xl font-bold text-agro-700 mt-1">
+            <h3 class="text-xl sm:text-2xl font-serif font-bold text-emerald-900 mt-2">
                 Reservas Hídricas Permanentes y Cosecha Continua los 365 Días del Año
             </h3>
-            <div class="w-24 h-1.5 bg-amberGold mx-auto mt-4 rounded-full"></div>
             <p class="text-slate-600 mt-5 text-sm sm:text-base leading-relaxed">
                 Nuestras unidades socioproductivas y parcelas familiares están situadas en las montañas del norte del estado Táchira: el <strong>final de la cordillera vertebral del planeta Tierra</strong>. Contamos con <strong>reservas hídricas permanentes</strong> nacientes en páramos y parques nacionales, alimentando acequias y sistemas de riego por gravedad que aseguran producción los <strong>365 días del año</strong>.
             </p>
@@ -614,21 +624,28 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <!-- SECCIÓN 5: LOGÍSTICA MULTIMODAL, PUERTO LA CEIBA Y FRONTERA CÚCUTA -->
-<section id="logistica-multimodal" class="py-20 bg-soberano text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section id="logistica-multimodal" class="py-20 bg-[#0a1c14] text-white relative overflow-hidden">
+    <!-- Curvas topográficas andinas -->
+    <div class="absolute inset-0 opacity-[0.05] pointer-events-none overflow-hidden flex items-center justify-center">
+        <svg class="w-[140%] h-[140%]" viewBox="0 0 1200 800" fill="none" stroke="currentColor">
+            <path d="M-100,200 C200,100 400,350 700,200 C1000,50 1100,280 1300,180" stroke-width="1.5" />
+            <path d="M-100,400 C180,260 480,500 800,360 C1100,220 1200,450 1300,360" stroke-width="1.5" />
+        </svg>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <div class="text-center max-w-4xl mx-auto mb-16">
-            <span class="bg-amberGold/20 text-amberGold border border-amberGold/40 text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 mb-3">
-                <i class="fa-solid fa-route text-amberGold"></i> Ventajas Geopolíticas y Multimodales
+            <span class="bg-amber-400/10 text-amber-300 border border-amber-400/30 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 mb-3">
+                <i class="fa-solid fa-route text-amber-300"></i> Ventajas Geopolíticas y Multimodales
             </span>
-            <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
+            <h2 class="text-3xl sm:text-5xl font-serif font-extrabold text-white tracking-tight">
                 Posición Estratégica Continental
             </h2>
-            <h3 class="text-xl sm:text-2xl font-bold text-amberGold mt-2">
-                Salida al Mar Caribe por Puerto La Ceiba y la Frontera más Movida de Suramérica
+            <h3 class="text-xl sm:text-2xl font-serif font-bold text-amber-300 mt-2">
+                Salida al Mar Caribe por Puerto La Ceiba y la Frontera más Dinámica de Suramérica
             </h3>
-            <div class="w-24 h-1.5 bg-agro-500 mx-auto mt-4 rounded-full"></div>
-            <p class="text-slate-300 mt-5 text-sm sm:text-base leading-relaxed font-light">
+            <p class="text-emerald-100/80 mt-5 text-sm sm:text-base leading-relaxed font-normal">
                 Nuestra ubicación en el estado Táchira no solo nos otorga el agua y el clima de los Andes, sino una <strong>posición geopolítica inigualable en el occidente venezolano</strong>. Contamos con acceso expedito tanto hacia el mar como hacia los mercados binacionales más vibrantes.
             </p>
         </div>

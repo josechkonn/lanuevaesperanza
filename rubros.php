@@ -41,27 +41,27 @@ require __DIR__ . '/includes/header.php';
 </div>
 
 <!-- SECCIÓN PRINCIPAL: FILTROS, BUSCADOR Y CATÁLOGO PAGINADO -->
-<section id="rubros-catalogo" class="py-14 bg-slate-100 bg-pattern">
+<section id="rubros-catalogo" class="py-16 bg-[#faf8f5] border-t border-stone-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <!-- Barra Superior: Filtros de Categoría -->
         <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
             <div class="flex flex-wrap items-center gap-2">
-                <button onclick="filterRubros('todos')" class="rubro-btn active bg-agro-700 text-white px-4 py-2 rounded-xl text-xs font-bold shadow-xs transition">Todos los Rubros (42)</button>
-                <button onclick="filterRubros('emblema')" class="rubro-btn bg-amberGold/20 border border-amberGold/50 text-slate-900 hover:bg-amberGold/30 px-4 py-2 rounded-xl text-xs font-black transition">🌟 Rubros Emblema (Truchas, Café, Panela)</button>
-                <button onclick="filterRubros('hortalizas')" class="rubro-btn bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 px-4 py-2 rounded-xl text-xs font-bold transition">Hortalizas</button>
-                <button onclick="filterRubros('tuberculos')" class="rubro-btn bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 px-4 py-2 rounded-xl text-xs font-bold transition">Tubérculos y Raíces</button>
-                <button onclick="filterRubros('frutas')" class="rubro-btn bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 px-4 py-2 rounded-xl text-xs font-bold transition">Frutas</button>
-                <button onclick="filterRubros('alinos')" class="rubro-btn bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 px-4 py-2 rounded-xl text-xs font-bold transition">Aliños y Hierbas</button>
+                <button onclick="filterRubros('todos')" class="rubro-btn active bg-[#133527] text-white px-4 py-2 rounded-xl text-xs font-bold shadow-xs transition">Todos los Rubros (42)</button>
+                <button onclick="filterRubros('emblema')" class="rubro-btn bg-amber-100/80 border border-amber-300 text-amber-950 hover:bg-amber-200/80 px-4 py-2 rounded-xl text-xs font-black transition">🌟 Rubros Emblema (Truchas, Café, Panela)</button>
+                <button onclick="filterRubros('hortalizas')" class="rubro-btn bg-white border border-stone-300 text-slate-700 hover:bg-stone-50 px-4 py-2 rounded-xl text-xs font-bold transition">Hortalizas</button>
+                <button onclick="filterRubros('tuberculos')" class="rubro-btn bg-white border border-stone-300 text-slate-700 hover:bg-stone-50 px-4 py-2 rounded-xl text-xs font-bold transition">Tubérculos y Raíces</button>
+                <button onclick="filterRubros('frutas')" class="rubro-btn bg-white border border-stone-300 text-slate-700 hover:bg-stone-50 px-4 py-2 rounded-xl text-xs font-bold transition">Frutas</button>
+                <button onclick="filterRubros('alinos')" class="rubro-btn bg-white border border-stone-300 text-slate-700 hover:bg-stone-50 px-4 py-2 rounded-xl text-xs font-bold transition">Aliños y Hierbas</button>
             </div>
 
             <!-- Badges de Garantía Agroecológica -->
             <div class="flex flex-wrap items-center gap-2 text-[11px] font-bold text-slate-600">
-                <span class="bg-cyan-50 text-cyan-800 border border-cyan-200 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
-                    <i class="fa-solid fa-droplet text-cyan-600"></i> Agua Continua 365 Días
+                <span class="bg-sky-50 text-sky-900 border border-sky-200 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-2xs">
+                    <i class="fa-solid fa-droplet text-sky-600"></i> Agua Continua 365 Días
                 </span>
-                <span class="bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
-                    <i class="fa-solid fa-mountain text-emerald-600"></i> Alta Montaña Andina
+                <span class="bg-emerald-50 text-emerald-900 border border-emerald-200 px-3 py-1.5 rounded-xl flex items-center gap-1.5 shadow-2xs">
+                    <i class="fa-solid fa-mountain text-emerald-700"></i> Alta Montaña Andina
                 </span>
             </div>
         </div>
@@ -70,7 +70,7 @@ require __DIR__ . '/includes/header.php';
         <div class="mb-8">
             <div class="relative max-w-2xl">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400 text-sm"></i>
-                <input type="text" id="searchRubroInput" onkeyup="searchRubros()" placeholder="Buscar rubro por nombre, aldea (Pattueca, Zumbador, etc.), forma de siembra o tiempo..." class="w-full pl-11 pr-4 py-3 bg-white rounded-2xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-agro-500 text-xs font-medium shadow-xs">
+                <input type="text" id="searchRubroInput" onkeyup="searchRubros()" placeholder="Buscar rubro por nombre, aldea (Pattueca, Zumbador, etc.), forma de siembra o tiempo..." class="w-full pl-11 pr-4 py-3 bg-white rounded-2xl border border-stone-300 focus:outline-none focus:ring-2 focus:ring-emerald-700 text-xs font-medium shadow-xs">
             </div>
         </div>
 
@@ -728,47 +728,47 @@ require __DIR__ . '/includes/header.php';
         const paginatedItems = rubrosCurrentList.slice(startIdx, endIdx);
 
         paginatedItems.forEach(rubro => {
-            const aldeasBadges = rubro.aldeas.slice(0, 3).map(a => `<span class="bg-amber-50 text-amber-900 border border-amber-200/70 text-[10px] font-bold px-2 py-0.5 rounded-md shadow-2xs">${a}</span>`).join(' ');
-            const moreAldeas = rubro.aldeas.length > 3 ? `<span class="bg-slate-100 text-slate-600 text-[9px] font-bold px-1.5 py-0.5 rounded-md">+${rubro.aldeas.length - 3}</span>` : '';
+            const aldeasBadges = rubro.aldeas.slice(0, 3).map(a => `<span class="bg-amber-50 text-amber-950 border border-amber-300/80 text-[10px] font-bold px-2 py-0.5 rounded-md shadow-2xs">${a}</span>`).join(' ');
+            const moreAldeas = rubro.aldeas.length > 3 ? `<span class="bg-stone-100 text-stone-600 text-[9px] font-bold px-1.5 py-0.5 rounded-md">+${rubro.aldeas.length - 3}</span>` : '';
 
             const card = `
-                <div class="bg-white border border-slate-200/80 hover:border-agro-500/70 rounded-3xl p-5 sm:p-6 shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group h-full">
+                <div class="bg-white border border-stone-200/90 hover:border-emerald-700/60 rounded-3xl p-6 shadow-xs hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group h-full">
                     <div>
                         <div class="flex items-center justify-between gap-2 mb-3.5">
-                            <span class="bg-amber-50 text-amber-900 border border-amber-200/70 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-2xs">
+                            <span class="bg-amber-100 text-amber-950 border border-amber-300/80 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-2xs">
                                 #${rubro.id} • ${rubro.category}
                             </span>
-                            <span class="bg-cyan-50 text-cyan-800 border border-cyan-200/70 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-2xs">
-                                <i class="fa-solid fa-droplet text-cyan-600 text-[9px]"></i> 365 Días
+                            <span class="bg-sky-50 text-sky-900 border border-sky-200/80 text-[10px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1 shadow-2xs">
+                                <i class="fa-solid fa-droplet text-sky-600 text-[9px]"></i> 365 Días
                             </span>
                         </div>
 
                         <div class="flex items-center gap-3.5 mb-3.5">
-                            <div class="w-12 h-12 bg-agro-50 border border-agro-100/70 text-agro-700 rounded-2xl flex items-center justify-center text-xl font-bold group-hover:bg-agro-700 group-hover:text-white transition shrink-0 shadow-2xs">
+                            <div class="w-12 h-12 bg-emerald-50 border border-emerald-200/80 text-emerald-800 rounded-2xl flex items-center justify-center text-xl font-bold group-hover:bg-[#133527] group-hover:text-white transition shrink-0 shadow-2xs">
                                 <i class="fa-solid ${rubro.icon}"></i>
                             </div>
                             <div class="min-w-0">
-                                <h4 class="font-black text-slate-900 text-base leading-tight group-hover:text-agro-800 transition truncate">${rubro.name}</h4>
-                                <span class="text-[10px] text-slate-400 font-bold block mt-0.5">${rubro.altitud}</span>
+                                <h4 class="font-serif font-extrabold text-slate-900 text-base leading-tight group-hover:text-emerald-900 transition truncate">${rubro.name}</h4>
+                                <span class="text-[10px] text-slate-400 font-semibold block mt-0.5">${rubro.altitud}</span>
                             </div>
                         </div>
 
                         <p class="text-xs text-slate-600 font-normal line-clamp-2 mb-4 leading-relaxed">${rubro.desc}</p>
 
-                        <div class="space-y-2.5 pt-3.5 border-t border-slate-100 text-[11px]">
+                        <div class="space-y-2.5 pt-3.5 border-t border-stone-100 text-[11px]">
                             <div>
-                                <span class="font-bold text-slate-400 uppercase text-[9px] block tracking-wider mb-0.5"><i class="fa-solid fa-seedling text-agro-600 mr-1"></i>Forma de Cultivo:</span>
+                                <span class="font-bold text-slate-400 uppercase text-[9px] block tracking-wider mb-0.5"><i class="fa-solid fa-seedling text-emerald-700 mr-1"></i>Forma de Cultivo:</span>
                                 <p class="text-slate-700 font-semibold line-clamp-2 leading-snug">${rubro.forma}</p>
                             </div>
 
-                            <div class="flex items-center justify-between text-[10px] bg-slate-50/80 p-2.5 rounded-xl border border-slate-100">
+                            <div class="flex items-center justify-between text-[10px] bg-[#faf8f5] p-2.5 rounded-xl border border-stone-200/80">
                                 <div>
-                                    <span class="text-slate-400 block font-bold text-[9px]"><i class="fa-solid fa-clock text-amber-500 mr-1"></i>Ciclo / Tiempo:</span>
-                                    <span class="font-black text-slate-800">${rubro.tiempo}</span>
+                                    <span class="text-slate-400 block font-bold text-[9px]"><i class="fa-solid fa-clock text-amber-600 mr-1"></i>Ciclo / Tiempo:</span>
+                                    <span class="font-bold text-slate-800">${rubro.tiempo}</span>
                                 </div>
                                 <div class="text-right">
-                                    <span class="text-slate-400 block font-bold text-[9px]"><i class="fa-solid fa-calendar-check text-emerald-600 mr-1"></i>Cosecha:</span>
-                                    <span class="font-black text-emerald-700">365 Días (Ene-Dic)</span>
+                                    <span class="text-slate-400 block font-bold text-[9px]"><i class="fa-solid fa-calendar-check text-emerald-700 mr-1"></i>Cosecha:</span>
+                                    <span class="font-bold text-emerald-800">365 Días (Ene-Dic)</span>
                                 </div>
                             </div>
 
@@ -782,8 +782,8 @@ require __DIR__ . '/includes/header.php';
                         </div>
                     </div>
 
-                    <div class="pt-4 border-t border-slate-100 mt-4">
-                        <button onclick="openRubroModal(${rubro.id})" class="w-full bg-slate-50 hover:bg-agro-700 hover:text-white hover:border-agro-700 border border-slate-200/80 text-slate-700 font-bold py-2.5 rounded-xl transition text-center text-xs flex items-center justify-center gap-1.5 shadow-2xs">
+                    <div class="pt-4 border-t border-stone-100 mt-4">
+                        <button onclick="openRubroModal(${rubro.id})" class="w-full bg-[#faf8f5] hover:bg-[#133527] hover:text-white hover:border-[#133527] border border-stone-300 text-slate-700 font-bold py-2.5 rounded-xl transition text-center text-xs flex items-center justify-center gap-1.5 shadow-2xs">
                             <i class="fa-solid fa-circle-info text-xs"></i> Ver Ficha Agronómica
                         </button>
                     </div>
@@ -823,7 +823,7 @@ require __DIR__ . '/includes/header.php';
         for (let i = 1; i <= totalPages; i++) {
             const isActive = i === rubrosCurrentPage;
             navEl.insertAdjacentHTML('beforeend', `
-                <button onclick="changeRubrosPage(${i})" class="w-8 h-8 rounded-xl text-xs font-bold transition flex items-center justify-center ${isActive ? 'bg-agro-700 text-white shadow-sm font-black' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 shadow-2xs'}">
+                <button onclick="changeRubrosPage(${i})" class="w-8 h-8 rounded-xl text-xs font-bold transition flex items-center justify-center ${isActive ? 'bg-[#133527] text-white shadow-sm font-black' : 'bg-white border border-stone-200 text-slate-700 hover:bg-stone-50 shadow-2xs'}">
                     ${i}
                 </button>
             `);
@@ -831,7 +831,7 @@ require __DIR__ . '/includes/header.php';
 
         const nextDisabled = rubrosCurrentPage === totalPages;
         navEl.insertAdjacentHTML('beforeend', `
-            <button onclick="changeRubrosPage(${rubrosCurrentPage + 1})" ${nextDisabled ? 'disabled' : ''} class="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-700 hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1 shadow-2xs">
+            <button onclick="changeRubrosPage(${rubrosCurrentPage + 1})" ${nextDisabled ? 'disabled' : ''} class="px-3 py-1.5 rounded-xl border border-stone-200 bg-white text-xs font-bold text-slate-700 hover:bg-stone-50 disabled:opacity-40 disabled:cursor-not-allowed transition flex items-center gap-1 shadow-2xs">
                 Siguiente <i class="fa-solid fa-chevron-right text-[10px]"></i>
             </button>
         `);
@@ -839,11 +839,11 @@ require __DIR__ . '/includes/header.php';
 
     function filterRubros(cat) {
         document.querySelectorAll('.rubro-btn').forEach(b => {
-            b.classList.remove('active', 'bg-agro-700', 'text-white');
+            b.classList.remove('active', 'bg-[#133527]', 'bg-agro-700', 'text-white');
             b.classList.add('bg-white', 'text-slate-700');
         });
         if (window.event && window.event.target && window.event.target.classList) {
-            window.event.target.classList.add('active', 'bg-agro-700', 'text-white');
+            window.event.target.classList.add('active', 'bg-[#133527]', 'text-white');
             window.event.target.classList.remove('bg-white', 'text-slate-700');
         }
 
@@ -886,51 +886,51 @@ require __DIR__ . '/includes/header.php';
         body.innerHTML = `
             <div class="space-y-6">
                 <div class="flex items-start gap-4">
-                    <div class="w-16 h-16 bg-agro-100 text-agro-800 rounded-2xl flex items-center justify-center text-3xl font-black shrink-0 shadow-xs">
+                    <div class="w-16 h-16 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl flex items-center justify-center text-3xl font-bold shrink-0 shadow-xs">
                         <i class="fa-solid ${rubro.icon}"></i>
                     </div>
                     <div>
                         <div class="flex items-center gap-2 mb-1">
-                            <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                            <span class="bg-amber-100 text-amber-900 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-amber-300">
                                 Rubro #${rubro.id} • ${rubro.category.toUpperCase()}
                             </span>
-                            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1 border border-emerald-200">
                                 <i class="fa-solid fa-check"></i> Producción Activa
                             </span>
                         </div>
-                        <h3 class="text-2xl font-black text-slate-900">${rubro.name}</h3>
-                        <p class="text-xs text-slate-500 font-semibold"><i class="fa-solid fa-mountain mr-1 text-slate-400"></i> Altitud Óptima: ${rubro.altitud}</p>
+                        <h3 class="font-serif text-2xl font-extrabold text-slate-900">${rubro.name}</h3>
+                        <p class="text-xs text-slate-500 font-semibold"><i class="fa-solid fa-mountain mr-1 text-emerald-700"></i> Altitud Óptima: ${rubro.altitud}</p>
                     </div>
                 </div>
 
-                <p class="text-sm text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                <p class="text-sm text-slate-600 leading-relaxed bg-[#faf8f5] p-4 rounded-2xl border border-stone-200">
                     ${rubro.desc}
                 </p>
 
                 <div class="grid sm:grid-cols-2 gap-4">
-                    <div class="bg-agro-50/60 border border-agro-200 p-4 rounded-2xl">
-                        <span class="text-[10px] font-black uppercase text-agro-800 block tracking-wider mb-1"><i class="fa-solid fa-tractor mr-1.5"></i> Forma de Cultivo y Suelo</span>
+                    <div class="bg-emerald-50/70 border border-emerald-200 p-4 rounded-2xl">
+                        <span class="text-[10px] font-bold uppercase text-emerald-900 block tracking-wider mb-1"><i class="fa-solid fa-tractor mr-1.5 text-emerald-700"></i> Forma de Cultivo y Suelo</span>
                         <p class="text-xs text-slate-700 font-medium leading-relaxed">${rubro.forma}</p>
                     </div>
-                    <div class="bg-cyan-50/60 border border-cyan-200 p-4 rounded-2xl">
-                        <span class="text-[10px] font-black uppercase text-cyan-800 block tracking-wider mb-1"><i class="fa-solid fa-faucet-drip mr-1.5"></i> Régimen Hídrico (365 Días)</span>
+                    <div class="bg-sky-50/70 border border-sky-200 p-4 rounded-2xl">
+                        <span class="text-[10px] font-bold uppercase text-sky-900 block tracking-wider mb-1"><i class="fa-solid fa-faucet-drip mr-1.5 text-sky-600"></i> Régimen Hídrico (365 Días)</span>
                         <p class="text-xs text-slate-700 font-medium leading-relaxed">${rubro.agua_riego}</p>
                     </div>
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-4">
-                    <div class="bg-slate-50 border border-slate-200 p-3.5 rounded-2xl">
-                        <span class="text-[10px] font-black uppercase text-slate-400 block tracking-wider mb-0.5"><i class="fa-solid fa-stopwatch mr-1.5 text-amber-500"></i> Ciclo Biológico</span>
+                    <div class="bg-stone-50 border border-stone-200 p-3.5 rounded-2xl">
+                        <span class="text-[10px] font-bold uppercase text-slate-400 block tracking-wider mb-0.5"><i class="fa-solid fa-stopwatch mr-1.5 text-amber-600"></i> Ciclo Biológico</span>
                         <p class="text-xs font-bold text-slate-800">${rubro.tiempo}</p>
                     </div>
                     <div class="bg-emerald-50 border border-emerald-200 p-3.5 rounded-2xl">
-                        <span class="text-[10px] font-black uppercase text-emerald-800 block tracking-wider mb-0.5"><i class="fa-solid fa-calendar-days mr-1.5 text-emerald-600"></i> Calendario de Cosecha</span>
+                        <span class="text-[10px] font-bold uppercase text-emerald-900 block tracking-wider mb-0.5"><i class="fa-solid fa-calendar-days mr-1.5 text-emerald-700"></i> Calendario de Cosecha</span>
                         <p class="text-xs font-extrabold text-emerald-800">${rubro.meses}</p>
                     </div>
                 </div>
 
                 <div>
-                    <span class="text-[11px] font-black uppercase text-slate-500 block tracking-wider mb-2.5">
+                    <span class="text-[11px] font-bold uppercase text-slate-500 block tracking-wider mb-2.5">
                         <i class="fa-solid fa-map-location-dot text-rose-500 mr-1.5"></i> Aldeas Productoras Donde se Cosecha:
                     </span>
                     <div class="flex flex-wrap gap-2">
@@ -938,11 +938,11 @@ require __DIR__ . '/includes/header.php';
                     </div>
                 </div>
 
-                <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row gap-3">
-                    <button onclick="consultarRubroEnChat('${rubro.name}')" class="flex-1 bg-agro-700 hover:bg-agro-800 text-white font-bold py-3 rounded-xl transition text-center text-xs flex items-center justify-center gap-2 shadow-xs">
+                <div class="pt-4 border-t border-stone-200 flex flex-col sm:flex-row gap-3">
+                    <button onclick="consultarRubroEnChat('${rubro.name}')" class="flex-1 bg-[#133527] hover:bg-[#1b4332] text-white font-bold py-3.5 rounded-xl transition text-center text-xs flex items-center justify-center gap-2 shadow-xs">
                         <i class="fa-solid fa-comments"></i> Consultar Disponibilidad en Chat
                     </button>
-                    <button onclick="closeRubroModal()" class="px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition text-xs">
+                    <button onclick="closeRubroModal()" class="px-5 py-3.5 bg-stone-100 hover:bg-stone-200 text-slate-700 font-bold rounded-xl transition text-xs">
                         Cerrar
                     </button>
                 </div>

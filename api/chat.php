@@ -81,7 +81,7 @@ try {
 
                 // Mensaje de bienvenida inicial
                 $org = config_get('nombre_organizacion', 'La Nueva Esperanza');
-                $bienvenida = "¡Saludos fraternales campesinos! 👋 Te damos la bienvenida a la EPSDC $org en La Grita, Táchira.\n\nEste es nuestro canal de orientación directa comunal. Con gusto te informamos sobre nuestros 39 rubros cosechados en el macizo andino, las bolsas y combos familiares disponibles, el cronograma de entregas de la semana o los requisitos de arrime para productores y UPF. Si requieres coordinar con el equipo directivo, puedes solicitarlo en cualquier momento.";
+                $bienvenida = "¡Hola! Le damos una cordial bienvenida a la EPSDC $org en La Grita, Estado Táchira.\n\nEste es nuestro canal de orientación y atención comunal. Con gusto le brindamos información sobre nuestros rubros agrícolas, bolsas y combos familiares disponibles, cronograma de entregas de la semana o los requisitos de arrime para productores y UPF. Si requiere comunicarse con la coordinación, puede solicitarlo en cualquier momento.";
                 
                 $stmtMsg = $pdo->prepare('INSERT INTO chat_mensajes (sesion_id, remitente, mensaje) VALUES (?, "ia", ?)');
                 $stmtMsg->execute([$sesionId, $bienvenida]);
@@ -109,6 +109,53 @@ try {
                     'estado' => $sesion['estado'],
                 ],
                 'mensajes' => $mensajes,
+            ]);
+            break;
+
+        // ==========================================
+        // 1.1 RESETEAR / NUEVO CHAT DE VISITANTE
+        // ==========================================
+        case 'reset_session':
+            $newUuid = 'lne_' . bin2hex(random_bytes(16));
+            setcookie('epsdc_chat_uuid', $newUuid, [
+                'expires' => time() + 31536000,
+                'path' => '/',
+                'httponly' => false,
+                'samesite' => 'Lax'
+            ]);
+
+            $ip = $_SERVER['REMOTE_ADDR'] ?? null;
+            $randNum = rand(1000, 9999);
+            $nombreVis = 'Visitante #' . $randNum;
+
+            $stmtIns = $pdo->prepare('INSERT INTO chat_sesiones (session_uuid, nombre_visitante, estado, ip) VALUES (?, ?, "ia", ?)');
+            $stmtIns->execute([$newUuid, $nombreVis, $ip]);
+            $sesionId = (int)$pdo->lastInsertId();
+
+            $org = config_get('nombre_organizacion', 'La Nueva Esperanza');
+            $bienvenida = "¡Hola! Le damos una cordial bienvenida a la EPSDC $org en La Grita, Estado Táchira.\n\nEste es nuestro canal de orientación y atención comunal. Con gusto le brindamos información sobre nuestros rubros agrícolas, bolsas y combos familiares disponibles, cronograma de entregas de la semana o los requisitos de arrime para productores y UPF. Si requiere comunicarse con la coordinación, puede solicitarlo en cualquier momento.";
+
+            $stmtMsg = $pdo->prepare('INSERT INTO chat_mensajes (sesion_id, remitente, mensaje) VALUES (?, "ia", ?)');
+            $stmtMsg->execute([$sesionId, $bienvenida]);
+            $msgId = (int)$pdo->lastInsertId();
+
+            jsonOut([
+                'ok' => true,
+                'session' => [
+                    'id' => $sesionId,
+                    'uuid' => $newUuid,
+                    'nombre' => $nombreVis,
+                    'estado' => 'ia',
+                ],
+                'mensajes' => [
+                    [
+                        'id' => $msgId,
+                        'remitente' => 'ia',
+                        'autor_nombre' => null,
+                        'mensaje' => $bienvenida,
+                        'creado_en' => date('Y-m-d H:i:s'),
+                    ]
+                ],
             ]);
             break;
 

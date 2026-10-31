@@ -89,7 +89,7 @@ require __DIR__ . '/includes/header.php';
 ?>
 
 <!-- 1. HERO MONUMENTAL ANDINO (Estándar Editorial de Alta Gama • Sin Estética de IA) -->
-<section id="inicio" class="relative bg-[#0a1c14] text-white overflow-hidden pt-16 pb-24 lg:pt-20 lg:pb-32">
+<section id="inicio" class="relative bg-[#0a1c14] text-white overflow-hidden pt-16 pb-16 lg:pt-20 lg:pb-20">
     <!-- Curvas topográficas andinas en SVG orgánico (Curvas de nivel de alta montaña, no matrices de puntos) -->
     <div class="absolute inset-0 opacity-[0.07] pointer-events-none overflow-hidden flex items-center justify-center">
         <svg class="w-[140%] h-[140%] min-w-[1000px]" viewBox="0 0 1200 800" fill="none" stroke="currentColor">
@@ -226,7 +226,7 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <!-- 2. KINETIC MARQUEE STREAM: RUBROS DE LA TIERRA ANDINA (Ley de Densidad Visual) -->
-<div class="bg-[#1b4332] border-y border-emerald-700/60 py-3.5 overflow-hidden select-none">
+<div class="relative z-20 bg-[#0e2a1f] border-y border-emerald-800/80 py-4 overflow-hidden select-none shadow-sm">
     <div class="flex items-center gap-8 whitespace-nowrap animate-marquee w-max">
         <div class="flex items-center gap-8 text-xs font-bold uppercase tracking-wider text-emerald-100">
             <span class="inline-flex items-center gap-2"><span class="text-base">🥔</span> Papa Granola de Páramo (2.800 msnm)</span>
@@ -274,7 +274,7 @@ require __DIR__ . '/includes/header.php';
 </div>
 
 <!-- 3. BOLSAS Y COMBOS AGRÍCOLAS (INVERSIÓN RADICAL A LIENZO CREMA CÁLIDO) -->
-<section id="combos" class="py-20 lg:py-24 bg-[#faf8f5] rounded-t-[48px] -mt-6 relative z-20 shadow-2xl border-t border-amber-900/10">
+<section id="combos" class="py-20 lg:py-24 bg-[#faf8f5] relative z-10 shadow-sm border-t border-amber-900/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
@@ -378,29 +378,36 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <!-- 3. ENTREGAS DE LA SEMANA (CRONOGRAMA DE RUTAS) -->
-<section id="entregas" class="py-20 bg-slate-50 border-t border-b border-slate-200/80">
+<section id="entregas" class="py-20 bg-white border-t border-b border-slate-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-12 gap-4">
+        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-12 gap-6">
             <div>
-                <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-50 px-3 py-1 rounded-full border border-amber-200/60 mb-2">
-                    <i class="fa-solid fa-truck-fast text-amber-600"></i> Cronograma Oficial de Distribución Semanal
+                <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-900 bg-amber-100/80 px-3.5 py-1 rounded-full border border-amber-300/80 mb-3">
+                    <i class="fa-solid fa-truck-fast text-amber-700"></i> Cronograma Oficial de Distribución Semanal
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Rutas y Puntos de Despacho</h2>
-                <p class="text-slate-500 text-xs sm:text-sm mt-2 leading-relaxed">
-                    Rutas programadas del <strong><?= fecha_corta($lunes) ?></strong> al <strong><?= fecha_corta($domingo) ?></strong>. Información actualizada por el equipo de coordinación comunal.
-                </p>
+                <h2 class="text-3xl sm:text-5xl font-serif font-extrabold text-slate-900 tracking-tight">
+                    Rutas y Puntos de Despacho
+                </h2>
+                <div class="flex items-center gap-2 mt-2">
+                    <p class="text-slate-600 text-xs sm:text-sm max-w-2xl leading-relaxed">
+                        Rutas programadas del <strong><?= fecha_corta($lunes) ?></strong> al <strong><?= fecha_corta($domingo) ?></strong>. Despachos directos desde el galpón central en Quebrada de San José.
+                    </p>
+                    <span class="font-hand text-lg text-emerald-700 font-bold hidden sm:inline -rotate-1">
+                        • Horarios exactos
+                    </span>
+                </div>
             </div>
-            <div class="bg-white text-slate-700 px-3.5 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 flex items-center gap-2 shadow-xs">
-                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                <span>Despachos en tiempo real</span>
+            <div class="bg-emerald-50 text-emerald-900 px-4 py-2 rounded-2xl text-xs font-semibold border border-emerald-200/80 flex items-center gap-2 shadow-2xs">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>Despachos activos en tiempo real</span>
             </div>
         </div>
 
         <?php if (!$entregasSemana): ?>
-            <div class="bg-white border border-slate-200 rounded-3xl p-10 text-center text-slate-500 shadow-xs">
+            <div class="bg-[#faf8f5] border border-slate-200 rounded-3xl p-12 text-center text-slate-500 shadow-xs">
                 <i class="fa-solid fa-calendar-xmark text-4xl text-slate-400 mb-3"></i>
-                <h4 class="font-bold text-base text-slate-800">No hay entregas programadas para esta semana</h4>
+                <h4 class="font-serif font-bold text-lg text-slate-800">No hay entregas programadas para esta semana</h4>
                 <p class="text-xs text-slate-500 mt-1">El cronograma de rutas se publicará en breve por la coordinación de la EPSDC.</p>
             </div>
         <?php else: ?>
@@ -414,24 +421,24 @@ require __DIR__ . '/includes/header.php';
                     $cantidadBolsas = (int)($ent['cantidad_bolsas'] ?? $ent['cantidad_disponible'] ?? 0);
                     $horaFmt = !empty($ent['hora']) ? substr($ent['hora'], 0, 5) : '08:00';
                 ?>
-                    <div class="bg-white border border-slate-200/90 hover:border-slate-300 rounded-2xl p-5 shadow-xs hover:shadow-lg transition flex flex-col justify-between group">
+                    <div class="bg-white border border-slate-200/90 hover:border-emerald-700/60 rounded-3xl p-6 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
                         <div>
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="bg-amber-50 text-amber-900 border border-amber-200/70 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                            <div class="flex justify-between items-center mb-3.5">
+                                <span class="bg-amber-100 text-amber-950 border border-amber-300/80 text-[10px] font-bold px-3 py-0.5 rounded-full uppercase tracking-wider">
                                     <?= $diaTexto ?> • <?= date('d/m', strtotime($ent['fecha_entrega'])) ?>
                                 </span>
                                 <span class="text-xs font-semibold text-slate-400">
                                     <i class="fa-regular fa-clock mr-1 text-slate-400"></i><?= e($horaFmt) ?>
                                 </span>
                             </div>
-                            <h4 class="font-bold text-slate-900 text-base mb-1.5 leading-snug">
+                            <h4 class="font-serif font-extrabold text-slate-900 text-lg mb-1.5 leading-snug group-hover:text-emerald-900 transition-colors">
                                 <?= e($sectorNombre) ?>
                             </h4>
-                            <p class="text-xs text-slate-500 mb-4 leading-relaxed"><?= e($ent['direccion'] ?: 'Punto de acopio comunal central') ?></p>
+                            <p class="text-xs text-slate-500 mb-5 leading-relaxed"><?= e($ent['direccion'] ?: 'Punto de acopio comunal central') ?></p>
                         </div>
-                        <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                            <span class="text-slate-500 font-medium"><?= e($ent['producto'] ?: 'Combo Comunal') ?></span>
-                            <span class="font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 text-[11px]"><?= $cantidadBolsas ?> cupos</span>
+                        <div class="pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs">
+                            <span class="text-slate-600 font-medium"><?= e($ent['producto'] ?: 'Combo Comunal') ?></span>
+                            <span class="font-bold text-emerald-900 bg-emerald-100/80 px-2.5 py-0.5 rounded-full border border-emerald-300/80 text-[11px]"><?= $cantidadBolsas ?> cupos</span>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -442,20 +449,28 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <!-- 4. GOOGLE MAPS Y UBICACIÓN ESTRATÉGICA (LA GRITA, QUEBRADA DE SAN JOSÉ) -->
-<section id="mapa-venezuela" class="py-20 bg-[#0b1219] text-white relative overflow-hidden border-b border-slate-800">
+<section id="mapa-venezuela" class="py-20 bg-[#0a1c14] text-white relative overflow-hidden border-b border-emerald-950">
+    <!-- Curvas topográficas andinas -->
+    <div class="absolute inset-0 opacity-[0.05] pointer-events-none overflow-hidden flex items-center justify-center">
+        <svg class="w-[140%] h-[140%]" viewBox="0 0 1200 800" fill="none" stroke="currentColor">
+            <path d="M-100,200 C200,100 400,350 700,200 C1000,50 1100,280 1300,180" stroke-width="1.5" />
+            <path d="M-100,400 C180,260 480,500 800,360 C1100,220 1200,450 1300,360" stroke-width="1.5" />
+        </svg>
+    </div>
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <div class="text-center max-w-4xl mx-auto mb-14">
-            <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 mb-3">
+            <span class="bg-amber-400/10 text-amber-300 border border-amber-400/30 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider inline-flex items-center gap-2 mb-3">
                 <i class="fa-solid fa-map-location-dot"></i> Georreferenciación Estratégica Nacional • Estado Táchira
             </span>
-            <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+            <h2 class="text-3xl sm:text-5xl font-serif font-extrabold text-white tracking-tight">
                 Mapa de Venezuela y Ubicación Estratégica
             </h2>
-            <h3 class="text-base sm:text-xl font-semibold text-slate-400 mt-2">
+            <h3 class="text-base sm:text-xl font-medium text-emerald-200/90 mt-2">
                 Ciudad de La Grita • Municipio Jáuregui (Aldea Quebrada de San José)
             </h3>
-            <p class="text-slate-300 mt-4 text-xs sm:text-sm md:text-base leading-relaxed font-normal">
+            <p class="text-emerald-100/80 mt-4 text-xs sm:text-sm md:text-base leading-relaxed font-normal">
                 Nuestra sede principal y centro de acopio comunal se ubican en la <strong>Ciudad de La Grita, Municipio Jáuregui (Aldea Quebrada de San José)</strong>, al noroeste del Estado Táchira. Una posición privilegiada en la alta montaña andina con clima fresco de <strong>18°C a 19°C y presencia frecuente de neblina</strong>, aportando cerca del <strong>65% de la producción total de hortalizas y papas</strong> de la entidad.
             </p>
         </div>
@@ -463,24 +478,24 @@ require __DIR__ . '/includes/header.php';
         <div class="grid lg:grid-cols-12 gap-8 items-start mb-12">
             
             <!-- Columna Izquierda: Google Maps Iframe -->
-            <div class="lg:col-span-7 bg-slate-900/90 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-2xl relative">
+            <div class="lg:col-span-7 bg-[#0e2a1f]/90 border border-emerald-800/60 rounded-3xl p-5 sm:p-6 shadow-2xl relative backdrop-blur-xs">
                 
-                <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-4 border-b border-slate-800">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-4 pb-4 border-b border-emerald-800/60">
                     <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Cartografía Digital Interactiva</span>
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="text-xs font-bold text-emerald-200 uppercase tracking-wider">Cartografía Digital Interactiva</span>
                     </div>
-                    <div class="flex flex-wrap gap-1.5 bg-slate-950 p-1 rounded-xl border border-slate-800 text-[11px] font-semibold">
+                    <div class="flex flex-wrap gap-1.5 bg-[#0a1c14] p-1 rounded-xl border border-emerald-800/80 text-[11px] font-semibold">
                         <span class="px-3 py-1.5 rounded-lg bg-emerald-800 text-white flex items-center gap-1.5 shadow-xs">
-                            <i class="fa-solid fa-map-location-dot text-emerald-300"></i> Google Maps En Vivo
+                            <i class="fa-solid fa-map-location-dot text-amber-300"></i> Google Maps En Vivo
                         </span>
-                        <a href="<?= e(url('territorio.php')) ?>" class="px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition flex items-center gap-1.5">
+                        <a href="<?= e(url('territorio.php')) ?>" class="px-3 py-1.5 rounded-lg text-emerald-200/80 hover:text-white transition flex items-center gap-1.5">
                             <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i> Abrir Territorio Completo
                         </a>
                     </div>
                 </div>
 
-                <div class="relative w-full h-[460px] sm:h-[480px] rounded-2xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-950">
+                <div class="relative w-full h-[460px] sm:h-[480px] rounded-2xl overflow-hidden border border-emerald-800/60 shadow-2xl bg-slate-950">
                     <iframe 
                         id="gmapIframeHome"
                         src="https://maps.google.com/maps?q=Aldea+Quebrada+de+San+Jos%C3%A9,+La+Grita,+Municipio+J%C3%A1uregui,+T%C3%A1chira,+Venezuela&t=&z=14&ie=UTF8&iwloc=&output=embed" 
@@ -491,26 +506,26 @@ require __DIR__ . '/includes/header.php';
                         title="Ubicación Google Maps - EPSDC La Nueva Esperanza">
                     </iframe>
 
-                    <div class="absolute top-3 left-3 z-10 bg-slate-950/90 border border-slate-800 px-3.5 py-2 rounded-xl text-xs text-white backdrop-blur-md shadow-lg flex items-center gap-2.5">
+                    <div class="absolute top-3 left-3 z-10 bg-[#0a1c14]/95 border border-emerald-700/60 px-3.5 py-2 rounded-xl text-xs text-white backdrop-blur-md shadow-lg flex items-center gap-2.5">
                         <span class="w-2.5 h-2.5 rounded-full bg-rose-500 shrink-0"></span>
                         <div>
                             <div class="font-bold text-white flex items-center gap-1.5 leading-tight">
                                 <i class="fa-solid fa-location-dot text-rose-500 text-xs"></i> Aldea Quebrada de San José
                             </div>
-                            <div class="text-[10px] text-slate-400 font-medium">La Grita, Municipio Jáuregui • Estado Táchira</div>
+                            <div class="text-[10px] text-emerald-200/70 font-medium">La Grita, Municipio Jáuregui • Estado Táchira</div>
                         </div>
                     </div>
 
                     <div class="absolute bottom-3 left-3 right-3 z-10 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
-                        <div class="bg-slate-950/85 border border-slate-800 px-3 py-1.5 rounded-xl text-[10px] text-slate-400 font-mono backdrop-blur-md pointer-events-auto hidden sm:flex items-center gap-2">
-                            <i class="fa-solid fa-compass text-slate-500"></i>
+                        <div class="bg-[#0a1c14]/90 border border-emerald-700/60 px-3 py-1.5 rounded-xl text-[10px] text-emerald-200/80 font-mono backdrop-blur-md pointer-events-auto hidden sm:flex items-center gap-2">
+                            <i class="fa-solid fa-compass text-amber-300"></i>
                             <span>8°08′00″ N, 71°59′00″ O</span>
                         </div>
                         <div class="flex items-center gap-2 pointer-events-auto ml-auto">
                             <a href="https://www.google.com/maps/search/?api=1&query=Aldea+Quebrada+de+San+Jose+La+Grita+Jauregui+Tachira+Venezuela" 
                                target="_blank" 
                                rel="noopener noreferrer" 
-                               class="bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold px-3.5 py-2 rounded-xl shadow-sm flex items-center gap-2 transition active:scale-95">
+                               class="bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold px-3.5 py-2 rounded-xl shadow-sm flex items-center gap-2 transition active:scale-95">
                                 <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                                 <span>Abrir en Google Maps</span>
                             </a>
@@ -523,58 +538,58 @@ require __DIR__ . '/includes/header.php';
             <!-- Columna Derecha: 4 Bento Highlights -->
             <div class="lg:col-span-5 space-y-4">
                 
-                <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl shadow-sm relative group hover:border-slate-700 transition">
+                <div class="bg-[#0e2a1f]/90 border border-emerald-700/50 hover:border-emerald-500/70 p-6 rounded-3xl shadow-sm relative group transition-all duration-300 backdrop-blur-xs">
                     <div class="flex items-start justify-between gap-3 mb-2">
-                        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-lg shrink-0">
+                        <div class="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-300 flex items-center justify-center text-lg shrink-0">
                             <i class="fa-solid fa-trophy"></i>
                         </div>
-                        <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold text-xs px-2.5 py-1 rounded-full uppercase tracking-wider">
+                        <span class="bg-amber-400/10 text-amber-300 border border-amber-400/30 font-bold text-xs px-2.5 py-1 rounded-full uppercase tracking-wider">
                             Motor #1 del Táchira
                         </span>
                     </div>
-                    <h4 class="text-xl font-extrabold text-white mt-1">65% de la Producción Agrícola</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed mt-2">
+                    <h4 class="font-serif text-xl font-extrabold text-white mt-1">65% de la Producción Agrícola</h4>
+                    <p class="text-xs text-emerald-100/70 leading-relaxed mt-2">
                         El <strong>Municipio Jáuregui (La Grita)</strong> se destaca como el <strong>principal motor agrícola del estado Táchira</strong>, aportando cerca del <strong>65% de la producción total de hortalizas, papas y rubros del campo</strong> de toda la entidad.
                     </p>
                 </div>
 
-                <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl shadow-sm relative group hover:border-slate-700 transition">
+                <div class="bg-[#0e2a1f]/90 border border-emerald-700/50 hover:border-emerald-500/70 p-6 rounded-3xl shadow-sm relative group transition-all duration-300 backdrop-blur-xs">
                     <div class="flex items-start justify-between gap-3 mb-2">
-                        <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-400/20 text-sky-400 flex items-center justify-center text-lg shrink-0">
+                        <div class="w-10 h-10 rounded-xl bg-sky-400/10 border border-sky-400/30 text-sky-300 flex items-center justify-center text-lg shrink-0">
                             <i class="fa-solid fa-smog"></i>
                         </div>
-                        <span class="bg-sky-500/10 text-sky-400 border border-sky-400/20 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                        <span class="bg-sky-400/10 text-sky-300 border border-sky-400/30 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
                             18°C a 19°C Media
                         </span>
                     </div>
-                    <h4 class="text-lg font-extrabold text-white mt-1">Clima Montañoso Andino y Neblina</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed mt-2">
+                    <h4 class="font-serif text-lg font-extrabold text-white mt-1">Clima Montañoso Andino y Neblina</h4>
+                    <p class="text-xs text-emerald-100/70 leading-relaxed mt-2">
                         Gozamos de un <strong>clima montañoso andino fresco</strong>, con una temperatura media anual de aproximadamente <strong>18°C a 19°C</strong> y la <strong>presencia frecuente de neblina andina</strong>.
                     </p>
                 </div>
 
-                <div class="bg-slate-900/90 border border-slate-800 p-6 rounded-2xl shadow-sm relative group hover:border-slate-700 transition">
+                <div class="bg-[#0e2a1f]/90 border border-emerald-700/50 hover:border-emerald-500/70 p-6 rounded-3xl shadow-sm relative group transition-all duration-300 backdrop-blur-xs">
                     <div class="flex items-start justify-between gap-3 mb-2">
-                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 flex items-center justify-center text-lg shrink-0">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-400/10 border border-emerald-400/30 text-emerald-300 flex items-center justify-center text-lg shrink-0">
                             <i class="fa-solid fa-location-crosshairs"></i>
                         </div>
-                        <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-400/20 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                        <span class="bg-emerald-400/10 text-emerald-300 border border-emerald-400/30 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
                             Aldea Quebrada de San José
                         </span>
                     </div>
-                    <h4 class="text-lg font-extrabold text-white mt-1">Sede Central y Galpón de Acopio</h4>
-                    <p class="text-xs text-slate-400 leading-relaxed mt-2">
+                    <h4 class="font-serif text-lg font-extrabold text-white mt-1">Sede Central y Galpón de Acopio</h4>
+                    <p class="text-xs text-emerald-100/70 leading-relaxed mt-2">
                         Asentados en la <strong>Ciudad de La Grita</strong>, dentro de la <strong>Aldea Quebrada de San José</strong>. Articulación directa con las aldeas productoras de la alta montaña andina.
                     </p>
                 </div>
 
-                <div class="bg-slate-900/90 border border-slate-800 p-5 rounded-2xl shadow-sm flex items-center justify-between gap-4">
+                <div class="bg-[#0e2a1f]/90 border border-emerald-700/50 p-5 rounded-3xl shadow-sm flex items-center justify-between gap-4">
                     <div class="space-y-1">
-                        <span class="text-[10px] text-amber-400 font-bold uppercase tracking-wider">Geografía Completa</span>
-                        <h5 class="text-sm font-bold text-white">Cuencas, Municipios y Salida al Caribe</h5>
-                        <p class="text-[11px] text-slate-400">Puerto La Ceiba y frontera San Antonio / Cúcuta.</p>
+                        <span class="text-[10px] text-amber-300 font-bold uppercase tracking-wider">Geografía Completa</span>
+                        <h5 class="font-serif text-sm font-bold text-white">Cuencas, Municipios y Salida al Caribe</h5>
+                        <p class="text-[11px] text-emerald-200/70">Puerto La Ceiba y frontera San Antonio / Cúcuta.</p>
                     </div>
-                    <a href="<?= e(url('territorio.php')) ?>" class="px-4 py-2 bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold transition shrink-0 shadow-xs flex items-center gap-1.5">
+                    <a href="<?= e(url('territorio.php')) ?>" class="px-4 py-2.5 bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold transition shrink-0 shadow-xs flex items-center gap-1.5 border border-emerald-600/50">
                         <span>Explorar</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </a>
                 </div>
@@ -587,90 +602,95 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <!-- 5. BENTO CARDS DE ENLACE A PÁGINAS ESPECIALIZADAS -->
-<section class="py-16 bg-white border-b border-slate-200">
+<section class="py-20 bg-[#faf8f5] border-b border-stone-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div class="text-center max-w-3xl mx-auto mb-12">
-            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200/60 mb-2">
-                <i class="fa-solid fa-layer-group text-emerald-600"></i> Ecosistema Digital de la EPSDC
+        <div class="text-center max-w-3xl mx-auto mb-14">
+            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-900 bg-emerald-100/80 px-3.5 py-1 rounded-full border border-emerald-300/80 mb-3">
+                <i class="fa-solid fa-layer-group text-emerald-700"></i> Ecosistema Digital de la EPSDC
             </span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-                Conoce a Fondo Nuestra Estructura
+            <h2 class="text-3xl sm:text-5xl font-serif font-extrabold text-slate-900 tracking-tight">
+                Conozca Nuestra Estructura Integral
             </h2>
-            <p class="text-slate-500 text-xs sm:text-sm mt-2 leading-relaxed">
-                Explora las secciones dedicadas a nuestra biodiversidad agronómica, desglose territorial por aldeas y el marco institucional comunitario.
-            </p>
+            <div class="flex items-center justify-center gap-2 mt-2">
+                <p class="text-slate-600 text-xs sm:text-sm max-w-2xl leading-relaxed">
+                    Explore las secciones dedicadas a nuestra biodiversidad agronómica, desglose territorial por aldeas y el marco institucional comunitario.
+                </p>
+                <span class="font-hand text-lg text-emerald-700 font-bold hidden sm:inline -rotate-1">
+                    • Información 100% verificada
+                </span>
+            </div>
         </div>
 
         <div class="grid md:grid-cols-3 gap-8">
             
             <!-- Card 1: 39 Rubros -->
-            <div class="bg-white border border-slate-200/90 hover:border-slate-300 rounded-3xl p-7 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+            <div class="bg-white border border-stone-200/90 hover:border-emerald-700/60 rounded-3xl p-8 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
                 <div>
-                    <div class="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-100 text-orange-600 flex items-center justify-center text-xl font-bold mb-5 shadow-2xs">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200/80 text-amber-700 flex items-center justify-center text-2xl font-bold mb-6 shadow-2xs group-hover:scale-105 transition-transform">
                         <i class="fa-solid fa-carrot"></i>
                     </div>
-                    <span class="bg-slate-100 text-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Biodiversidad</span>
-                    <h3 class="text-xl font-extrabold text-slate-900 mt-2 mb-2"><?= e('Catálogo de los 39 Rubros') ?></h3>
-                    <p class="text-xs text-slate-500 leading-relaxed mb-4">
-                        Conoce las características agronómicas de cada rubro: papa, zanahoria, cebolla, ajo criollo, tomate, frutas y aliños. Formas de cultivo en terrazas andinas y calendario de cosecha 365 días.
+                    <span class="bg-stone-100 text-stone-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-stone-200">Biodiversidad</span>
+                    <h3 class="font-serif text-2xl font-extrabold text-slate-900 mt-3 mb-2.5 group-hover:text-emerald-900 transition-colors"><?= e('Catálogo de los 39 Rubros') ?></h3>
+                    <p class="text-xs text-slate-500 leading-relaxed mb-5">
+                        Conozca las características agronómicas de cada rubro: papa granola, zanahoria, cebolla, ajo criollo, tomate y aliños. Formas de cultivo en terrazas andinas y calendario continuo los 365 días.
                     </p>
-                    <div class="flex flex-wrap gap-1.5 mb-4">
-                        <span class="bg-slate-50 border border-slate-200 text-slate-600 text-[10px] font-semibold px-2 py-0.5 rounded-md">Papas de Páramo</span>
-                        <span class="bg-slate-50 border border-slate-200 text-slate-600 text-[10px] font-semibold px-2 py-0.5 rounded-md">Hortalizas</span>
-                        <span class="bg-slate-50 border border-slate-200 text-slate-600 text-[10px] font-semibold px-2 py-0.5 rounded-md">Frutas de Valle</span>
+                    <div class="flex flex-wrap gap-1.5 mb-6">
+                        <span class="bg-[#faf8f5] border border-stone-200 text-stone-700 text-[10px] font-semibold px-2.5 py-1 rounded-lg">Papas de Páramo</span>
+                        <span class="bg-[#faf8f5] border border-stone-200 text-stone-700 text-[10px] font-semibold px-2.5 py-1 rounded-lg">Hortalizas</span>
+                        <span class="bg-[#faf8f5] border border-stone-200 text-stone-700 text-[10px] font-semibold px-2.5 py-1 rounded-lg">Frutas de Valle</span>
                     </div>
                 </div>
-                <div class="pt-4 border-t border-slate-100">
-                    <a href="<?= e(url('rubros.php')) ?>" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl transition text-center text-xs flex items-center justify-center gap-2 shadow-xs active:scale-95">
+                <div class="pt-5 border-t border-stone-100">
+                    <a href="<?= e(url('rubros.php')) ?>" class="w-full bg-[#133527] hover:bg-[#1b4332] text-white font-bold py-3.5 rounded-xl transition text-center text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs active:scale-95">
                         <span>Ver Catálogo Paginado</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </a>
                 </div>
             </div>
 
             <!-- Card 2: Territorio y Geografía -->
-            <div class="bg-white border border-slate-200/90 hover:border-slate-300 rounded-3xl p-7 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+            <div class="bg-white border border-stone-200/90 hover:border-emerald-700/60 rounded-3xl p-8 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
                 <div>
-                    <div class="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-100 text-sky-600 flex items-center justify-center text-xl font-bold mb-5 shadow-2xs">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-50 border border-emerald-200/80 text-emerald-800 flex items-center justify-center text-2xl font-bold mb-6 shadow-2xs group-hover:scale-105 transition-transform">
                         <i class="fa-solid fa-map-location-dot"></i>
                     </div>
-                    <span class="bg-slate-100 text-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Georreferenciación</span>
-                    <h3 class="text-xl font-extrabold text-slate-900 mt-2 mb-2">Territorio, Cuencas & Mapa</h3>
-                    <p class="text-xs text-slate-500 leading-relaxed mb-4">
-                        Desglose territorial de los 12 municipios articulados (Jáuregui, Uribante, San José de Bolívar, Queniquea, Humuquena...), truchas de Las Porqueras, café de Pregonero, panela tradicional y reservas hídricas inagotables.
+                    <span class="bg-stone-100 text-stone-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-stone-200">Georreferenciación</span>
+                    <h3 class="font-serif text-2xl font-extrabold text-slate-900 mt-3 mb-2.5 group-hover:text-emerald-900 transition-colors">Territorio, Cuencas & Mapa</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed mb-5">
+                        Desglose territorial de los 12 municipios articulados (Jáuregui, Uribante, San José de Bolívar, Queniquea, Humuquena...), truchas de Las Porqueras, café de Pregonero y panela artesanal.
                     </p>
-                    <div class="flex flex-wrap gap-1.5 mb-4">
-                        <span class="bg-slate-50 border border-slate-200 text-slate-600 text-[10px] font-semibold px-2 py-0.5 rounded-md">12 Municipios</span>
-                        <span class="bg-slate-50 border border-slate-200 text-slate-600 text-[10px] font-semibold px-2 py-0.5 rounded-md">Truchas, Café & Panela</span>
-                        <span class="bg-slate-50 border border-slate-200 text-slate-600 text-[10px] font-semibold px-2 py-0.5 rounded-md">Puerto La Ceiba</span>
+                    <div class="flex flex-wrap gap-1.5 mb-6">
+                        <span class="bg-[#faf8f5] border border-stone-200 text-stone-700 text-[10px] font-semibold px-2.5 py-1 rounded-lg">12 Municipios</span>
+                        <span class="bg-[#faf8f5] border border-stone-200 text-stone-700 text-[10px] font-semibold px-2.5 py-1 rounded-lg">Truchas, Café & Panela</span>
+                        <span class="bg-[#faf8f5] border border-stone-200 text-stone-700 text-[10px] font-semibold px-2.5 py-1 rounded-lg">Puerto La Ceiba</span>
                     </div>
                 </div>
-                <div class="pt-4 border-t border-slate-100">
-                    <a href="<?= e(url('territorio.php')) ?>" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl transition text-center text-xs flex items-center justify-center gap-2 shadow-xs active:scale-95">
+                <div class="pt-5 border-t border-stone-100">
+                    <a href="<?= e(url('territorio.php')) ?>" class="w-full bg-[#133527] hover:bg-[#1b4332] text-white font-bold py-3.5 rounded-xl transition text-center text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs active:scale-95">
                         <span>Ver Geografía Completa</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </a>
                 </div>
             </div>
 
             <!-- Card 3: Marco Comunal y Fondos -->
-            <div class="bg-white border border-slate-200/90 hover:border-slate-300 rounded-3xl p-7 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between group">
+            <div class="bg-white border border-stone-200/90 hover:border-emerald-700/60 rounded-3xl p-8 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
                 <div>
-                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-700 flex items-center justify-center text-xl font-bold mb-5 shadow-2xs">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200/80 text-amber-800 flex items-center justify-center text-2xl font-bold mb-6 shadow-2xs group-hover:scale-105 transition-transform">
                         <i class="fa-solid fa-landmark"></i>
                     </div>
-                    <span class="bg-slate-100 text-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Institucionalidad</span>
-                    <h3 class="text-xl font-extrabold text-slate-900 mt-2 mb-2">Marco Comunal & Fondos</h3>
-                    <p class="text-xs text-slate-500 leading-relaxed mb-4">
-                        Estatutos de la EPSDC y destino de excedentes: 70% Fondo de Mantenimiento Productivo, 20% Atención a Productores Campesinos y 10% Reinversión Comunitaria al Poder Popular.
+                    <span class="bg-stone-100 text-stone-700 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-stone-200">Institucionalidad</span>
+                    <h3 class="font-serif text-2xl font-extrabold text-slate-900 mt-3 mb-2.5 group-hover:text-emerald-900 transition-colors">Marco Comunal & Fondos</h3>
+                    <p class="text-xs text-slate-500 leading-relaxed mb-5">
+                        Estatutos de la EPSDC y destino reglamentado de excedentes: 70% Fondo de Mantenimiento Productivo, 20% Atención a Productores Campesinos y 10% Reinversión Comunitaria al Poder Popular.
                     </p>
-                    <div class="flex flex-wrap gap-1.5 mb-4">
-                        <span class="bg-slate-50 border border-slate-200 text-slate-600 text-[10px] font-semibold px-2 py-0.5 rounded-md">Fondo 70%</span>
-                        <span class="bg-slate-50 border border-slate-200 text-slate-600 text-[10px] font-semibold px-2 py-0.5 rounded-md">Fondo 20%</span>
-                        <span class="bg-slate-50 border border-slate-200 text-slate-600 text-[10px] font-semibold px-2 py-0.5 rounded-md">Fondo 10%</span>
+                    <div class="flex flex-wrap gap-1.5 mb-6">
+                        <span class="bg-[#faf8f5] border border-stone-200 text-stone-700 text-[10px] font-semibold px-2.5 py-1 rounded-lg">Fondo 70%</span>
+                        <span class="bg-[#faf8f5] border border-stone-200 text-stone-700 text-[10px] font-semibold px-2.5 py-1 rounded-lg">Fondo 20%</span>
+                        <span class="bg-[#faf8f5] border border-stone-200 text-stone-700 text-[10px] font-semibold px-2.5 py-1 rounded-lg">Fondo 10%</span>
                     </div>
                 </div>
-                <div class="pt-4 border-t border-slate-100">
-                    <a href="<?= e(url('estatutos.php')) ?>" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl transition text-center text-xs flex items-center justify-center gap-2 shadow-xs active:scale-95">
+                <div class="pt-5 border-t border-stone-100">
+                    <a href="<?= e(url('estatutos.php')) ?>" class="w-full bg-[#133527] hover:bg-[#1b4332] text-white font-bold py-3.5 rounded-xl transition text-center text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs active:scale-95">
                         <span>Ver Estatutos y Fondos</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
                     </a>
                 </div>
@@ -682,70 +702,78 @@ require __DIR__ . '/includes/header.php';
 </section>
 
 <!-- 6. ATENCIÓN Y COMUNICACIÓN CON EL PRODUCTOR / UPF (LITERAL G) -->
-<section id="productores" class="py-20 bg-slate-50 border-t border-slate-200/80">
+<section id="productores" class="py-20 bg-white border-t border-stone-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div class="bg-white rounded-3xl border border-slate-200/90 overflow-hidden shadow-xl">
+        <div class="bg-white rounded-3xl border border-stone-200 overflow-hidden shadow-2xl">
             <div class="grid lg:grid-cols-12 gap-0">
                 
                 <!-- Columna Informativa Izquierda -->
-                <div class="lg:col-span-5 bg-slate-900 text-white p-8 lg:p-12 flex flex-col justify-between">
-                    <div>
-                        <span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block mb-4">
+                <div class="lg:col-span-5 bg-[#0a1c14] text-white p-8 lg:p-12 flex flex-col justify-between relative overflow-hidden">
+                    <!-- Curvas topográficas andinas -->
+                    <div class="absolute inset-0 opacity-[0.05] pointer-events-none overflow-hidden flex items-center justify-center">
+                        <svg class="w-[140%] h-[140%]" viewBox="0 0 1200 800" fill="none" stroke="currentColor">
+                            <path d="M-100,200 C200,100 400,350 700,200 C1000,50 1100,280 1300,180" stroke-width="1.5" />
+                            <path d="M-100,400 C180,260 480,500 800,360 C1100,220 1200,450 1300,360" stroke-width="1.5" />
+                        </svg>
+                    </div>
+
+                    <div class="relative z-10">
+                        <span class="bg-amber-400/10 text-amber-300 border border-amber-400/30 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider inline-block mb-4">
                             <i class="fa-solid fa-shield-halved mr-1"></i> Literal G del Objeto Social
                         </span>
-                        <h3 class="text-2xl sm:text-3xl font-extrabold mb-3 text-white leading-tight">Mesa de Comunicación e Intercambio: UPF y Red Comunal</h3>
-                        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-6 font-normal">
+                        <h3 class="font-serif text-2xl sm:text-4xl font-extrabold mb-3 text-white leading-tight">Mesa de Comunicación e Intercambio: UPF y Red Comunal</h3>
+                        <p class="text-emerald-100/70 text-xs sm:text-sm leading-relaxed mb-8 font-normal">
                             En cumplimiento de los estatutos de la EPSDC y los <strong>Derechos del Productor Comunal</strong>, establecemos este canal telemático directo para la coordinación técnica, recepción y acopio con las Unidades Socio Productivas y UPF concatenadas.
                         </p>
 
-                        <div class="space-y-4 mb-8 text-xs text-slate-300">
-                            <div class="flex items-start gap-3 bg-white/[0.04] border border-white/10 p-3.5 rounded-2xl">
-                                <div class="w-8 h-8 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 font-bold flex items-center justify-center shrink-0">
-                                    <i class="fa-solid fa-basket-shopping text-xs"></i>
+                        <div class="space-y-4 mb-8 text-xs text-emerald-100">
+                            <div class="flex items-start gap-3.5 bg-[#0e2a1f]/80 border border-emerald-800/60 p-4 rounded-2xl backdrop-blur-xs">
+                                <div class="w-9 h-9 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-300 font-bold flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-basket-shopping text-sm"></i>
                                 </div>
                                 <div>
-                                    <strong class="text-white block text-sm">Oferta lo que tienes a la mano</strong>
-                                    <span class="text-slate-400 text-xs">Notifica qué rubros o cosecha tienen disponible en tu UPF para acordar el arrime e incorporarlo en las bolsas.</span>
+                                    <strong class="font-serif text-white block text-sm">Oferta de Cosecha Directa</strong>
+                                    <span class="text-emerald-100/70 text-xs">Notifique qué rubros o volúmenes tienen disponibles en su UPF para coordinar el arrime e incorporarlo a la distribución comunal.</span>
                                 </div>
                             </div>
 
-                            <div class="flex items-start gap-3 bg-white/[0.04] border border-white/10 p-3.5 rounded-2xl">
-                                <div class="w-8 h-8 rounded-xl bg-sky-500/10 border border-sky-400/20 text-sky-400 font-bold flex items-center justify-center shrink-0">
-                                    <i class="fa-solid fa-tools text-xs"></i>
+                            <div class="flex items-start gap-3.5 bg-[#0e2a1f]/80 border border-emerald-800/60 p-4 rounded-2xl backdrop-blur-xs">
+                                <div class="w-9 h-9 rounded-xl bg-sky-400/10 border border-sky-400/30 text-sky-300 font-bold flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-tools text-sm"></i>
                                 </div>
                                 <div>
-                                    <strong class="text-white block text-sm">Requerimientos y Asistencia Técnica</strong>
-                                    <span class="text-slate-400 text-xs">Solicita soporte en empaque, transporte, pesado o especificaciones de calidad.</span>
+                                    <strong class="font-serif text-white block text-sm">Requerimientos y Asistencia Técnica</strong>
+                                    <span class="text-emerald-100/70 text-xs">Solicite soporte en embalaje, pesado, transporte o especificaciones de calidad agronómica.</span>
                                 </div>
                             </div>
 
-                            <div class="flex items-start gap-3 bg-white/[0.04] border border-white/10 p-3.5 rounded-2xl">
-                                <div class="w-8 h-8 rounded-xl bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 font-bold flex items-center justify-center shrink-0">
-                                    <i class="fa-solid fa-comments text-xs"></i>
+                            <div class="flex items-start gap-3.5 bg-[#0e2a1f]/80 border border-emerald-800/60 p-4 rounded-2xl backdrop-blur-xs">
+                                <div class="w-9 h-9 rounded-xl bg-emerald-400/10 border border-emerald-400/30 text-emerald-300 font-bold flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-comments text-sm"></i>
                                 </div>
                                 <div>
-                                    <strong class="text-white block text-sm">Sugerencias y Observaciones</strong>
-                                    <span class="text-slate-400 text-xs">Retroalimentación directa para mejorar los procesos de distribución comunal.</span>
+                                    <strong class="font-serif text-white block text-sm">Sugerencias y Observaciones</strong>
+                                    <span class="text-emerald-100/70 text-xs">Comunicación directa con la junta directiva para optimizar los procesos de acopio y entrega.</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="pt-6 border-t border-slate-800">
-                        <span class="text-[11px] text-slate-400 block mb-2">Canal Telefónico Directo:</span>
-                        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-3 text-center">
-                            <i class="fa-solid fa-phone text-amber-400 mr-1.5"></i>
+                    <div class="pt-6 border-t border-emerald-800/60 relative z-10">
+                        <span class="text-[11px] text-emerald-200/70 block mb-2 font-medium">Canal Telefónico Directo:</span>
+                        <div class="bg-[#0e2a1f] border border-emerald-700/60 rounded-2xl p-3.5 text-center shadow-inner">
+                            <i class="fa-solid fa-phone text-amber-300 mr-2"></i>
                             <span class="font-bold text-white text-sm"><?= e($tel) ?></span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Columna Formulario Derecha -->
-                <div class="lg:col-span-7 p-8 lg:p-12">
+                <div class="lg:col-span-7 p-8 lg:p-12 bg-[#faf8f5]">
                     <div class="mb-6">
-                        <h4 class="text-xl font-extrabold text-slate-900">Formulario Oficial de Comunicación: UPF y Red Comunal</h4>
-                        <p class="text-xs text-slate-500 mt-1">Tu mensaje será registrado con acuse de recibo y atendido por el equipo de la EPSDC.</p>
+                        <h4 class="font-serif text-2xl sm:text-3xl font-extrabold text-slate-900">Formulario Oficial de Comunicación: UPF y Red Comunal</h4>
+                        <p class="text-xs text-slate-500 mt-1">Su mensaje será registrado con acuse de recibo en el sistema y atendido por el equipo de coordinación de la EPSDC.</p>
                     </div>
 
                     <form method="post" enctype="multipart/form-data" class="space-y-4 text-xs">
@@ -755,28 +783,28 @@ require __DIR__ . '/includes/header.php';
                         <div class="grid sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block font-bold text-slate-700 mb-1">Nombre del Productor / Unidad Familiar (UPF) *</label>
-                                <input type="text" name="nombre" required maxlength="150" placeholder="Ej. Juan Pérez / UPF La Rinconada" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-slate-900 focus:ring-4 focus:ring-slate-900/5 focus:outline-none transition">
+                                <input type="text" name="nombre" required maxlength="150" placeholder="Ej. Juan Pérez / UPF La Rinconada" class="w-full px-4 py-2.5 rounded-xl border border-stone-300 bg-white focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/10 focus:outline-none transition">
                             </div>
                             <div>
                                 <label class="block font-bold text-slate-700 mb-1">Sector, Parroquia o Aldea *</label>
-                                <input type="text" name="sector_comunidad" required maxlength="150" placeholder="Ej. Aldea Pattueca, Jáuregui" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-slate-900 focus:ring-4 focus:ring-slate-900/5 focus:outline-none transition">
+                                <input type="text" name="sector_comunidad" required maxlength="150" placeholder="Ej. Aldea Pattueca, Jáuregui" class="w-full px-4 py-2.5 rounded-xl border border-stone-300 bg-white focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/10 focus:outline-none transition">
                             </div>
                         </div>
 
                         <div class="grid sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block font-bold text-slate-700 mb-1">Teléfono o Móvil de Contacto *</label>
-                                <input type="text" name="telefono" required maxlength="40" placeholder="Ej. 0412-1234567" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-slate-900 focus:ring-4 focus:ring-slate-900/5 focus:outline-none transition">
+                                <input type="text" name="telefono" required maxlength="40" placeholder="Ej. 0412-1234567" class="w-full px-4 py-2.5 rounded-xl border border-stone-300 bg-white focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/10 focus:outline-none transition">
                             </div>
                             <div>
                                 <label class="block font-bold text-slate-700 mb-1">Correo Electrónico (opcional)</label>
-                                <input type="email" name="correo" maxlength="160" placeholder="productor@ejemplo.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-slate-900 focus:ring-4 focus:ring-slate-900/5 focus:outline-none transition">
+                                <input type="email" name="correo" maxlength="160" placeholder="productor@ejemplo.com" class="w-full px-4 py-2.5 rounded-xl border border-stone-300 bg-white focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/10 focus:outline-none transition">
                             </div>
                         </div>
 
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">Tipo de Comunicación *</label>
-                            <select name="tipo" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-slate-900 focus:ring-4 focus:ring-slate-900/5 focus:outline-none transition bg-white font-medium text-slate-800">
+                            <select name="tipo" class="w-full px-4 py-2.5 rounded-xl border border-stone-300 focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/10 focus:outline-none transition bg-white font-medium text-slate-800">
                                 <option value="oferta_rubro">🌾 Oferta de Rubros / Cosecha disponible ("Lo que tengo a la mano")</option>
                                 <option value="requerimiento_tecnico">🛠️ Requerimiento Técnico / Logístico o de Transporte</option>
                                 <option value="sugerencia_observacion">💡 Sugerencia u Observación para la EPSDC</option>
@@ -786,22 +814,22 @@ require __DIR__ . '/includes/header.php';
 
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">Asunto de la Gestión *</label>
-                            <input type="text" name="asunto" required maxlength="200" placeholder="Ej. Disponibilidad de 800 kg de papa y zanahoria lista para arrimar" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-slate-900 focus:ring-4 focus:ring-slate-900/5 focus:outline-none transition">
+                            <input type="text" name="asunto" required maxlength="200" placeholder="Ej. Disponibilidad de 800 kg de papa y zanahoria lista para arrimar" class="w-full px-4 py-2.5 rounded-xl border border-stone-300 bg-white focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/10 focus:outline-none transition">
                         </div>
 
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">Detalle del Mensaje y Requerimiento *</label>
-                            <textarea name="mensaje" required rows="4" placeholder="Indica cantidades estimadas, fecha de cosecha, apoyo logístico que necesitas o tu recomendación para la directiva..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-slate-900 focus:ring-4 focus:ring-slate-900/5 focus:outline-none transition"></textarea>
+                            <textarea name="mensaje" required rows="4" placeholder="Indique cantidades estimadas, fecha aproximada de cosecha, apoyo logístico requerido o su observación para la coordinación..." class="w-full px-4 py-2.5 rounded-xl border border-stone-300 bg-white focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/10 focus:outline-none transition"></textarea>
                         </div>
 
                         <div>
                             <label class="block font-bold text-slate-700 mb-1">Adjuntar Foto de Muestra o Documento (opcional)</label>
-                            <input type="file" name="adjunto" accept="image/*,application/pdf" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-200 file:text-slate-800 hover:file:bg-slate-300">
+                            <input type="file" name="adjunto" accept="image/*,application/pdf" class="w-full px-3 py-2 rounded-xl border border-stone-300 bg-white text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-stone-200 file:text-slate-800 hover:file:bg-stone-300">
                             <span class="text-[11px] text-slate-400 mt-1 block">Fotos de la siembra/cosecha o documentos en formato PDF o imagen (máx. 8 MB).</span>
                         </div>
 
                         <div class="pt-2">
-                            <button type="submit" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-3.5 rounded-xl shadow-xs transition uppercase tracking-wider text-xs flex items-center justify-center gap-2 active:scale-95">
+                            <button type="submit" class="w-full sm:w-auto bg-[#133527] hover:bg-[#1b4332] text-white font-bold px-8 py-4 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 uppercase tracking-wider text-xs flex items-center justify-center gap-2 active:scale-95">
                                 <i class="fa-solid fa-paper-plane text-xs"></i> Enviar Comunicación a la EPSDC
                             </button>
                         </div>
@@ -816,24 +844,32 @@ require __DIR__ . '/includes/header.php';
 
 <!-- 7. BOLETÍN INFORMATIVO Y COMUNICADOS (SI EXISTEN EN MYSQL) -->
 <?php if ($publicacionesDB): ?>
-<section id="noticias" class="py-20 bg-white border-t border-slate-200">
+<section id="noticias" class="py-20 bg-[#faf8f5] border-t border-stone-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="text-center max-w-3xl mx-auto mb-14">
-            <span class="text-agro-600 font-bold uppercase text-xs tracking-wider">Boletín Informativo</span>
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-1">Noticias y Comunicados Oficiales</h2>
-            <div class="w-20 h-1.5 bg-amberGold mx-auto mt-3 rounded-full"></div>
-            <p class="text-slate-600 text-xs sm:text-sm mt-3">
-                Información de interés para la comunidad, cronogramas extraordinarios y novedades institucionales.
-            </p>
+            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-900 bg-emerald-100/80 px-3.5 py-1 rounded-full border border-emerald-300/80 mb-3">
+                <i class="fa-solid fa-newspaper text-emerald-700"></i> Boletín Informativo
+            </span>
+            <h2 class="text-3xl sm:text-5xl font-serif font-extrabold text-slate-900 tracking-tight">
+                Noticias y Comunicados Oficiales
+            </h2>
+            <div class="flex items-center justify-center gap-2 mt-2">
+                <p class="text-slate-600 text-xs sm:text-sm max-w-2xl leading-relaxed">
+                    Información de interés para la comunidad, cronogramas extraordinarios y novedades institucionales.
+                </p>
+                <span class="font-hand text-lg text-emerald-700 font-bold hidden sm:inline -rotate-1">
+                    • Canal oficial
+                </span>
+            </div>
         </div>
 
         <div class="grid md:grid-cols-3 gap-8">
             <?php foreach ($publicacionesDB as $pub): ?>
-                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-xs hover:shadow-lg transition flex flex-col justify-between">
+                <div class="bg-white border border-stone-200/90 hover:border-emerald-700/60 rounded-3xl p-6 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group">
                     <div>
                         <?php if ($pub['imagen']): ?>
-                            <img src="<?= e(url($pub['imagen'])) ?>" alt="" class="w-full h-44 object-cover rounded-2xl mb-4">
+                            <img src="<?= e(url($pub['imagen'])) ?>" alt="" class="w-full h-48 object-cover rounded-2xl mb-4 border border-stone-100 shadow-2xs group-hover:scale-[1.01] transition-transform duration-300">
                         <?php endif; ?>
                         <div class="text-[11px] text-slate-400 mb-2 flex items-center gap-2">
                             <span><i class="fa-regular fa-calendar"></i> <?= fecha_corta($pub['fecha_publicacion']) ?></span>
@@ -841,13 +877,13 @@ require __DIR__ . '/includes/header.php';
                                 <span>• <i class="fa-regular fa-user"></i> <?= e($pub['autor']) ?></span>
                             <?php endif; ?>
                         </div>
-                        <h3 class="text-lg font-black text-slate-900 mb-2"><?= e($pub['titulo']) ?></h3>
+                        <h3 class="font-serif text-xl font-extrabold text-slate-900 mb-2 leading-snug group-hover:text-emerald-900 transition-colors"><?= e($pub['titulo']) ?></h3>
                         <p class="text-xs text-slate-600 leading-relaxed mb-4"><?= e($pub['resumen'] ?: mb_strimwidth((string)$pub['contenido'], 0, 140, '...')) ?></p>
                     </div>
 
                     <?php if ($pub['contenido'] && mb_strlen($pub['contenido']) > mb_strlen((string)$pub['resumen'])): ?>
-                        <button onclick="openPubModal('pub_<?= $pub['id'] ?>')" class="text-agro-700 hover:text-agro-800 font-bold text-xs flex items-center gap-1.5 pt-3 border-t border-slate-100">
-                            <span>Leer comunicado</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        <button onclick="openPubModal('pub_<?= $pub['id'] ?>')" class="text-emerald-800 hover:text-emerald-950 font-bold text-xs flex items-center gap-1.5 pt-3 border-t border-stone-100">
+                            <span>Leer comunicado completo</span> <i class="fa-solid fa-arrow-right text-[10px]"></i>
                         </button>
                         <!-- Modal Noticia -->
                         <div id="pub_<?= $pub['id'] ?>" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
@@ -856,9 +892,9 @@ require __DIR__ . '/includes/header.php';
                                     <i class="fa-solid fa-xmark text-xl"></i>
                                 </button>
                                 <div class="text-[11px] text-slate-400 mb-2"><i class="fa-regular fa-calendar mr-1"></i><?= fecha_corta($pub['fecha_publicacion']) ?></div>
-                                <h3 class="text-xl font-black text-slate-900 mb-4"><?= e($pub['titulo']) ?></h3>
+                                <h3 class="font-serif text-2xl font-extrabold text-slate-900 mb-4"><?= e($pub['titulo']) ?></h3>
                                 <?php if ($pub['imagen']): ?>
-                                    <img src="<?= e(url($pub['imagen'])) ?>" alt="" class="w-full max-h-64 object-cover rounded-2xl mb-4">
+                                    <img src="<?= e(url($pub['imagen'])) ?>" alt="" class="w-full max-h-64 object-cover rounded-2xl mb-4 border border-stone-100">
                                 <?php endif; ?>
                                 <div class="text-xs sm:text-sm text-slate-700 leading-relaxed whitespace-pre-line"><?= e($pub['contenido']) ?></div>
                             </div>
