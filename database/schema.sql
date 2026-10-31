@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
   nombre        VARCHAR(120) NOT NULL,
   email         VARCHAR(160) NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
-  rol           ENUM('superadmin','editor','lector') NOT NULL DEFAULT 'lector',
+  rol           ENUM('superadmin','editor','lector','atencion') NOT NULL DEFAULT 'lector',
   activo        TINYINT(1) NOT NULL DEFAULT 1,
   ultimo_login  DATETIME NULL,
   creado_en     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,

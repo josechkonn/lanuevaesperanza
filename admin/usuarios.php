@@ -195,6 +195,7 @@ require __DIR__ . '/layout/header.php';
                     <select name="rol" class="form-select">
                         <option value="superadmin">Superadmin: todo, incluidos usuarios y configuración</option>
                         <option value="editor">Editor: contenido, precios y entregas</option>
+                        <option value="atencion">Atención: único acceso a Atención en Vivo / Chat</option>
                         <option value="lector">Lector: solo puede ver</option>
                     </select></div>
                 <div class="mb-3"><label class="form-label">Contraseña <span data-solo-nuevo>*</span></label>

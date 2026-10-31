@@ -11,6 +11,7 @@
 const ROLES = [
     'superadmin' => 'Superadmin',
     'editor'     => 'Editor',
+    'atencion'   => 'Atención / Chat',
     'lector'     => 'Lector',
 ];
 
@@ -67,6 +68,15 @@ function requiere_login(): void
         unset($fila['activo']);
         $_SESSION['usuario'] = $fila;
         $_SESSION['revalidado'] = time();
+    }
+
+    // Si el rol es 'atencion', restringir acceso exclusivamente a chat.php, perfil.php y logout.php
+    if ($u['rol'] === 'atencion') {
+        $script = basename($_SERVER['SCRIPT_NAME'] ?? '');
+        $permitidos = ['chat.php', 'perfil.php', 'logout.php'];
+        if (!in_array($script, $permitidos, true) && !str_contains($_SERVER['REQUEST_URI'] ?? '', 'api/chat.php')) {
+            redirect(url('admin/chat.php'));
+        }
     }
 }
 

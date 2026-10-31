@@ -2,7 +2,8 @@
 require __DIR__ . '/../includes/app.php';
 
 if (usuario_actual()) {
-    redirect(url('admin/index.php'));
+    $u = usuario_actual();
+    redirect(url($u['rol'] === 'atencion' ? 'admin/chat.php' : 'admin/index.php'));
 }
 
 $error = '';
@@ -12,6 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = post('email');
     [$ok, $error] = intentar_login($email, (string)($_POST['password'] ?? ''));
     if ($ok) {
+        $u = usuario_actual();
+        if ($u && $u['rol'] === 'atencion') {
+            redirect(url('admin/chat.php'));
+        }
         $next = $_GET['next'] ?? '';
         // Solo redirecciones internas al panel (evita open-redirect)
         $base = url('admin/');

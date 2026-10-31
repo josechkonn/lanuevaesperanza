@@ -8,30 +8,38 @@ $u = usuario_actual();
 $org = config_get('nombre_organizacion', $CONFIG['app_name']);
 $logo = config_get('logo');
 
-$menu = [
-    'General' => [
-        ['index', 'admin/index.php', 'bi-speedometer2', 'Dashboard', null],
-    ],
-    'Catálogo' => [
-        ['rubros', 'admin/rubros.php', 'bi-tags', 'Rubros', null],
-        ['productos', 'admin/productos.php', 'bi-bag-heart', 'Bolsas y combos', null],
-        ['precios', 'admin/historial_precios.php', 'bi-graph-up-arrow', 'Historial de precios', null],
-    ],
-    'Operaciones' => [
-        ['entregas', 'admin/entregas.php', 'bi-truck', 'Entregas', null],
-        ['productores', 'admin/productores.php', 'bi-person-lines-fill', 'UPF y Productores (Literal G)', null],
-        ['chat', 'admin/chat.php', 'bi-chat-dots-fill', 'Atención en Vivo / Chat', null],
-    ],
-    'Contenido' => [
-        ['publicaciones', 'admin/publicaciones.php', 'bi-megaphone', 'Información', null],
-        ['estatutos', 'admin/estatutos.php', 'bi-journal-text', 'Estatutos', null],
-    ],
-    'Administración' => [
-        ['usuarios', 'admin/usuarios.php', 'bi-people', 'Usuarios', ['superadmin']],
-        ['configuracion', 'admin/configuracion.php', 'bi-gear', 'Configuración', ['superadmin']],
-        ['auditoria', 'admin/auditoria.php', 'bi-shield-check', 'Auditoría', ['superadmin']],
-    ],
-];
+if ($u && $u['rol'] === 'atencion') {
+    $menu = [
+        'Atención' => [
+            ['chat', 'admin/chat.php', 'bi-chat-dots-fill', 'Atención en Vivo / Chat', null],
+        ],
+    ];
+} else {
+    $menu = [
+        'General' => [
+            ['index', 'admin/index.php', 'bi-speedometer2', 'Dashboard', null],
+        ],
+        'Catálogo' => [
+            ['rubros', 'admin/rubros.php', 'bi-tags', 'Rubros', null],
+            ['productos', 'admin/productos.php', 'bi-bag-heart', 'Bolsas y combos', null],
+            ['precios', 'admin/historial_precios.php', 'bi-graph-up-arrow', 'Historial de precios', null],
+        ],
+        'Operaciones' => [
+            ['entregas', 'admin/entregas.php', 'bi-truck', 'Entregas', null],
+            ['productores', 'admin/productores.php', 'bi-person-lines-fill', 'UPF y Productores (Literal G)', null],
+            ['chat', 'admin/chat.php', 'bi-chat-dots-fill', 'Atención en Vivo / Chat', null],
+        ],
+        'Contenido' => [
+            ['publicaciones', 'admin/publicaciones.php', 'bi-megaphone', 'Información', null],
+            ['estatutos', 'admin/estatutos.php', 'bi-journal-text', 'Estatutos', null],
+        ],
+        'Administración' => [
+            ['usuarios', 'admin/usuarios.php', 'bi-people', 'Usuarios', ['superadmin']],
+            ['configuracion', 'admin/configuracion.php', 'bi-gear', 'Configuración', ['superadmin']],
+            ['auditoria', 'admin/auditoria.php', 'bi-shield-check', 'Auditoría', ['superadmin']],
+        ],
+    ];
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -115,6 +123,6 @@ $menu = [
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endforeach; ?>
-            <?php if (!puede_editar()): ?>
+            <?php if (!puede_editar() && !tiene_rol('atencion')): ?>
                 <div class="alert alert-info py-2 small"><i class="bi bi-eye me-1"></i>Estás en modo <strong>solo lectura</strong>.</div>
             <?php endif; ?>

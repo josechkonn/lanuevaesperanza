@@ -2,6 +2,10 @@
 require __DIR__ . '/../includes/app.php';
 requiere_login();
 
+if (tiene_rol('atencion')) {
+    redirect(url('admin/chat.php'));
+}
+
 $titulo = 'Dashboard';
 $seccion = 'index';
 
