@@ -9,126 +9,129 @@ $u = usuario_actual();
 require __DIR__ . '/layout/header.php';
 ?>
 
-<div class="card border-0 shadow-sm overflow-hidden" style="height: calc(100vh - 160px); min-height: 550px;">
-    <div class="row g-0 h-100">
+<div class="card chat-main-wrapper border shadow-sm overflow-hidden" style="height: calc(100vh - 130px); min-height: 620px; border-color: #e2e8f0; border-radius: 16px;">
+    <div class="row g-0 h-100 flex-nowrap">
         
-        <!-- PANEL IZQUIERDO: LISTA DE CONVERSACIONES (WHATSAPP WEB STYLE) -->
-        <div class="col-12 col-md-4 col-lg-4 border-end d-flex flex-column h-100 bg-white">
+        <!-- PANEL IZQUIERDO: LISTA DE CONVERSACIONES -->
+        <div class="col-12 col-md-5 col-lg-4 border-end d-flex flex-column h-100 bg-white" style="min-width: 320px; max-width: 400px; flex-shrink: 0;">
             
             <!-- Barra superior del panel izquierdo -->
-            <div class="p-3 border-bottom bg-light">
-                <div class="d-flex align-items-center justify-between mb-2">
-                    <h2 class="h6 fw-bold mb-0 text-dark">
-                        <i class="bi bi-chat-left-text-fill text-primary me-1.5"></i> Conversaciones
+            <div class="p-3 border-bottom bg-white flex-shrink-0">
+                <div class="d-flex align-items-center justify-content-between mb-2.5">
+                    <h2 class="h6 fw-bold mb-0 text-slate-800 d-flex align-items-center gap-2">
+                        <i class="bi bi-chat-left-dots-fill text-emerald-600"></i> Conversaciones
                     </h2>
-                    <span id="badgeEsperandoHumano" class="badge bg-danger rounded-pill d-none animate__animated animate__pulse animate__infinite">
+                    <span id="badgeEsperandoHumano" class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill d-none animate__animated animate__pulse animate__infinite" style="font-size: 0.72rem; padding: 0.35rem 0.65rem;">
                         0 esperando
                     </span>
                 </div>
 
                 <!-- Buscador de sesiones -->
-                <div class="input-group input-group-sm mb-2">
-                    <span class="input-group-text bg-white border-end-0 text-secondary"><i class="bi bi-search"></i></span>
-                    <input type="text" id="sessionSearchInput" oninput="filtrarSesionesLista()" class="form-control border-start-0" placeholder="Buscar visitante o mensaje...">
+                <div class="input-group input-group-sm mb-2.5 rounded-pill overflow-hidden border" style="border-color: #e2e8f0;">
+                    <span class="input-group-text bg-slate-50 border-0 text-slate-400 ps-3"><i class="bi bi-search"></i></span>
+                    <input type="text" id="sessionSearchInput" oninput="filtrarSesionesLista()" class="form-control bg-slate-50 border-0 shadow-none ps-1 text-sm" placeholder="Buscar visitante o mensaje...">
                 </div>
 
-                <!-- Filtros rápidos -->
-                <div class="d-flex gap-1" role="group">
-                    <button type="button" onclick="cambiarFiltroSesiones('todos', this)" class="btn btn-xs btn-primary fw-semibold flex-fill filter-btn active">Todas</button>
-                    <button type="button" onclick="cambiarFiltroSesiones('humano', this)" class="btn btn-xs btn-outline-danger fw-semibold flex-fill filter-btn">
-                        <i class="bi bi-person-fill"></i> Esperando
+                <!-- Filtros rápidos segmentados -->
+                <div class="chat-filter-pills d-flex p-1 rounded-3 gap-1">
+                    <button type="button" onclick="cambiarFiltroSesiones('todos', this)" class="btn btn-sm btn-filter flex-fill active" data-filter="todos">Todas</button>
+                    <button type="button" onclick="cambiarFiltroSesiones('humano', this)" class="btn btn-sm btn-filter flex-fill" data-filter="humano">
+                        <i class="bi bi-person-fill me-1 text-danger"></i> Esperando
                     </button>
-                    <button type="button" onclick="cambiarFiltroSesiones('ia', this)" class="btn btn-xs btn-outline-secondary fw-semibold flex-fill filter-btn">
-                        <i class="bi bi-robot"></i> IA
+                    <button type="button" onclick="cambiarFiltroSesiones('ia', this)" class="btn btn-sm btn-filter flex-fill" data-filter="ia">
+                        <i class="bi bi-robot me-1 text-secondary"></i> IA
                     </button>
                 </div>
             </div>
 
             <!-- Lista scrolleable de chats -->
-            <div id="sessionsListContainer" class="flex-grow-1 overflow-y-auto" style="overflow-x: hidden;">
+            <div id="sessionsListContainer" class="flex-grow-1 overflow-y-auto" style="flex: 1 1 0; min-height: 0; overflow-x: hidden;">
                 <div class="text-center py-5 text-secondary">
-                    <div class="spinner-border spinner-border-sm text-primary mb-2"></div>
-                    <div class="small">Cargando conversaciones...</div>
+                    <div class="spinner-border spinner-border-sm text-emerald-600 mb-2"></div>
+                    <div class="small text-slate-500">Cargando conversaciones...</div>
                 </div>
             </div>
             
             <!-- Pie de estadísticas rápidas -->
-            <div class="p-2.5 bg-light border-top text-center text-secondary small d-flex justify-content-between align-items-center px-3">
-                <span id="lblTotalSesiones" class="text-muted" style="font-size: 0.75rem;">0 chats totales</span>
-                <span class="text-success fw-bold d-inline-flex align-items-center gap-1" style="font-size: 0.75rem;">
-                    <span class="p-1 bg-success rounded-circle"></span> Sincronizado en vivo
+            <div class="p-2.5 bg-slate-50 border-top text-secondary small d-flex justify-content-between align-items-center px-3 flex-shrink-0">
+                <span id="lblTotalSesiones" class="text-slate-500" style="font-size: 0.75rem;">0 chats totales</span>
+                <span class="text-emerald-700 fw-semibold d-inline-flex align-items-center gap-1.5" style="font-size: 0.75rem;">
+                    <span class="status-pulse-dot"></span> Sincronizado en vivo
                 </span>
             </div>
         </div>
 
         <!-- PANEL DERECHO: VISTA DE MENSAJES Y CHAT ACTIVO -->
-        <div class="col-12 col-md-8 col-lg-8 d-flex flex-column h-100 bg-light position-relative">
+        <div class="col d-flex flex-column h-100 bg-slate-50 position-relative overflow-hidden" style="flex: 1 1 0; min-width: 0;">
             
             <!-- Estado vacío cuando no hay chat seleccionado -->
             <div id="noChatSelectedView" class="h-100 d-flex flex-column align-items-center justify-content-center text-center p-4">
-                <div class="rounded-circle bg-white p-4 shadow-sm mb-3 border text-primary">
-                    <i class="bi bi-chat-heart" style="font-size: 3rem;"></i>
+                <div class="rounded-circle d-flex align-items-center justify-content-center mb-3 shadow-xs" style="width: 80px; height: 80px; background: #ecfdf5; border: 1px solid #a7f3d0;">
+                    <i class="bi bi-chat-heart text-emerald-600" style="font-size: 2.25rem;"></i>
                 </div>
-                <h3 class="h5 fw-bold text-dark">Sala de Atención en Vivo · EPSDC La Nueva Esperanza</h3>
-                <p class="text-secondary small max-w-md mx-auto" style="max-width: 420px;">
-                    Selecciona una conversación de la izquierda para responder en tiempo real al usuario o monitorear las respuestas del Asistente Virtual IA.
+                <h3 class="h5 fw-bold text-slate-800 mb-1">Mesa de Atención en Vivo</h3>
+                <p class="text-slate-500 small mx-auto mb-3" style="max-width: 400px; line-height: 1.5;">
+                    Seleccione una conversación en la lista lateral para responder en tiempo real o supervisar las respuestas automáticas de la IA.
                 </p>
-                <div class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1.5 rounded-pill small">
-                    <i class="bi bi-shield-check me-1"></i> Modo Sincronizado Tipo WhatsApp
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-white border border-slate-200 text-slate-600 small shadow-2xs">
+                    <span class="p-1 bg-emerald-500 rounded-circle"></span>
+                    <span class="fw-semibold" style="font-size: 0.75rem;">Canal seguro sincronizado en tiempo real</span>
                 </div>
             </div>
 
             <!-- Contenedor del chat seleccionado (Oculto inicialmente) -->
-            <div id="activeChatView" class="d-none h-100 d-flex flex-column">
+            <div id="activeChatView" class="d-none h-100 d-flex flex-column overflow-hidden" style="min-height: 0;">
                 
                 <!-- Header del chat activo -->
-                <div class="p-2.5 px-3 bg-white border-bottom d-flex align-items-center justify-content-between shadow-2xs">
-                    <div class="d-flex align-items-center gap-2.5">
+                <div class="chat-header px-4 py-2.5 bg-white border-bottom d-flex align-items-center justify-content-between flex-shrink-0" style="min-height: 68px;">
+                    <div class="d-flex align-items-center gap-3">
                         <div class="position-relative">
-                            <div id="activeChatAvatar" class="avatar bg-primary text-white fw-bold fs-6">V</div>
-                            <span id="activeChatOnlineDot" class="position-absolute bottom-0 end-0 p-1 bg-success border border-white rounded-circle"></span>
+                            <div id="activeChatAvatar" class="avatar-circle-header fw-bold">V</div>
+                            <span id="activeChatOnlineDot" class="position-absolute bottom-0 end-0 p-1 bg-success border border-2 border-white rounded-circle"></span>
                         </div>
                         <div>
                             <div class="d-flex align-items-center gap-2">
-                                <h3 id="activeChatName" class="h6 fw-bold mb-0 text-dark">Visitante #0000</h3>
-                                <span id="activeChatStateBadge" class="badge bg-secondary rounded-pill small" style="font-size: 0.68rem;">IA</span>
+                                <h3 id="activeChatName" class="h6 fw-bold mb-0 text-slate-800">Visitante #0000</h3>
+                                <span id="activeChatStateBadge" class="badge bg-secondary-subtle text-secondary rounded-pill small" style="font-size: 0.68rem;">IA</span>
                             </div>
-                            <div id="activeChatSubtitle" class="text-secondary" style="font-size: 0.72rem;">IP: ... · Conectado</div>
+                            <div id="activeChatSubtitle" class="text-slate-400" style="font-size: 0.72rem;">IP: ... · Conectado</div>
                         </div>
                     </div>
 
                     <!-- Botones de Acción: Finalizar con IA o Tomar Control -->
                     <div class="d-flex align-items-center gap-2">
-                        <button id="btnFinishHandoff" type="button" onclick="finalizarAtencionIA()" class="btn btn-sm btn-success fw-bold d-flex align-items-center gap-1.5 shadow-2xs">
+                        <button id="btnFinishHandoff" type="button" onclick="finalizarAtencionIA()" class="btn-handoff d-flex align-items-center gap-1.5">
                             <i class="bi bi-robot"></i>
                             <span class="d-none d-sm-inline">Devolver a la IA</span>
                         </button>
-                        <button id="btnTakeControl" type="button" onclick="tomarControlHumano()" class="btn btn-sm btn-outline-primary fw-bold d-flex align-items-center gap-1.5 shadow-2xs">
+                        <button id="btnTakeControl" type="button" onclick="tomarControlHumano()" class="btn-take-control d-flex align-items-center gap-1.5">
                             <i class="bi bi-person-fill"></i>
                             <span class="d-none d-sm-inline">Tomar Control</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Feed de Mensajes (Estilo WhatsApp) -->
-                <div id="chatMessagesFeed" class="flex-grow-1 p-3 overflow-y-auto" style="background-color: #efeae2; background-image: radial-gradient(#00000008 1px, transparent 1px); background-size: 16px 16px;">
+                <!-- Feed de Mensajes -->
+                <div id="chatMessagesFeed" class="chat-feed flex-grow-1 p-3 p-md-4 overflow-y-auto" style="flex: 1 1 0; min-height: 0; background-color: #f8fafc; background-image: radial-gradient(#cbd5e1 0.75px, transparent 0.75px); background-size: 20px 20px;">
                     <!-- Mensajes inyectados dinámicamente -->
                 </div>
 
                 <!-- Respuestas Rápidas Predefinidas -->
-                <div class="px-3 py-1.5 bg-white border-top border-bottom d-flex gap-1.5 overflow-x-auto text-nowrap" style="scrollbar-width: none;">
-                    <span class="badge text-secondary bg-light border align-self-center px-2 py-1">Respuestas rápidas:</span>
-                    <button type="button" onclick="insertarPlantilla('¡Hola! Un gusto saludarle. ¿En qué podemos colaborarle hoy?')" class="btn btn-xs btn-outline-secondary rounded-pill">👋 Saludo</button>
-                    <button type="button" onclick="insertarPlantilla('¿Perteneces a alguna UPF o Consejo Comunal en específico? Indícanos tu aldea o municipio.')" class="btn btn-xs btn-outline-secondary rounded-pill">🌱 Aldea / UPF</button>
-                    <button type="button" onclick="insertarPlantilla('Las rutas de entrega de combos de esta semana están activas en el cronograma. ¿Deseas apartar cupo en algún punto de acopio?')" class="btn btn-xs btn-outline-secondary rounded-pill">📦 Entregas</button>
-                    <button type="button" onclick="insertarPlantilla('Hemos registrado tu solicitud en el sistema de la EPSDC. El comité se comunicará contigo.')" class="btn btn-xs btn-outline-secondary rounded-pill">✅ Registro Exitoso</button>
+                <div class="chat-quick-replies px-3 py-2 bg-white border-top border-bottom d-flex align-items-center gap-2 overflow-x-auto flex-shrink-0" style="scrollbar-width: thin;">
+                    <span class="text-slate-400 small fw-semibold text-nowrap d-flex align-items-center gap-1" style="font-size: 0.72rem;">
+                        <i class="bi bi-lightning-charge-fill text-amber-500"></i> Respuestas rápidas:
+                    </span>
+                    <button type="button" onclick="insertarPlantilla('¡Hola! Un saludo cordial. ¿En qué podemos colaborarle hoy desde la EPSDC?')" class="quick-reply-chip">👋 Saludo</button>
+                    <button type="button" onclick="insertarPlantilla('¿Perteneces a alguna UPF o Consejo Comunal en específico? Indícanos tu aldea o municipio.')" class="quick-reply-chip">🌱 Aldea / UPF</button>
+                    <button type="button" onclick="insertarPlantilla('Las rutas de entrega de combos de esta semana están activas en el cronograma. ¿Deseas apartar cupo en algún punto de acopio?')" class="quick-reply-chip">📦 Entregas</button>
+                    <button type="button" onclick="insertarPlantilla('Hemos registrado tu solicitud en el sistema de la EPSDC. El comité se comunicará contigo a la brevedad.')" class="quick-reply-chip">✅ Registro</button>
                 </div>
 
-                <!-- Barra de Entrada de Mensajes (Estilo WhatsApp) -->
-                <div class="p-2.5 bg-white border-top">
+                <!-- Barra de Entrada de Mensajes -->
+                <div class="chat-input-bar p-3 bg-white border-top flex-shrink-0">
                     <form id="adminSendMessageForm" onsubmit="enviarMensajeAdmin(event)" class="d-flex align-items-center gap-2">
-                        <input type="text" id="adminMessageInput" class="form-control rounded-pill px-3 py-2 text-sm" placeholder="Escribe un mensaje como operador comunal... (Enter para enviar)" autocomplete="off">
-                        <button type="submit" class="btn btn-success rounded-circle d-flex align-items-center justify-content-center shadow-xs" style="width: 42px; height: 42px; flex-shrink: 0;" title="Enviar">
+                        <input type="text" id="adminMessageInput" class="form-control rounded-pill px-3 py-2 text-sm chat-input" placeholder="Escribe un mensaje como operador comunal... (Enter para enviar)" autocomplete="off">
+                        <button type="submit" class="btn-emerald-primary rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 shadow-sm" style="width: 42px; height: 42px;" title="Enviar">
                             <i class="bi bi-send-fill fs-6"></i>
                         </button>
                     </form>
@@ -142,59 +145,278 @@ require __DIR__ . '/layout/header.php';
 </div>
 
 <style>
-/* Estilos WhatsApp Web para el Panel de Chat */
-.btn-xs {
-    padding: 0.25rem 0.5rem;
+/* ==========================================================================
+   Estilos Chat Comunal Administrativo
+   ========================================================================== */
+.chat-main-wrapper {
+    background: #ffffff;
+}
+
+.text-slate-800 { color: #1e293b; }
+.text-slate-600 { color: #475569; }
+.text-slate-500 { color: #64748b; }
+.text-slate-400 { color: #94a3b8; }
+.text-emerald-600 { color: #059669; }
+.text-emerald-700 { color: #047857; }
+.bg-slate-50 { background-color: #f8fafc; }
+
+.status-pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #10b981;
+    display: inline-block;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+    animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.chat-filter-pills {
+    background: #f1f5f9;
+    border-radius: 10px;
+    padding: 3px;
+}
+.chat-filter-pills .btn-filter {
+    border: none;
+    background: transparent;
+    color: #64748b;
     font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.35rem 0.5rem;
+    transition: all 0.15s ease;
 }
-.shadow-2xs {
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+.chat-filter-pills .btn-filter:hover {
+    color: #0f172a;
 }
+.chat-filter-pills .btn-filter.active {
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.chat-filter-pills .btn-filter.active[data-filter="todos"] {
+    color: #059669;
+}
+.chat-filter-pills .btn-filter.active[data-filter="humano"] {
+    color: #e11d48;
+}
+.chat-filter-pills .btn-filter.active[data-filter="ia"] {
+    color: #475569;
+}
+
+/* Items de conversación en la lista */
 .session-item {
-    transition: background-color 0.15s ease;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
     cursor: pointer;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
+    border-bottom: 1px solid #f1f5f9;
+    padding: 12px 16px;
 }
 .session-item:hover {
     background-color: #f8fafc;
 }
 .session-item.active {
-    background-color: #e2f1e8 !important;
-    border-left: 4px solid #16a34a;
+    background-color: #f0fdf4 !important;
+    border-left: 3.5px solid #059669;
 }
+
+.avatar-session-list {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(5, 150, 105, 0.15);
+}
+
+.avatar-circle-header {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    box-shadow: 0 2px 4px rgba(5, 150, 105, 0.15);
+}
+
+/* Burbujas de mensajes */
 .msg-bubble-visitor {
     background-color: #ffffff;
-    color: #1e293b;
-    border-radius: 14px 14px 14px 3px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    max-width: 78%;
-}
-.msg-bubble-admin {
-    background-color: #d9fdd3;
     color: #0f172a;
-    border-radius: 14px 14px 3px 14px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-    max-width: 78%;
-}
-.msg-bubble-ia {
-    background-color: #f1f5f9;
-    color: #334155;
     border: 1px solid #e2e8f0;
-    border-radius: 14px 14px 14px 3px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    max-width: 82%;
+    border-radius: 16px 16px 16px 4px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    max-width: 80%;
+    padding: 0.75rem 1rem;
+    position: relative;
 }
+
+.msg-bubble-admin {
+    background-color: #ecfdf5;
+    color: #064e3b;
+    border: 1px solid #a7f3d0;
+    border-radius: 16px 16px 4px 16px;
+    box-shadow: 0 1px 3px rgba(5, 150, 105, 0.06);
+    max-width: 80%;
+    padding: 0.75rem 1rem;
+    position: relative;
+}
+
+.msg-bubble-ia {
+    background-color: #ffffff;
+    color: #1e293b;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px 16px 16px 4px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    max-width: 82%;
+    padding: 0.75rem 1rem;
+    position: relative;
+}
+
 .msg-bubble-system {
-    background-color: #ffe4e6;
-    color: #9f1239;
-    font-size: 0.74rem;
+    background-color: #fef3c7;
+    color: #92400e;
+    font-size: 0.75rem;
     font-weight: 600;
-    border-radius: 12px;
-    padding: 6px 12px;
-    max-width: 90%;
-    margin: 8px auto;
+    border-radius: 20px;
+    padding: 6px 16px;
+    max-width: 85%;
+    margin: 10px auto;
     text-align: center;
-    border: 1px solid #fecdd3;
+    border: 1px solid #fde68a;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.chat-msg-content {
+    word-break: break-word;
+    font-size: 0.84rem;
+    line-height: 1.5;
+}
+
+.chat-bullet-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    margin: 0.25rem 0;
+}
+.chat-bullet-dot {
+    color: #059669;
+    font-weight: 700;
+    line-height: 1.4;
+    user-select: none;
+}
+.chat-bullet-text {
+    flex: 1;
+}
+.chat-space-sm {
+    height: 0.35rem;
+}
+
+/* Respuestas rápidas */
+.quick-reply-chip {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #334155;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.35rem 0.75rem;
+    border-radius: 9999px;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+    cursor: pointer;
+}
+.quick-reply-chip:hover {
+    background: #ecfdf5;
+    border-color: #10b981;
+    color: #047857;
+    transform: translateY(-1px);
+}
+
+/* Botones de acción del header */
+.btn-take-control {
+    background: #059669;
+    color: #ffffff;
+    border: 1px solid #047857;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.85rem;
+    transition: all 0.15s ease;
+}
+.btn-take-control:hover {
+    background: #047857;
+    color: #ffffff;
+}
+
+.btn-handoff {
+    background: #f8fafc;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 0.4rem 0.85rem;
+    transition: all 0.15s ease;
+}
+.btn-handoff:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+    border-color: #94a3b8;
+}
+
+.btn-emerald-primary {
+    background: #059669;
+    border: 1px solid #047857;
+    color: #ffffff;
+    transition: all 0.2s ease;
+}
+.btn-emerald-primary:hover {
+    background: #047857;
+    color: #ffffff;
+    transform: scale(1.04);
+}
+
+.chat-input {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #1e293b;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+.chat-input:focus {
+    background-color: #ffffff;
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+/* Scrollbars finos */
+#sessionsListContainer::-webkit-scrollbar,
+#chatMessagesFeed::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+#sessionsListContainer::-webkit-scrollbar-track,
+#chatMessagesFeed::-webkit-scrollbar-track {
+    background: transparent;
+}
+#sessionsListContainer::-webkit-scrollbar-thumb,
+#chatMessagesFeed::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+#sessionsListContainer::-webkit-scrollbar-thumb:hover,
+#chatMessagesFeed::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }
 </style>
 
@@ -256,9 +478,9 @@ function renderListaSesiones() {
     if (filtered.length === 0) {
         container.innerHTML = `
             <div class="text-center py-5 text-secondary p-4">
-                <i class="bi bi-chat-square-dots fs-3 d-block mb-2 text-muted"></i>
-                <div class="small fw-semibold">No se encontraron conversaciones</div>
-                <div class="text-muted" style="font-size: 0.72rem;">Los mensajes del chat público aparecerán aquí.</div>
+                <i class="bi bi-chat-square-dots fs-3 d-block mb-2 text-slate-400"></i>
+                <div class="small fw-semibold text-slate-700">No se encontraron conversaciones</div>
+                <div class="text-slate-400" style="font-size: 0.72rem;">Los mensajes del chat público aparecerán aquí.</div>
             </div>
         `;
         return;
@@ -269,14 +491,16 @@ function renderListaSesiones() {
         const isActive = (s.id == activeSessionId) ? 'active' : '';
         const initial = (s.nombre_visitante ? s.nombre_visitante.replace('Visitante #', 'V') : 'V').substring(0, 2);
         
-        // Determinar badge de estado
+        // Determinar badge de estado y gradiente del avatar
         let badgeEstado = '';
+        let avatarBg = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
         if (s.estado === 'esperando_humano') {
-            badgeEstado = '<span class="badge bg-danger rounded-pill px-2 py-0.5 animate__animated animate__pulse animate__infinite" style="font-size:0.65rem;">¡Requiere Humano!</span>';
+            avatarBg = 'linear-gradient(135deg, #e11d48 0%, #be123c 100%)';
+            badgeEstado = '<span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2 py-0.5 animate__animated animate__pulse animate__infinite" style="font-size:0.65rem;">¡Requiere Humano!</span>';
         } else if (s.estado === 'humano_activo') {
-            badgeEstado = '<span class="badge bg-success rounded-pill px-2 py-0.5" style="font-size:0.65rem;">En Vivo (Humano)</span>';
+            badgeEstado = '<span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2 py-0.5" style="font-size:0.65rem;">En Vivo</span>';
         } else {
-            badgeEstado = '<span class="badge bg-secondary-subtle text-secondary rounded-pill px-2 py-0.5" style="font-size:0.65rem;">IA Activa</span>';
+            badgeEstado = '<span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-0.5" style="font-size:0.65rem;">IA</span>';
         }
 
         // Badge no leídos
@@ -287,17 +511,17 @@ function renderListaSesiones() {
         const hora = s.actualizado_en ? s.actualizado_en.substring(11, 16) : '';
 
         html += `
-            <div onclick="seleccionarChat(${s.id})" class="session-item p-3 d-flex align-items-center gap-2.5 ${isActive}" data-id="${s.id}">
-                <div class="avatar bg-primary-subtle text-primary fw-bold rounded-circle flex-shrink-0 d-flex align-items-center justify-center" style="width: 44px; height: 44px; font-size: 0.85rem;">
+            <div onclick="seleccionarChat(${s.id})" class="session-item d-flex align-items-center gap-2.5 ${isActive}" data-id="${s.id}">
+                <div class="avatar-session-list flex-shrink-0" style="background: ${avatarBg};">
                     ${initial}
                 </div>
                 <div class="flex-grow-1 overflow-hidden">
                     <div class="d-flex justify-content-between align-items-center mb-0.5">
-                        <span class="fw-bold text-dark text-truncate text-sm" style="max-width: 140px;">${escapeHtml(s.nombre_visitante || 'Visitante')}</span>
-                        <span class="text-muted" style="font-size: 0.7rem;">${hora}</span>
+                        <span class="fw-bold text-slate-800 text-truncate text-sm" style="max-width: 140px;">${escapeHtml(s.nombre_visitante || 'Visitante')}</span>
+                        <span class="text-slate-400" style="font-size: 0.7rem;">${hora}</span>
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
-                        <div class="text-secondary text-truncate small me-2" style="font-size: 0.75rem; max-width: 160px;">
+                        <div class="text-slate-500 text-truncate small me-2" style="font-size: 0.75rem; max-width: 155px;">
                             ${escapeHtml(s.ultimo_mensaje || 'Conversación iniciada')}
                         </div>
                         <div class="d-flex align-items-center gap-1">
@@ -319,25 +543,10 @@ function filtrarSesionesLista() {
 
 function cambiarFiltroSesiones(filtro, btn) {
     currentFilter = filtro;
-    document.querySelectorAll('.filter-btn').forEach(b => {
-        b.classList.remove('active', 'btn-primary', 'btn-danger', 'btn-secondary');
-        if (b.innerText.includes('Todas')) b.classList.add('btn-outline-primary');
-        if (b.innerText.includes('Esperando')) b.classList.add('btn-outline-danger');
-        if (b.innerText.includes('IA')) b.classList.add('btn-outline-secondary');
+    document.querySelectorAll('.btn-filter').forEach(b => {
+        b.classList.remove('active');
     });
-
     btn.classList.add('active');
-    if (filtro === 'todos') {
-        btn.classList.add('btn-primary');
-        btn.classList.remove('btn-outline-primary');
-    } else if (filtro === 'humano') {
-        btn.classList.add('btn-danger');
-        btn.classList.remove('btn-outline-danger');
-    } else {
-        btn.classList.add('btn-secondary');
-        btn.classList.remove('btn-outline-secondary');
-    }
-
     cargarSesiones(true);
 }
 
@@ -366,24 +575,24 @@ async function cargarMensajesActivo(sesionId, scrollBottom = false) {
         // Actualizar Header
         document.getElementById('activeChatName').innerText = s.nombre_visitante || `Visitante #${s.id}`;
         document.getElementById('activeChatAvatar').innerText = (s.nombre_visitante || 'V').substring(0, 2);
-        document.getElementById('activeChatSubtitle').innerText = `IP: ${s.ip || 'Local'} · Sesión #${s.id} · Estado: ${s.estado}`;
+        document.getElementById('activeChatSubtitle').innerText = `IP: ${s.ip || 'Local'} · Sesión #${s.id}`;
 
         const stateBadge = document.getElementById('activeChatStateBadge');
         const btnFinish = document.getElementById('btnFinishHandoff');
         const btnTake = document.getElementById('btnTakeControl');
 
         if (s.estado === 'esperando_humano') {
-            stateBadge.className = 'badge bg-danger rounded-pill';
+            stateBadge.className = 'badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill';
             stateBadge.innerHTML = '<i class="bi bi-exclamation-triangle-fill me-1"></i> Esperando Operador';
             btnFinish.classList.remove('d-none');
             btnTake.classList.add('d-none');
         } else if (s.estado === 'humano_activo') {
-            stateBadge.className = 'badge bg-success rounded-pill';
+            stateBadge.className = 'badge bg-success-subtle text-success border border-success-subtle rounded-pill';
             stateBadge.innerHTML = '<i class="bi bi-person-check-fill me-1"></i> En Atención Humana';
             btnFinish.classList.remove('d-none');
             btnTake.classList.add('d-none');
         } else {
-            stateBadge.className = 'badge bg-secondary rounded-pill';
+            stateBadge.className = 'badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill';
             stateBadge.innerHTML = '<i class="bi bi-robot me-1"></i> Atendido por IA';
             btnFinish.classList.add('d-none');
             btnTake.classList.remove('d-none');
@@ -404,47 +613,56 @@ function renderMensajesFeed(mensajes, forceScroll = false) {
     let html = '';
     mensajes.forEach(m => {
         const hora = m.creado_en ? m.creado_en.substring(11, 16) : '';
+        const formattedText = formatChatMessage(m.mensaje);
 
         if (m.remitente === 'sistema') {
             html += `
                 <div class="msg-bubble-system">
-                    <i class="bi bi-info-circle-fill me-1"></i> ${escapeHtml(m.mensaje)}
+                    <i class="bi bi-info-circle-fill me-1 text-amber-600"></i> ${formattedText}
                 </div>
             `;
         } else if (m.remitente === 'admin') {
             html += `
-                <div class="d-flex justify-content-end mb-2.5">
-                    <div class="msg-bubble-admin p-2.5 px-3">
+                <div class="d-flex justify-content-end mb-3">
+                    <div class="msg-bubble-admin">
                         <div class="d-flex align-items-center justify-content-between gap-3 mb-1">
-                            <span class="fw-bold text-success" style="font-size: 0.68rem;"><i class="bi bi-shield-fill-check"></i> ${escapeHtml(m.autor_nombre || 'Operador')}</span>
-                            <span class="text-muted" style="font-size: 0.65rem;">${hora} <i class="bi bi-check2-all text-primary"></i></span>
+                            <span class="fw-bold d-flex align-items-center gap-1" style="font-size: 0.7rem; color: #065f46;">
+                                <i class="bi bi-shield-fill-check"></i> ${escapeHtml(m.autor_nombre || 'Operador')}
+                            </span>
+                            <span class="text-slate-400 d-flex align-items-center gap-1" style="font-size: 0.65rem;">
+                                ${hora} <i class="bi bi-check2-all text-emerald-600"></i>
+                            </span>
                         </div>
-                        <div class="text-sm leading-normal whitespace-pre-wrap">${escapeHtml(m.mensaje)}</div>
+                        <div class="chat-msg-content text-sm leading-relaxed">${formattedText}</div>
                     </div>
                 </div>
             `;
         } else if (m.remitente === 'ia') {
             html += `
-                <div class="d-flex justify-content-start mb-2.5">
-                    <div class="msg-bubble-ia p-2.5 px-3">
-                        <div class="d-flex align-items-center justify-content-between gap-3 mb-1">
-                            <span class="fw-bold text-primary" style="font-size: 0.68rem;"><i class="bi bi-robot"></i> Asistente Virtual IA</span>
-                            <span class="text-muted" style="font-size: 0.65rem;">${hora}</span>
+                <div class="d-flex justify-content-start mb-3">
+                    <div class="msg-bubble-ia">
+                        <div class="d-flex align-items-center justify-content-between gap-3 mb-1.5 pb-1 border-bottom" style="border-color: #f1f5f9 !important;">
+                            <span class="badge bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-pill d-inline-flex align-items-center gap-1 py-0.5 px-2" style="font-size: 0.65rem;">
+                                <i class="bi bi-robot"></i> Asistente Virtual IA
+                            </span>
+                            <span class="text-slate-400" style="font-size: 0.65rem;">${hora}</span>
                         </div>
-                        <div class="text-sm leading-normal whitespace-pre-wrap">${escapeHtml(m.mensaje)}</div>
+                        <div class="chat-msg-content text-sm leading-relaxed text-slate-800">${formattedText}</div>
                     </div>
                 </div>
             `;
         } else {
             // Visitante
             html += `
-                <div class="d-flex justify-content-start mb-2.5">
-                    <div class="msg-bubble-visitor p-2.5 px-3">
+                <div class="d-flex justify-content-start mb-3">
+                    <div class="msg-bubble-visitor">
                         <div class="d-flex align-items-center justify-content-between gap-3 mb-1">
-                            <span class="fw-bold text-dark" style="font-size: 0.68rem;"><i class="bi bi-person-fill text-secondary"></i> Usuario / Visitante</span>
-                            <span class="text-muted" style="font-size: 0.65rem;">${hora}</span>
+                            <span class="fw-semibold text-slate-600 d-flex align-items-center gap-1" style="font-size: 0.7rem;">
+                                <i class="bi bi-person-fill text-slate-400"></i> Visitante
+                            </span>
+                            <span class="text-slate-400" style="font-size: 0.65rem;">${hora}</span>
                         </div>
-                        <div class="text-sm leading-normal whitespace-pre-wrap">${escapeHtml(m.mensaje)}</div>
+                        <div class="chat-msg-content text-sm leading-relaxed text-slate-800">${formattedText}</div>
                     </div>
                 </div>
             `;
@@ -456,6 +674,33 @@ function renderMensajesFeed(mensajes, forceScroll = false) {
     if (forceScroll || isAtBottom) {
         feed.scrollTop = feed.scrollHeight;
     }
+}
+
+function formatChatMessage(text) {
+    if (!text) return '';
+    let escaped = escapeHtml(text);
+    // Bold: **text** -> <strong>text</strong>
+    escaped = escaped.replace(/\*\*(.+?)\*\*/g, '<strong class="fw-semibold">$1</strong>');
+    // Italic: *text* -> <em>text</em>
+    escaped = escaped.replace(/(^|[^\*])\*([^\*]+)\*([^\*]|$)/g, '$1<em>$2</em>$3');
+
+    // Split lines to handle bullets cleanly
+    const lines = escaped.split('\n');
+    let result = [];
+
+    for (let i = 0; i < lines.length; i++) {
+        let line = lines[i].trim();
+        if (line.startsWith('•') || line.startsWith('- ') || line.startsWith('* ')) {
+            let bulletContent = line.replace(/^[•\-\*]\s*/, '');
+            result.push(`<div class="chat-bullet-item"><span class="chat-bullet-dot">•</span><span class="chat-bullet-text">${bulletContent}</span></div>`);
+        } else if (line === '') {
+            result.push('<div class="chat-space-sm"></div>');
+        } else {
+            result.push(`<div>${line}</div>`);
+        }
+    }
+
+    return result.join('');
 }
 
 async function enviarMensajeAdmin(e) {
