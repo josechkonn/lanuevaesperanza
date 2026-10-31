@@ -4,12 +4,12 @@ requiere_rol('superadmin');
 $pdo = db();
 
 $campos = [
-    'nombre_organizacion' => ['Nombre de la organización', 'text'],
-    'lema'                => ['Lema / eslogan', 'text'],
-    'telefono'            => ['Teléfono institucional', 'text'],
-    'email_contacto'      => ['Correo de contacto', 'email'],
-    'direccion'           => ['Dirección', 'text'],
-    'moneda_defecto'      => ['Moneda por defecto', 'select'],
+    'nombre_organizacion' => ['Nombre de la organización', 'text', 'col-md-6', 'Nombre oficial de la EPSDC que se visualiza en encabezados y comunicados.'],
+    'lema'                => ['Lema / eslogan', 'text', 'col-md-6', 'Eslogan de soberanía agroalimentaria.'],
+    'telefono'            => ['Teléfono / Móvil institucional (Contacto)', 'text', 'col-md-6', 'Número móvil o WhatsApp oficial (+58...). Se muestra en el pie de página, contacto directo y es utilizado por el Asistente IA.'],
+    'email_contacto'      => ['Correo electrónico de contacto', 'email', 'col-md-6', 'Correo institucional para recepción de mensajes y coordinación.'],
+    'direccion'           => ['Dirección física y sede comunal', 'textarea', 'col-12', 'Dirección física completa de la sede central y centro de acopio comunal. Se muestra en el pie de página del portal y es utilizada por el Asistente IA para responder consultas de ubicación y georreferenciación.'],
+    'moneda_defecto'      => ['Moneda por defecto', 'select', 'col-md-6', 'Moneda contable y de fijación de precios en el catálogo.'],
 ];
 
 $camposIA = [
@@ -59,18 +59,33 @@ require __DIR__ . '/layout/header.php';
     <form method="post" enctype="multipart/form-data" class="card-body">
         <?= csrf_field() ?>
         <div class="row g-3">
-            <?php foreach ($campos as $k => [$lbl, $tipo]): $v = config_get($k); ?>
-                <div class="col-md-6"><label class="form-label"><?= e($lbl) ?></label>
+            <?php foreach ($campos as $k => [$lbl, $tipo, $colClass, $ayuda]): $v = config_get($k); ?>
+                <div class="<?= e($colClass) ?>">
+                    <label class="form-label fw-semibold"><?= e($lbl) ?></label>
                     <?php if ($tipo === 'select'): ?>
                         <select name="<?= $k ?>" class="form-select"><?php foreach (['USD', 'VES', 'EUR', 'COP'] as $m): ?><option<?= $v === $m ? ' selected' : '' ?>><?= $m ?></option><?php endforeach; ?></select>
+                    <?php elseif ($tipo === 'textarea'): ?>
+                        <textarea name="<?= $k ?>" class="form-control" rows="3" maxlength="500" placeholder="Ej: Calle Principal, Edificio Comunitario, Piso 1, Aldea Quebrada de San José, Ciudad de La Grita, Municipio Jáuregui, Estado Táchira"><?= e($v) ?></textarea>
                     <?php else: ?>
-                        <input type="<?= $tipo ?>" name="<?= $k ?>" value="<?= e($v) ?>" class="form-control" maxlength="500">
+                        <input type="<?= $tipo ?>" name="<?= $k ?>" value="<?= e($v) ?>" class="form-control" maxlength="500" placeholder="<?= $k === 'telefono' ? '+58 412 1234567' : '' ?>">
+                    <?php endif; ?>
+                    <?php if (!empty($ayuda)): ?>
+                        <div class="form-text small text-muted"><?= e($ayuda) ?></div>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
-            <div class="col-md-6"><label class="form-label">Logo</label><input type="file" name="logo" accept="image/*" class="form-control">
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Logo Institucional</label>
+                <input type="file" name="logo" accept="image/*" class="form-control">
+                <div class="form-text small text-muted">Formatos PNG, JPG o WEBP recomendados.</div>
                 <?php if ($l = config_get('logo')): ?>
-                    <div class="d-flex align-items-center gap-2 mt-2"><img src="<?= e(url($l)) ?>" class="thumb" alt=""><div class="form-check"><input class="form-check-input" type="checkbox" name="quitar_logo" id="qLogo"><label class="form-check-label small" for="qLogo">Quitar logo</label></div></div>
+                    <div class="d-flex align-items-center gap-2 mt-2">
+                        <img src="<?= e(url($l)) ?>" class="thumb" alt="Logo">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="quitar_logo" id="qLogo">
+                            <label class="form-check-label small" for="qLogo">Quitar logo actual</label>
+                        </div>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>

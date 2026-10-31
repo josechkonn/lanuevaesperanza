@@ -1,5 +1,9 @@
 <?php
 // includes/footer.php - Pie de Página y Chat Comunal Flotante
+$org = config_get('nombre_organizacion', 'La Nueva Esperanza');
+$tel = config_get('telefono', '+58 412 1234567');
+$email = config_get('email_contacto', 'contacto@lanuevaesperanza.org');
+$dir = config_get('direccion', 'Aldea Quebrada de San José, Ciudad de La Grita, Municipio Jáuregui, Estado Táchira');
 ?>
     </main>
 
@@ -39,7 +43,7 @@
                 <!-- Columna 3: Ubicación y Contacto Comunal -->
                 <div class="md:col-span-4 space-y-2.5">
                     <h4 class="text-white font-black uppercase tracking-wider text-[11px]">Sede y Atención</h4>
-                    <p class="leading-relaxed"><i class="fa-solid fa-location-dot text-amberGold mr-1.5"></i> <strong>Sede:</strong> Ciudad de La Grita, Aldea Quebrada de San José, Municipio Jáuregui, Estado Táchira.</p>
+                    <p class="leading-relaxed"><i class="fa-solid fa-location-dot text-amberGold mr-1.5"></i> <strong>Sede:</strong> <?= e($dir) ?></p>
                     <p><i class="fa-solid fa-phone text-amberGold mr-1.5"></i> <?= e($tel) ?></p>
                     <p><i class="fa-solid fa-envelope text-amberGold mr-1.5"></i> <?= e($email) ?></p>
                     <div class="pt-2">
