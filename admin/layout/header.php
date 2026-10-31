@@ -43,7 +43,7 @@ $menu = [
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="<?= e(url('assets/css/admin.css')) ?>?v=1" rel="stylesheet">
+    <link href="<?= e(url('assets/css/admin.css')) ?>?v=2" rel="stylesheet">
 </head>
 <body>
 <div class="layout">
@@ -52,9 +52,12 @@ $menu = [
             <?php if ($logo): ?>
                 <img src="<?= e(url($logo)) ?>" alt="" class="brand-logo">
             <?php else: ?>
-                <span class="brand-icon"><i class="bi bi-heart-fill"></i></span>
+                <span class="brand-icon"><i class="bi bi-tree-fill"></i></span>
             <?php endif; ?>
-            <span class="brand-text"><?= e($org) ?></span>
+            <div class="d-flex flex-column min-w-0">
+                <span class="brand-text text-truncate"><?= e($org) ?></span>
+                <span class="brand-subtext">Panel Comunal • La Grita</span>
+            </div>
             <button type="button" class="btn-close btn-close-white d-lg-none ms-auto" data-bs-dismiss="offcanvas" data-bs-target="#sidebar"></button>
         </div>
         <nav class="sidebar-nav">
@@ -69,7 +72,7 @@ $menu = [
                 <?php endforeach; ?>
             <?php endforeach; ?>
             <div class="nav-group">Sitio</div>
-            <a href="<?= e(url('index.php')) ?>" target="_blank" class="nav-link"><i class="bi bi-box-arrow-up-right"></i><span>Ver página pública</span></a>
+            <a href="<?= e(url('')) ?>" target="_blank" class="nav-link"><i class="bi bi-box-arrow-up-right"></i><span>Ver portal público</span></a>
         </nav>
     </aside>
 
